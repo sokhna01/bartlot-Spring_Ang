@@ -1,0 +1,81 @@
+
+<h1 id="center">{{ 'LOGIN_PAGE_TITLE' | translate }}</h1>
+
+<hr>
+<div class="container">
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+  <div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+      <form>
+        <div class="form-group">
+          <label for="username">{{ 'USERNAME' | translate }}:</label>
+          <input type="text" [(ngModel)]="username" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">{{ 'PASSWORD' | translate }}:</label>
+          <input type="password" [(ngModel)]="password" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="merchant_code">{{ 'COMPANY_CODE' | translate }}:</label>
+          <input type="text" [(ngModel)]="companyCode" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+            required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit"
+          (click)="doLogin()">{{ 'LOGIN_BUTTON' | translate }}</button>
+
+      </form>
+
+      <div id="failedModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title" style="text-align:center"><b>{{ 'AUTH_ERROR_TITLE' | translate }}</b></h4>
+            </div>
+            <div class="modal-body">
+              <p>{{ 'AUTH_ERROR_SUBTITLE' | translate }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default"
+                data-dismiss="modal">{{ 'CLOSE_BUTTON' | translate }}</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="errorModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title" style="text-align:center"><b>{{ 'ERROR_TITLE' | translate }}</b></h4>
+            </div>
+            <div class="modal-body">
+              <p>{{ 'ERROR_SUBTITLE' | translate }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default"
+                data-dismiss="modal">{{ 'CLOSE_BUTTON' | translate }}</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
+</div>

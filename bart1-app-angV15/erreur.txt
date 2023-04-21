@@ -1,0 +1,15 @@
+package non installer
+ng2-tabs
+ngx-dropdown
+angular-data-grid
+google-maps-angular2
+
+package installer mais ne marche pas avec le ivy
+AngularDateTimePickerModule "angular2-datetimepicker": "^1.1.1",
+TableModule "primeng": "^8.1.1",
+Ivy est le nouveau moteur de rendu de templates d'Angular. Il est inclus dans Angular depuis la version 9
+
+import * as FileSaver from 'file-saver';
+Le fichier de déclaration du module 'file-saver' est introuvable. 'c:/Users/papa matar/Desktop/matDev/ToR-interns/bart1-app-angV15/node_modules/file-saver/dist/FileSaver.min.js' a implicitement un type 'any'.
+  Essayez 'npm i --save-dev @types/file-saver' s'il existe, ou ajoutez un nouveau fichier de déclaration (.d.ts) contenant 'declare module 'file-saver';'
+ 'npm i --save-dev @types/file-saver'

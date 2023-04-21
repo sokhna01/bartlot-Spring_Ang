@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ServerApplication<springproject>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bartlot.Server.ServerApplication",
+            "projectName": "springproject",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

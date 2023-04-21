@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+.pairColor {
+  background: #FFFFFF;
+  /* white */
+}
+
+.impairColor {
+  background: #E6ECF2;
+  /* blue */
+  /*color: #FFFFFF;*/
+}
+
+.modal-dialog {
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  bottom: 0;
+  left: 0;
+  z-index: 10040;
+  overflow: auto;
+  overflow-y: auto;
+}
+
+.mat-header-row {
+  background: rgb(204, 239, 254);
+  min-height: 15px;
+  height: 30px;
+  color: white;
+}
+
+#errorMessage {
+  color: red;
+}
+
+.star {
+  font-size: 1.3em;
+  color: red;
+}
+
+.fontColor {
+  color: black;
+}
+
+th {
+  background: rgb(102, 142, 178);
+  color: white;
+  height: 20px;
+}
+
+th,
+td {
+  padding-left: 15px;
+}
+
+tr {
+  height: 20px;
+}
+
+h1 {
+  font-size: 36px !important;
+}
+
+h2 {
+  font-size: 30px !important;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+
+body {
+  margin: 0 !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}

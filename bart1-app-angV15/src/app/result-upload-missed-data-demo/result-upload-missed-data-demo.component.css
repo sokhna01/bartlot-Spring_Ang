@@ -1,0 +1,154 @@
+.impairColor {
+  background: #e6ecf2;
+}
+
+.pairColor {
+  background: #fff;
+}
+
+.mat-header-row {
+  background: #cceffe;
+  min-height: 15px;
+  height: 30px;
+  color: #fff;
+}
+
+#center {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.example-header {
+  min-height: 56px;
+  max-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 8px 24px 0;
+  font-size: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+}
+
+.mat-input-container {
+  font-size: 14px;
+  flex-grow: 1;
+  margin-left: 32px;
+  margin-top: 8px;
+}
+
+.example-no-results {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/** Selection styles */
+.example-selection-header {
+  font-size: 18px;
+  background: rgba(255, 64, 129, 0.3);
+  border-bottom: 1px solid #d696ac;
+}
+
+.mat-column-select {
+  max-width: 54px;
+}
+
+.mat-row {
+  font-size: 8px !important;
+  min-height: 15px;
+  height: 25px;
+  word-wrap: break-word;
+}
+
+.mat-row:active,
+.mat-row.example-selected-row,
+.mat-row:hover {
+  background: #eaeaea;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 100%;
+  width: 100%;
+}
+
+.mat-paginator {
+  max-height: 100%;
+  max-width: 150%;
+}
+
+.mat-column-idClient {
+  max-width: 120px;
+}
+
+.mat-column-idSite {
+  max-width: 100px;
+}
+
+.mat-column-idPointComptage {
+  max-width: 100px;
+}
+
+.mat-column-idCompteur {
+  max-width: 100px;
+}
+
+
+.mat-column-horodotage {
+  max-width: 120px;
+}
+
+.mat-column-pickupaddr {
+  max-width: 330px;
+}
+
+.mat-column-destaddr {
+  max-width: 330px;
+}
+
+.mat-column-note {
+  max-width: 330px;
+}
+
+.mat-column-dataAPlus {
+  max-width: 100px;
+}
+
+.mat-column-dataAMoins {
+  max-width: 100px;
+}
+
+.mat-column-dataRPlus {
+  max-width: 100px;
+}
+
+.mat-column-dataRMoins {
+  max-width: 100px;
+}
+
+.mat-column-source {
+  max-width: 75px;
+}
+
+.mat-column-presence {
+  max-width: 75px;
+}
+
+.mat-column-qualite {
+  max-width: 75px;
+}
+
+.active a {
+  color: white !important;
+  background-color: green !important;
+}
+
+.nav-pills>li>a {
+  background-color: #777;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}

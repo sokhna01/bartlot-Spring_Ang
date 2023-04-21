@@ -1,0 +1,14 @@
+#center {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#capitalize {
+  text-transform: capitalize;
+}
+
+#uppercase {
+  text-transform: uppercase;
+}

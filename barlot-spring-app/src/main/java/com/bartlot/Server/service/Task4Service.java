@@ -1,0 +1,192 @@
+package com.bartlot.Server.service;
+
+import com.bartlot.Server.config.Common;
+import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.repository.MeterDataRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+@Service
+public class Task4Service {
+
+    @Autowired
+    private MeterDataRepository meterDataRepository;
+
+    public void executeTask4(int idCompany) {
+        double borneSup = Common.puissanceNominale * 1.2;
+        double borneInf = Common.puissanceNominale * 0.1;
+        LocalDate nowtsp = LocalDate.now();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+
+        if (tsp != null) {
+            String strTsp = "" + tsp;
+            String date = strTsp.split(" ")[0];
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsed;
+            try {
+                parsed = format.parse(date);
+                Calendar c = Calendar.getInstance();
+                c.setTime(parsed);
+                nowtsp = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        LocalDate oldDate = nowtsp.minusDays(Common.maxDayCompteur);
+        for (LocalDate dateTime = oldDate; dateTime.isBefore(nowtsp)
+                || dateTime.isEqual(nowtsp); dateTime = dateTime.plusDays(1)) {
+            HashMap<String, List<MeterDataEntity>> map = getListMeterDataByDate(dateTime, dateTime);
+            List<MeterDataEntity> listCompteursOkQualite = new ArrayList<MeterDataEntity>();
+            List<MeterDataEntity> listCompteursPrincipal = new ArrayList<MeterDataEntity>();
+            List<MeterDataEntity> listCompteursRedondant = new ArrayList<MeterDataEntity>();
+            List<Double> listRedResult = new ArrayList<Double>();
+            listCompteursPrincipal = map.get("compteurPrincipal");
+            listCompteursRedondant = map.get("compteurRedondant");
+
+            if (listCompteursPrincipal.size() > 0 && listCompteursRedondant.size() > 0) {
+                for (int i = 0; i < 144; i++) {
+
+                    boolean statusPi = false;
+                    boolean statusPj = false;
+                    double Pi = 0;
+                    double Pj = 0;
+
+                    // Partie compteur principal
+                    if (Integer.parseInt(listCompteursPrincipal.get(i).getPresence()) == 2
+                            || Integer.parseInt(listCompteursPrincipal.get(i).getPresence()) == 3
+                            || Integer.parseInt(listCompteursPrincipal.get(i).getPresence()) == 4) {
+                        Pi = calculPuissance(listCompteursPrincipal.get(i).getDataAPlus(),
+                                listCompteursPrincipal.get(i).getDataAMoins());
+                        if (Pi > borneInf && Pi < borneSup) {
+                            statusPi = true;
+                        } else {
+                            meterDataRepository.updateQualite("0",
+                                    listCompteursPrincipal.get(i).getId());
+
+                        }
+                    } else {
+                        meterDataRepository.updateQualite("0",
+                                listCompteursPrincipal.get(i).getId());
+                    }
+
+                    // Partie compteur redondant
+                    if (Integer.parseInt(listCompteursRedondant.get(i).getPresence()) == 2
+                            || Integer.parseInt(listCompteursRedondant.get(i).getPresence()) == 3
+                            || Integer.parseInt(listCompteursRedondant.get(i).getPresence()) == 4) {
+                        Pj = calculPuissance(listCompteursRedondant.get(i).getDataAPlus(),
+                                listCompteursRedondant.get(i).getDataAMoins());
+                        if (Pj > borneInf && Pj < borneSup) {
+                            statusPj = true;
+                        } else {
+                            meterDataRepository.updateQualite("0",
+                                    listCompteursRedondant.get(i).getId());
+                        }
+                    } else {
+                        meterDataRepository.updateQualite("0",
+                                listCompteursRedondant.get(i).getId());
+                    }
+
+                    if (statusPi && statusPj) {
+                        listCompteursOkQualite.add(listCompteursPrincipal.get(i));
+                        listCompteursOkQualite.add(listCompteursRedondant.get(i));
+                        listRedResult.add(Math.abs(calculRedQualite(Pi, Pj)));
+                    } else {
+                        meterDataRepository.updateQualite("0",
+                                listCompteursPrincipal.get(i).getId());
+                        meterDataRepository.updateQualite("0",
+                                listCompteursRedondant.get(i).getId());
+                    }
+
+                }
+                // Fin loop 144
+            } else {
+                System.out.println("bonjour");
+            }
+
+            double moyenneRed = calculMoyenneRed(listRedResult); // Calcul de la moyenne journaliere
+
+            for (int i = 0; i < listCompteursOkQualite.size(); i++) {
+                meterDataRepository.updateQualite(calculQualiteValue(moyenneRed),
+                        listCompteursOkQualite.get(i).getId());
+            }
+
+        }
+
+    }
+
+    public HashMap<String, List<MeterDataEntity>> getListMeterDataByDate(LocalDate beginDate, LocalDate endDate) {
+
+        HashMap<String, List<MeterDataEntity>> map = new HashMap<String, List<MeterDataEntity>>();
+        List<MeterDataEntity> listCompteurPrincipal = new ArrayList<MeterDataEntity>();
+        List<MeterDataEntity> listCompteurSecondaire = new ArrayList<MeterDataEntity>();
+        java.util.Date onbeginDate = Date.from(beginDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        java.util.Date onEndDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date begin_date = new Date(onbeginDate.getTime());
+        Calendar c = Calendar.getInstance();
+        c.setTime(onEndDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date end_date = new Date(c.getTimeInMillis());
+
+        List<MeterDataEntity> meterDataList = meterDataRepository
+                .findByHorodotageBetweenOrderByHorodotageAsc(begin_date, end_date);
+
+        for (MeterDataEntity meterData : meterDataList) {
+
+            if (meterData.getSource().equals("Pr")) {
+                listCompteurPrincipal.add(meterData);
+            } else if (meterData.getSource().equals("Re")) {
+                listCompteurSecondaire.add(meterData);
+            }
+        }
+
+        map.put("compteurPrincipal", listCompteurPrincipal);
+        map.put("compteurRedondant", listCompteurSecondaire);
+
+        return map;
+    }
+
+    public double calculPuissance(String dataAPlus, String dataAMoins) {
+        double puissance = 0;
+        puissance = Double.parseDouble(dataAPlus) - Double.parseDouble(dataAMoins);
+        return puissance;
+    }
+
+    public double calculRedQualite(double Pi, double Pj) {
+        double red = 0;
+        red = (Pi - Pj) / ((Pi + Pj) / 2);
+        return red;
+    }
+
+    public double calculMoyenneRed(List<Double> listRedResult) {
+        double moyenneRed = 0;
+        double somme = 0;
+        for (int i = 0; i < listRedResult.size(); i++) {
+            somme = somme + listRedResult.get(i);
+        }
+        moyenneRed = somme / listRedResult.size();
+        return moyenneRed;
+    }
+
+    public String calculQualiteValue(double moyenneRed) {
+        String qualiteValue = "0";
+        if (moyenneRed > 0 && moyenneRed <= Common.SeuilRed1) {
+            qualiteValue = "1";
+        } else if (moyenneRed > Common.SeuilRed1 && moyenneRed <= Common.SeuilRed2) {
+            qualiteValue = "2";
+        } else if (moyenneRed > Common.SeuilRed2) {
+            qualiteValue = "3";
+        }
+        return qualiteValue;
+    }
+}

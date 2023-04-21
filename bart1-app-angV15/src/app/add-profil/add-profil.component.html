@@ -1,0 +1,43 @@
+<h1 id="center">{{headerString}}</h1>
+<div class="container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+    <div class="row">
+      <div class="col-md-4">
+  
+      </div>
+      <div class="col-md-4">
+        <form>
+          <div class="form-group">
+            <label for="pf_code">{{ 'PROFIL_CODE' | translate }}:</label>
+            <input type="text" [(ngModel)]="pf_code" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+              required>
+          </div>
+  
+          <div class="form-group">
+            <label for="pf_name">{{ 'PROFIL_NAME' | translate }}:</label>
+            <input type="text" [(ngModel)]="pf_name" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+              required>
+          </div>
+  
+          <div class="form-group">
+            <label for="pf_description">{{ 'PROFIL_DESCRIPTION' | translate }}:</label>
+            <input type="text" [(ngModel)]="pf_description" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="category">{{ 'CATEGORY' | translate }}:</label>
+            <input type="text" [(ngModel)]="category" class="form-control" id="" [ngModelOptions]="{standalone: true}"
+              required>
+          </div>
+  
+          <button type="submit" class="btn btn-primary" id="submit"
+            (click)="addProfile()">{{ 'ADD_BUTTON' | translate }}</button>
+  
+        </form>
+  
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+  </div>

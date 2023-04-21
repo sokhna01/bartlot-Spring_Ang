@@ -1,0 +1,30 @@
+<form [formGroup]="meterDataForm">
+    <div class="form-group">
+      <label for="idClient">Id Client</label>
+      <select formControlName="idClient" class="form-control">
+        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idClient">{{ meterConf.idClient }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="idSite">Id Site</label>
+      <select formControlName="idSite" class="form-control">
+        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idSite">{{ meterConf.idSite }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="idPointComptage">Id Point de Comptage</label>
+      <select formControlName="idPointComptage" class="form-control">
+        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idPointComptage">{{ meterConf.idPointComptage }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="fileInput">Importer un fichier de données</label>
+      <input type="file" id="fileInput" class="form-control-file">
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+  
