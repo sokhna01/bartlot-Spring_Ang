@@ -81,9 +81,9 @@ public class Task1Service {
                         }
                         if (cell.getColumnIndex() == 4) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setHorodotage(null);
+                                meterData.setHorodatage(null);
                             } else {
-                                meterData.setHorodotage(new Timestamp(cell.getDateCellValue().getTime()));
+                                meterData.setHorodatage(new Timestamp(cell.getDateCellValue().getTime()));
                             }
                         }
                         if (cell.getColumnIndex() == 5) {
@@ -199,9 +199,9 @@ public class Task1Service {
                         }
                         if (cell.getColumnIndex() == 4) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setHorodotage(new Timestamp(cell.getDateCellValue().getTime()));
+                                meterData.setHorodatage(new Timestamp(cell.getDateCellValue().getTime()));
                             } else {
-                                meterData.setHorodotage(new Timestamp(cell.getDateCellValue().getTime()));
+                                meterData.setHorodatage(new Timestamp(cell.getDateCellValue().getTime()));
                             }
                         }
                         if (cell.getColumnIndex() == 5) {
@@ -252,9 +252,9 @@ public class Task1Service {
                     meterData.setSource("");
                     meterData.setPresence("");
 
-                    String strTsp = "" + meterData.getHorodotage();
+                    String strTsp = "" + meterData.getHorodatage();
                     String dateTsp = strTsp.split(" ")[0];
-                    Date dateMeter = new Date(meterData.getHorodotage().getTime());
+                    Date dateMeter = new Date(meterData.getHorodatage().getTime());
 
                     if (tsp != null) {
 

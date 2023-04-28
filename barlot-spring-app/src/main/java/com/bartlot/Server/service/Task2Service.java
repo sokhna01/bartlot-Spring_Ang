@@ -87,10 +87,10 @@ public class Task2Service {
                         }
                         if (cell.getColumnIndex() == 4) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setHorodotage(new Timestamp(cell.getDateCellValue().getTime()));
+                                meterData.setHorodatage(new Timestamp(cell.getDateCellValue().getTime()));
                             } else {
 
-                                meterData.setHorodotage(new Timestamp(cell.getDateCellValue().getTime()));
+                                meterData.setHorodatage(new Timestamp(cell.getDateCellValue().getTime()));
                             }
                         }
                         if (cell.getColumnIndex() == 5) {
@@ -127,8 +127,8 @@ public class Task2Service {
 
                     }
 
-                    String strHorodotage = meterData.getHorodotage() + "";
-                    String idRow = meterData.getIdCompteur() + "-" + strHorodotage.substring(0,
+                    String strHorodatage = meterData.getHorodatage() + "";
+                    String idRow = meterData.getIdCompteur() + "-" + strHorodatage.substring(0,
                             16);
                     MeterDataEntity meterMap = map.get(idRow);
                     if (meterMap != null) {

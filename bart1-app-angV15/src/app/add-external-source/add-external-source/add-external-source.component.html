@@ -1,30 +1,60 @@
-<form [formGroup]="meterDataForm">
-    <div class="form-group">
-      <label for="idClient">Id Client</label>
-      <select formControlName="idClient" class="form-control">
-        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idClient">{{ meterConf.idClient }}</option>
-      </select>
-    </div>
-  
-    <div class="form-group">
-      <label for="idSite">Id Site</label>
-      <select formControlName="idSite" class="form-control">
-        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idSite">{{ meterConf.idSite }}</option>
-      </select>
-    </div>
-  
-    <div class="form-group">
-      <label for="idPointComptage">Id Point de Comptage</label>
-      <select formControlName="idPointComptage" class="form-control">
-        <option *ngFor="let meterConf of meterConfigurations" [value]="meterConf.idPointComptage">{{ meterConf.idPointComptage }}</option>
-      </select>
-    </div>
-  
-    <div class="form-group">
-      <label for="fileInput">Importer un fichier de données</label>
-      <input type="file" id="fileInput" class="form-control-file">
-    </div>
-  
-    <button type="submit" class="btn btn-primary">Soumettre</button>
-  </form>
-  
+<h2 style="text-align: center;">Données de source externe</h2>
+<br>
+<div style="width: 70%;" class="container">
+<form [formGroup]="meterDataForm" (ngSubmit)="onSubmit()" *ngIf="showForm">
+  <div class="form-group">
+    <label for="idClient">Id Client</label>
+    <select formControlName="idClient" class="form-control">
+      <option selected disabled>Selectionnez l'Id du Client</option>
+      <option *ngFor="let client of clients" [value]="client">{{client}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="idSite">Id Site</label>
+    <select formControlName="idSite" class="form-control">
+      <option selected disabled>Selectionnez l'Id du Site</option>
+      <option *ngFor="let site of sites" [value]="site">{{site}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="idPointComptage">Id Point de Comptage</label>
+    <select formControlName="idPointComptage" class="form-control">
+      <option selected disabled>Selectionnez l'Id du Point de Comptage</option>
+      <option *ngFor="let point of points" [value]="point">{{point}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="fileInput">Fichier de données</label>
+    <input  type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx" />
+  </div>  
+  <button type="submit" class="btn btn-primary" [disabled]="meterDataForm.invalid || !isFileUploaded">Envoyer</button>
+</form>
+</div>
+
+<!--Tableau des données-->
+<table class="table" *ngIf="!showForm && meterData && meterData.length > 0">
+  <thead>
+    <tr>
+      <th *ngFor="let header of meterData[0]; let i = index" [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : '' }" > 
+        {{ header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of meterData.slice(1); let i =index">
+      <td *ngFor="let cell of row; let j = index" 
+      [ngClass]="{'invalid-cell': !isCellValid(i,j)}" 
+      [ngStyle]="{ 'background-color': cell === undefined ? 'yellow' :''}"
+      
+      (click)="onCellClick($event)"
+      >
+        {{ cell === undefined ? 0 : cell }}
+      </td>
+    </tr>    
+  </tbody>
+  <br>
+  <div>
+    <button type="submit" class="btn btn-primary" (click)="onCancel()">Annuler</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" class="btn btn-primary" (click)="onSave()" [disabled]="!checkValidity()" >Enregistrer</button>
+  </div>
+</table>

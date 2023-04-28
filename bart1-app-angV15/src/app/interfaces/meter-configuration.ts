@@ -1,8 +1,8 @@
 export interface MeterConfiguration {
     id: number;
-    idcompteur: string;
+    idCompteur: string;
     type: string;
-    created_date: Date;
+    createdDate: Date;
     inverse: boolean;
-}
+  }
   

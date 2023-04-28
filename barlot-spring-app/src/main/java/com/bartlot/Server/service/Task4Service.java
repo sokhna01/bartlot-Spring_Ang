@@ -139,7 +139,7 @@ public class Task4Service {
         Date end_date = new Date(c.getTimeInMillis());
 
         List<MeterDataEntity> meterDataList = meterDataRepository
-                .findByHorodotageBetweenOrderByHorodotageAsc(begin_date, end_date);
+                .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
         for (MeterDataEntity meterData : meterDataList) {
 

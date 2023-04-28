@@ -10,7 +10,7 @@ export class DataService {
   constructor() {
     if (localStorage.getItem("token")) {
       // Prend en charge le reload de la page. Si le user s'est deja connecte et que son jeton est toujours valide
-      this.isLoggedSource = new BehaviorSubject('true'); // Envoyer un event au menu pour lui dire que le user est toujours loggin et afficher le menu alors      
+      this.isLoggedSource = new BehaviorSubject('true'); // Envoyer un event au menu pour lui dire que le user est toujours loggin et afficher le menu alors
       this.currentMessage = this.isLoggedSource.asObservable();
     }
     else {

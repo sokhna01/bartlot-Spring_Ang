@@ -27,13 +27,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class MeterDataServiceController {
     @Autowired
     private MeterDataService meterDataService;
+
     @Autowired
     private MeterDataRepository meterDataRepository;
 
     @Autowired
     private Task1Service task1Service;
+
     @Autowired
     private Task2Service task2Service;
+
     @Autowired
     private Task3Service task3Service;
 
@@ -138,4 +141,14 @@ public class MeterDataServiceController {
         return list;
     }
 
+    @GetMapping("/getid")
+    public List<Map<String, Object>> findAllClientSitePointComptage() {
+        return meterDataService.findAllClientSitePointComptage();
+    }
+
+    @GetMapping("/selectListData")
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
+        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+        return ResponseEntity.ok().body(selectListData);
+    }
 }

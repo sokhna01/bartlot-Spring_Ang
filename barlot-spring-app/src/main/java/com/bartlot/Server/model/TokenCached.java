@@ -3,29 +3,28 @@ package com.bartlot.Server.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Collections;
+
 public class TokenCached {
-    private static final Map<Integer, String> cache = new HashMap<>();
+    private static final Map<Integer, String> tokenMap = new HashMap<>();
 
-    public static void put(int userId, String token) {
-        cache.put(userId, token);
+    public static void put(Integer id, String token) {
+        tokenMap.put(id, token);
     }
 
-    public static String get(int userId) {
-        return cache.get(userId);
+    public static String get(Integer id) {
+        return tokenMap.get(id);
     }
 
-    public static void remove(int userId) {
-        cache.remove(userId);
+    public static boolean containsKey(Integer id) {
+        return tokenMap.containsKey(id);
     }
 
-    // Getter for cache map
-    public static Map<Integer, String> getCache() {
-        return cache;
+    public static void remove(Integer id) {
+        tokenMap.remove(id);
     }
 
-    // Setter for cache map
-    public static void setCache(Map<Integer, String> newCache) {
-        cache.clear();
-        cache.putAll(newCache);
+    public static Map<Integer, String> getAllTokens() {
+        return Collections.unmodifiableMap(tokenMap);
     }
 }

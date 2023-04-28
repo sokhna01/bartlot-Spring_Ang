@@ -1,6 +1,9 @@
 package com.bartlot.Server.Tasks;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -9,19 +12,25 @@ import org.springframework.stereotype.Component;
 import com.bartlot.Server.entity.TokenEntity;
 import com.bartlot.Server.model.TokenCached;
 import com.bartlot.Server.repository.TokenRepository;
+import com.bartlot.Server.service.TokenService;
 
 @Component
 public class TokenCleanupTask {
 
     @Autowired
-    private TokenRepository tokenRepository;
+    TokenService tokenService;
 
-    @Scheduled(fixedDelay = 3600000) // Exécuter toutes les heures
+    @Scheduled(fixedRate = 1800000) // Planifier la tâche toutes les 30 minutes
     public void cleanupExpiredTokens() {
-        List<TokenEntity> expiredTokens = tokenRepository.findExpiredTokens();
-        for (TokenEntity token : expiredTokens) {
-            tokenRepository.delete(token);
-            TokenCached.remove(token.getUser().getId());
+        // Récupérer tous les jetons du cache
+        Map<Integer, String> cachedTokens = TokenCached.getAllTokens();
+
+        // Parcourir tous les jetons et supprimer les jetons expirés
+        for (Map.Entry<Integer, String> entry : cachedTokens.entrySet()) {
+            String cachedToken = entry.getValue();
+            if (!(tokenService.isTokenValid(cachedToken))) {
+                TokenCached.remove(entry.getKey());
+            }
         }
     }
 }

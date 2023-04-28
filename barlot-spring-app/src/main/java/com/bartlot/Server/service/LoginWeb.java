@@ -74,10 +74,10 @@ public class LoginWeb {
             }
 
             // Récupérer la liste des profils et des actions pour l'utilisateur
-            // List<ProfilesEntity> profiles = getListProfiles((Integer) userFields[0]);
+            List<ProfilesEntity> profiles = getListProfiles((Integer) userFields[0]);
             List<ActionEntity> actions = getActionsForUser((Integer) userFields[0]);
 
-            // userMap.put("profiles", profiles);
+            userMap.put("profiles", profiles);
             userMap.put("actions", actions);
 
             response.putAll(userMap);

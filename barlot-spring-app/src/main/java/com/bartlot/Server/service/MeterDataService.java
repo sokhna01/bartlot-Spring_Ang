@@ -9,7 +9,7 @@ import com.bartlot.Server.repository.MeterDataRepository;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
-// import java.util.Map;
+import java.util.Map;
 import java.text.ParseException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -56,7 +56,7 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByIdCompanyAndHorodotageBetween(idCompany, begin_date, end_date);
+        return meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany, begin_date, end_date);
     }
 
     public String insertRow(MeterDataEntity meterData, int idCompany) {
@@ -105,7 +105,7 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodotageBetween(idCompany,
+        List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
                 begin_date,
                 end_date);
 
@@ -163,12 +163,12 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodotageBetween(idCompany,
+            List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
                     begin_date, end_date);
 
             for (MeterDataEntity meterData : meterDataList) {
 
-                String strTsp = "" + meterData.getHorodotage();
+                String strTsp = "" + meterData.getHorodatage();
                 list.put(meterData.getIdCompteur() + "-" + strTsp.substring(0, 10),
                         meterData);
             }
@@ -227,7 +227,7 @@ public class MeterDataService {
 
             for (MeterDataEntity meterData : meterDataList) {
 
-                String strTsp = "" + meterData.getHorodotage();
+                String strTsp = "" + meterData.getHorodatage();
 
                 list.put(meterData.getIdCompteur() + "-" + strTsp.substring(0, 16),
                         meterData);
@@ -237,20 +237,17 @@ public class MeterDataService {
         return list;
     }
 
-    // public List<Map<String, Object>> findAllClientSitePointComptage() {
-    // List<Object[]> results =
-    // meterDataRepository.findAllClientSitePointComptage();
-    // List<Map<String, Object>> resultList = new ArrayList<>();
+    public List<Map<String, Object>> findAllClientSitePointComptage() {
+        List<Object[]> results = meterDataRepository.findAllSiteClientAndPointDeComptage();
+        List<Map<String, Object>> selectListData = new ArrayList<>();
 
-    // for (Object[] row : results) {
-    // Map<String, Object> rowMap = new HashMap<>();
-    // rowMap.put("idClient", row[0]);
-    // rowMap.put("idSite", row[1]);
-    // rowMap.put("pointComptageId", row[2]);
-    // resultList.add(rowMap);
-    // }
-
-    // return resultList;
-    // }
-
+        for (Object[] result : results) {
+            Map<String, Object> selectListMap = new HashMap<>();
+            selectListMap.put("idclient", result[0]);
+            selectListMap.put("idsite", result[1]);
+            selectListMap.put("idpointcomptage", result[2]);
+            selectListData.add(selectListMap);
+        }
+        return selectListData;
+    }
 }

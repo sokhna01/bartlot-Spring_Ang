@@ -31,8 +31,8 @@ public class MeterDataEntity {
     @Column(name = "idcompteur")
     private String idCompteur;
 
-    @Column(name = "horodotage", columnDefinition = "timestamp without time zone")
-    private Timestamp horodotage;
+    @Column(name = "horodatage", columnDefinition = "timestamp without time zone")
+    private Timestamp horodatage;
 
     @Column(name = "dataaplus")
     private String dataAPlus;
@@ -115,12 +115,12 @@ public class MeterDataEntity {
         this.idCompteur = idCompteur;
     }
 
-    public Timestamp getHorodotage() {
-        return horodotage;
+    public Timestamp getHorodatage() {
+        return horodatage;
     }
 
-    public void setHorodotage(Timestamp horodotage) {
-        this.horodotage = horodotage;
+    public void setHorodatage(Timestamp horodatage) {
+        this.horodatage = horodatage;
     }
 
     public String getDataAPlus() {

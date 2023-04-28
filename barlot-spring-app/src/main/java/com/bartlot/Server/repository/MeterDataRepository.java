@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.Modifying;
 
 public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Integer> {
 
-        @Query("SELECT md.horodotage FROM MeterDataEntity md ORDER BY md.horodotage DESC LIMIT 1")
+        @Query("SELECT md.horodatage FROM MeterDataEntity md ORDER BY md.horodatage DESC LIMIT 1")
         Timestamp findLastRecentRowDate();
 
         @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompany = :idCompany "
@@ -22,12 +22,12 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
                         + "OR md.dataAMoins IS NULL OR md.dataAMoins = '' "
                         + "OR md.dataRPlus IS NULL OR md.dataRPlus = '' "
                         + "OR md.dataRMoins IS NULL OR md.dataRMoins = '') "
-                        + "AND md.horodotage BETWEEN :startDate AND :endDate")
+                        + "AND md.horodatage BETWEEN :startDate AND :endDate")
         List<MeterDataEntity> findMeterDataBybetweenDate(int idCompany, Date startDate, Date endDate);
 
-        List<MeterDataEntity> findByIdCompanyAndHorodotageBetween(int idCompany, Date startDate, Date endDate);
+        List<MeterDataEntity> findByIdCompanyAndHorodatageBetween(int idCompany, Date startDate, Date endDate);
 
-        List<MeterDataEntity> findByHorodotageBetweenOrderByHorodotageAsc(Date startDate, Date endDate);
+        List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAsc(Date startDate, Date endDate);
 
         @Modifying
         @Transactional
@@ -44,5 +44,9 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Query("update MeterDataEntity md set md.qualite = :qualite where md.id = :id")
         void updateQualite(String qualite, int id);
 
+        @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM MeterDataEntity md")
+        List<Object[]> findAllSiteClientAndPointDeComptage();
+
         Long countByIdCompany(int idCompany);
+
 }
