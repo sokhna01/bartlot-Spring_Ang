@@ -35,7 +35,10 @@ CREATE TABLE public.access_rules (
     read character varying(100),
     upload character varying(100),
     write character varying(100),
-    write_content character varying(100)
+    write_content character varying(100),
+    iduser integer,
+    iddirectory integer,
+    writecontent character varying(100)
 );
 
 
@@ -424,11 +427,10 @@ ALTER SEQUENCE public.meter_configuration_id_seq OWNED BY public.meter_configura
 CREATE TABLE public.meter_data (
     id integer NOT NULL,
     created_date timestamp without time zone DEFAULT now(),
-    dataamoins character varying(255),
+    dataamoins real,
     dataaplus character varying(255),
-    datarmoins character varying(255),
-    datarplus character varying(255),
-    horodotage timestamp without time zone,
+    datarmoins real,
+    datarplus real,
     idclient character varying(255),
     idcompany integer,
     idcompteur character varying(255),
@@ -437,7 +439,8 @@ CREATE TABLE public.meter_data (
     presence character varying(255),
     puissance_reactive_qualite character varying(2) DEFAULT '5'::character varying,
     qualite character varying(255),
-    source character varying(255)
+    source character varying(255),
+    horodatage timestamp without time zone
 );
 
 
@@ -783,7 +786,7 @@ ALTER TABLE ONLY public.users_questions_answers ALTER COLUMN id SET DEFAULT next
 -- Data for Name: access_rules; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.access_rules (id, id_user, copy, created_date, download, id_directory, message, read, upload, write, write_content) FROM stdin;
+COPY public.access_rules (id, id_user, copy, created_date, download, id_directory, message, read, upload, write, write_content, iduser, iddirectory, writecontent) FROM stdin;
 \.
 
 
@@ -898,7 +901,17 @@ COPY public.meter_configuration (id, created_date, idcompteur, inverse, type) FR
 -- Data for Name: meter_data; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.meter_data (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodotage, idclient, idcompany, idcompteur, idsite, idpointcomptage, presence, puissance_reactive_qualite, qualite, source) FROM stdin;
+COPY public.meter_data (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, idclient, idcompany, idcompteur, idsite, idpointcomptage, presence, puissance_reactive_qualite, qualite, source, horodatage) FROM stdin;
+1	2023-04-25 10:02:03.640926	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:00:00
+2	2023-04-25 10:03:46.639911	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:00:00
+3	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:10:00
+4	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:10:00
+5	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:20:00
+6	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:20:00
+7	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:30:00
+8	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:30:00
+9	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:40:00
+10	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:40:00
 \.
 
 
@@ -962,7 +975,7 @@ COPY public.profiles (id, active, category, pf_code, pf_description, pf_name) FR
 --
 
 COPY public.tokens (id, expiration, token, user_id, expiration_date) FROM stdin;
-510458740	\N	eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMSIsImV4cCI6MTY4MTkwMjQzM30.Moi2gq-nY_X4ORoQnh1xQ2if9jPw_qC4g5W-_7_WXLxeLclzyyEi_L7qBJiAdjP44DcIjsDNGxB8xwuqlvOzSA	11	2023-04-19 11:07:13.541665
+1647710239	\N	eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMSIsImV4cCI6MTY4MjM2MTQ5Mn0.VVKDeiZ9j0mNB0eY6FexpV11NFkPkA7wBl3PuBzHp3fb8fd0aa4HqjE6devhBdThCgu4E4szlQx2m5ljcCGs8Q	11	2023-04-24 18:38:12.34994
 \.
 
 
@@ -1057,7 +1070,7 @@ SELECT pg_catalog.setval('public.meter_configuration_id_seq', 1, false);
 -- Name: meter_data_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.meter_data_id_seq', 1, false);
+SELECT pg_catalog.setval('public.meter_data_id_seq', 10, true);
 
 
 --
