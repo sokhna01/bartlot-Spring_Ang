@@ -55,6 +55,6 @@
   <div>
     <button type="submit" class="btn btn-primary" (click)="onCancel()">Annuler</button>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="submit" class="btn btn-primary" (click)="onSave()" [disabled]="!checkValidity()" >Enregistrer</button>
+    <button type="submit" class="btn btn-primary" (click)="onSave()" [disabled]="!isSaveEnabled" >Enregistrer</button>
   </div>
 </table>
