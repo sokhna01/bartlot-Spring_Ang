@@ -21,6 +21,6 @@
 // public Timestamp todayDate;
 
 // public CachedCompany() {
-// // TODO Auto-generated constructor stub
+
 // }
 // }

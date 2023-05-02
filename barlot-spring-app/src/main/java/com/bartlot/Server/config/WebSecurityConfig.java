@@ -19,7 +19,7 @@ public class WebSecurityConfig {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/*", "/selectListData")
+                .requestMatchers("/login/*", "/selectListData", "/tache8")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

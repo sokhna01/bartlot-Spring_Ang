@@ -2,6 +2,7 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.service.MeterDataService;
@@ -9,6 +10,7 @@ import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task3Service;
 import com.bartlot.Server.service.Task4Service;
+import com.bartlot.Server.service.WorkTableService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +47,9 @@ public class MeterDataServiceController {
 
     @Autowired
     private MeterConfigRepository meterConfigRepository;
+
+    @Autowired
+    private WorkTableService workTableService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -119,6 +124,13 @@ public class MeterDataServiceController {
 
     }
 
+    @PostMapping("/tache8")
+    public List<PropositionModel> test(@RequestParam("idcompany") String idcompany) {
+        // Code pour gérer le téléchargement du fichier
+        int idCompany = Integer.parseInt(idcompany);
+        return workTableService.workTableData(idCompany);
+    }
+
     @PostMapping("/getlistmeterdatareporting")
     public HashMap<String, List<MeterDataEntity>> getListMeterDataByType(@RequestParam("idcompany") String idcompany) {
 
@@ -151,4 +163,5 @@ public class MeterDataServiceController {
         List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
         return ResponseEntity.ok().body(selectListData);
     }
+
 }
