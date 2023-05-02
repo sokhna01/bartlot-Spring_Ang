@@ -34,7 +34,8 @@ export class AddExternalSourceComponent implements OnInit {
   rowIndex = -1;
   hasErrors: boolean = false;
 
-  displayedColumns: string[] = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
+  isSaveEnabled: boolean = false;
+  // displayedColumns: string[] = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
 
 
   constructor(
@@ -172,17 +173,21 @@ onFileSelected(event: any) {
           if(j == 0){
             if(this.regexDate.test(value) === true){
               td.classList.remove('invalid-cell');
+              this.isSaveEnabled = true;
             }
             else{
               td.classList.add('invalid-cell');
+              this.isSaveEnabled = false;
             }
           }
           else{
             if( (this.regexDec.test(value) === true) || (this.regexInt.test(value) === true )){
               td.classList.remove('invalid-cell');
+              this.isSaveEnabled = true;
             }
             else{
               td.classList.add('invalid-cell');
+              this.isSaveEnabled = false;
             }
           }
         });
@@ -205,9 +210,10 @@ onFileSelected(event: any) {
     }
   }
 
-  checkValidity(): boolean {
+  checkValidity(): void {
     const cells = document.querySelectorAll('.invalid-cell');
-    return cells.length === 0;
+    if (cells.length === 0)
+    this.isSaveEnabled = true;
   }
 }
 // onFileSelected(event: any) {
