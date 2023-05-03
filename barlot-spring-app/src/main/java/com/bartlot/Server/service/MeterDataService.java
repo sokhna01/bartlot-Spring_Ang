@@ -56,7 +56,8 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany, begin_date, end_date);
+        return meterDataRepository.findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany, begin_date,
+                end_date);
     }
 
     public String insertRow(MeterDataEntity meterData, int idCompany) {
@@ -105,9 +106,10 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
-                begin_date,
-                end_date);
+        List<MeterDataEntity> meterDataList = meterDataRepository
+                .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
+                        begin_date,
+                        end_date);
 
         for (MeterDataEntity meterData : meterDataList) {
 
@@ -163,8 +165,9 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
-                    begin_date, end_date);
+            List<MeterDataEntity> meterDataList = meterDataRepository
+                    .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
+                            begin_date, end_date);
 
             for (MeterDataEntity meterData : meterDataList) {
 
