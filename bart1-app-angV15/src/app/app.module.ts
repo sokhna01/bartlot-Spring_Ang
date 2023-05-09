@@ -52,6 +52,7 @@ import { ChartDemoComponent } from './chart-demo/chart-demo.component';
 import { ChartDemoLineComponent } from './chart-demo-line/chart-demo-line.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
 import { AddExternalSourceComponent } from './add-external-source/add-external-source/add-external-source.component';
+import { AddSourcePresenceQualiteComponent } from './add-source-presence-qualite/add-source-presence-qualite.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/translate/', '.json');
@@ -69,7 +70,8 @@ export function createTranslateLoader(http: HttpClient) {
     ChartDemoComponent,
     ChartDemoLineComponent,
     AddProfilComponent,
-    AddExternalSourceComponent
+    AddExternalSourceComponent,
+    AddSourcePresenceQualiteComponent
   ],
   imports: [
     HttpClientModule,

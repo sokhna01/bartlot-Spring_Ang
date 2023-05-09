@@ -32,7 +32,7 @@ public class Task1Service {
 
     public void readXLSXFile(String fileName, int idCompany) {
         try {
-            File file = new File(Common.meterDataPath + idCompany + "/" + fileName);
+            File file = new File(Common.meterDataPath + "/" + idCompany + "/" + fileName);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();

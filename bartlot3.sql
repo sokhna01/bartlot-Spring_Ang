@@ -152,12 +152,37 @@ CREATE TABLE public.companies_info (
     name character varying(30),
     phoneareacode integer,
     timezone character varying(50),
+    type character varying(20),
+    useautocompletion boolean
+);
+
+
+ALTER TABLE public.companies_info OWNER TO postgres;
+
+--
+-- Name: companiesinfo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.companiesinfo (
+    idcompany integer NOT NULL,
+    active boolean,
+    billingaccountnumber character varying(20),
+    comment character varying(200),
+    companycode character varying(20),
+    dispatchtype character varying(15),
+    language character varying(5),
+    legalname character varying(30),
+    maxdeviceiduse integer,
+    modifydate timestamp(6) without time zone,
+    name character varying(30),
+    phoneareacode integer,
+    timezone character varying(50),
     useautocompletion boolean,
     type character varying(20)
 );
 
 
-ALTER TABLE public.companies_info OWNER TO postgres;
+ALTER TABLE public.companiesinfo OWNER TO postgres;
 
 --
 -- Name: companies_info_idcompany_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -178,7 +203,29 @@ ALTER TABLE public.companies_info_idcompany_seq OWNER TO postgres;
 -- Name: companies_info_idcompany_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.companies_info_idcompany_seq OWNED BY public.companies_info.idcompany;
+ALTER SEQUENCE public.companies_info_idcompany_seq OWNED BY public.companiesinfo.idcompany;
+
+
+--
+-- Name: companies_info_idcompany_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.companies_info_idcompany_seq1
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.companies_info_idcompany_seq1 OWNER TO postgres;
+
+--
+-- Name: companies_info_idcompany_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.companies_info_idcompany_seq1 OWNED BY public.companies_info.idcompany;
 
 
 --
@@ -199,6 +246,23 @@ CREATE TABLE public.company_adress (
 ALTER TABLE public.company_adress OWNER TO postgres;
 
 --
+-- Name: companyadress; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.companyadress (
+    idcompanyaddress integer NOT NULL,
+    address character varying(100),
+    addresstype character varying(20),
+    city character varying(30),
+    country character varying(30),
+    state character varying(30),
+    idcompany integer
+);
+
+
+ALTER TABLE public.companyadress OWNER TO postgres;
+
+--
 -- Name: company_adress_idcompanyaddress_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -217,7 +281,29 @@ ALTER TABLE public.company_adress_idcompanyaddress_seq OWNER TO postgres;
 -- Name: company_adress_idcompanyaddress_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.company_adress_idcompanyaddress_seq OWNED BY public.company_adress.idcompanyaddress;
+ALTER SEQUENCE public.company_adress_idcompanyaddress_seq OWNED BY public.companyadress.idcompanyaddress;
+
+
+--
+-- Name: company_adress_idcompanyaddress_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.company_adress_idcompanyaddress_seq1
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.company_adress_idcompanyaddress_seq1 OWNER TO postgres;
+
+--
+-- Name: company_adress_idcompanyaddress_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.company_adress_idcompanyaddress_seq1 OWNED BY public.company_adress.idcompanyaddress;
 
 
 --
@@ -239,6 +325,24 @@ CREATE TABLE public.company_contact (
 ALTER TABLE public.company_contact OWNER TO postgres;
 
 --
+-- Name: companycontact; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.companycontact (
+    id integer NOT NULL,
+    address_type character varying(50),
+    contact_email character varying(100),
+    contact_firstname character varying(100) NOT NULL,
+    contact_lastname character varying(100) NOT NULL,
+    contact_phone character varying(100),
+    contact_workphone character varying(100),
+    idcompany integer
+);
+
+
+ALTER TABLE public.companycontact OWNER TO postgres;
+
+--
 -- Name: company_contact_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -257,7 +361,29 @@ ALTER TABLE public.company_contact_id_seq OWNER TO postgres;
 -- Name: company_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.company_contact_id_seq OWNED BY public.company_contact.id;
+ALTER SEQUENCE public.company_contact_id_seq OWNED BY public.companycontact.id;
+
+
+--
+-- Name: company_contact_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.company_contact_id_seq1
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.company_contact_id_seq1 OWNER TO postgres;
+
+--
+-- Name: company_contact_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.company_contact_id_seq1 OWNED BY public.company_contact.id;
 
 
 --
@@ -384,6 +510,44 @@ ALTER SEQUENCE public.country_companies_id_seq OWNED BY public.country_companies
 
 
 --
+-- Name: intervention; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.intervention (
+    id integer NOT NULL,
+    horodotage_fin character varying(255),
+    idclient character varying(255),
+    idcompteur character varying(255),
+    idsite character varying(255),
+    horodotage_debut character varying(255)
+);
+
+
+ALTER TABLE public.intervention OWNER TO postgres;
+
+--
+-- Name: intervention_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.intervention_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.intervention_id_seq OWNER TO postgres;
+
+--
+-- Name: intervention_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.intervention_id_seq OWNED BY public.intervention.id;
+
+
+--
 -- Name: meter_configuration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -466,6 +630,49 @@ ALTER TABLE public.meter_data_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.meter_data_id_seq OWNED BY public.meter_data.id;
+
+
+--
+-- Name: meter_data_source_externe; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.meter_data_source_externe (
+    id integer NOT NULL,
+    created_date timestamp without time zone DEFAULT now(),
+    dataamoins double precision,
+    dataaplus double precision,
+    datarmoins double precision,
+    datarplus double precision,
+    horodatage timestamp without time zone,
+    idclient character varying(255),
+    presence character varying(255),
+    qualite character varying(255),
+    source character varying(255)
+);
+
+
+ALTER TABLE public.meter_data_source_externe OWNER TO postgres;
+
+--
+-- Name: meter_data_source_externe_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.meter_data_source_externe_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.meter_data_source_externe_id_seq OWNER TO postgres;
+
+--
+-- Name: meter_data_source_externe_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.meter_data_source_externe_id_seq OWNED BY public.meter_data_source_externe.id;
 
 
 --
@@ -678,6 +885,54 @@ ALTER SEQUENCE public.users_questions_answers_id_seq OWNED BY public.users_quest
 
 
 --
+-- Name: work_table; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.work_table (
+    id integer NOT NULL,
+    attente_action character varying(255),
+    commentaires character varying(255),
+    created_date timestamp without time zone DEFAULT now(),
+    dataamoins character varying(255),
+    dataaplus character varying(255),
+    datarmoins character varying(255),
+    datarplus character varying(255),
+    horodatage timestamp without time zone,
+    idclient character varying(255),
+    idcompteur character varying(255),
+    idpointcomptage character varying(255),
+    presence character varying(255),
+    qualite character varying(255),
+    source character varying(255),
+    validation character varying(255)
+);
+
+
+ALTER TABLE public.work_table OWNER TO postgres;
+
+--
+-- Name: work_table_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.work_table_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.work_table_id_seq OWNER TO postgres;
+
+--
+-- Name: work_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.work_table_id_seq OWNED BY public.work_table.id;
+
+
+--
 -- Name: access_rules id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -695,21 +950,28 @@ ALTER TABLE ONLY public.admin_users ALTER COLUMN iduser SET DEFAULT nextval('pub
 -- Name: companies_info idcompany; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.companies_info ALTER COLUMN idcompany SET DEFAULT nextval('public.companies_info_idcompany_seq'::regclass);
+ALTER TABLE ONLY public.companies_info ALTER COLUMN idcompany SET DEFAULT nextval('public.companies_info_idcompany_seq1'::regclass);
+
+
+--
+-- Name: companiesinfo idcompany; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companiesinfo ALTER COLUMN idcompany SET DEFAULT nextval('public.companies_info_idcompany_seq'::regclass);
 
 
 --
 -- Name: company_adress idcompanyaddress; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.company_adress ALTER COLUMN idcompanyaddress SET DEFAULT nextval('public.company_adress_idcompanyaddress_seq'::regclass);
+ALTER TABLE ONLY public.company_adress ALTER COLUMN idcompanyaddress SET DEFAULT nextval('public.company_adress_idcompanyaddress_seq1'::regclass);
 
 
 --
 -- Name: company_contact id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.company_contact ALTER COLUMN id SET DEFAULT nextval('public.company_contact_id_seq'::regclass);
+ALTER TABLE ONLY public.company_contact ALTER COLUMN id SET DEFAULT nextval('public.company_contact_id_seq1'::regclass);
 
 
 --
@@ -727,10 +989,31 @@ ALTER TABLE ONLY public.company_users_profiles ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: companyadress idcompanyaddress; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companyadress ALTER COLUMN idcompanyaddress SET DEFAULT nextval('public.company_adress_idcompanyaddress_seq'::regclass);
+
+
+--
+-- Name: companycontact id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companycontact ALTER COLUMN id SET DEFAULT nextval('public.company_contact_id_seq'::regclass);
+
+
+--
 -- Name: country_companies id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.country_companies ALTER COLUMN id SET DEFAULT nextval('public.country_companies_id_seq'::regclass);
+
+
+--
+-- Name: intervention id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.intervention ALTER COLUMN id SET DEFAULT nextval('public.intervention_id_seq'::regclass);
 
 
 --
@@ -745,6 +1028,13 @@ ALTER TABLE ONLY public.meter_configuration ALTER COLUMN id SET DEFAULT nextval(
 --
 
 ALTER TABLE ONLY public.meter_data ALTER COLUMN id SET DEFAULT nextval('public.meter_data_id_seq'::regclass);
+
+
+--
+-- Name: meter_data_source_externe id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.meter_data_source_externe ALTER COLUMN id SET DEFAULT nextval('public.meter_data_source_externe_id_seq'::regclass);
 
 
 --
@@ -780,6 +1070,13 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 --
 
 ALTER TABLE ONLY public.users_questions_answers ALTER COLUMN id SET DEFAULT nextval('public.users_questions_answers_id_seq'::regclass);
+
+
+--
+-- Name: work_table id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.work_table ALTER COLUMN id SET DEFAULT nextval('public.work_table_id_seq'::regclass);
 
 
 --
@@ -840,7 +1137,15 @@ COPY public.admin_users (iduser, active, address, usercellphone, city, country, 
 -- Data for Name: companies_info; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.companies_info (idcompany, active, billingaccountnumber, comment, companycode, dispatchtype, language, legalname, maxdeviceiduse, modifydate, name, phoneareacode, timezone, useautocompletion, type) FROM stdin;
+COPY public.companies_info (idcompany, active, billingaccountnumber, comment, companycode, dispatchtype, language, legalname, maxdeviceiduse, modifydate, name, phoneareacode, timezone, type, useautocompletion) FROM stdin;
+\.
+
+
+--
+-- Data for Name: companiesinfo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.companiesinfo (idcompany, active, billingaccountnumber, comment, companycode, dispatchtype, language, legalname, maxdeviceiduse, modifydate, name, phoneareacode, timezone, useautocompletion, type) FROM stdin;
 1	t	12345	A company based in California	ABC	type1	en	ABC Inc.	2	2022-01-01 12:00:00	ABC Inc.	408	UTC-8	t	societe
 \.
 
@@ -850,7 +1155,6 @@ COPY public.companies_info (idcompany, active, billingaccountnumber, comment, co
 --
 
 COPY public.company_adress (idcompanyaddress, address, addresstype, city, country, state, idcompany) FROM stdin;
-1	123 Main St	billing	Anytown	USA	CA	1
 \.
 
 
@@ -881,11 +1185,36 @@ COPY public.company_users_profiles (id, id_company_users, pf_code) FROM stdin;
 
 
 --
+-- Data for Name: companyadress; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.companyadress (idcompanyaddress, address, addresstype, city, country, state, idcompany) FROM stdin;
+1	123 Main St	billing	Anytown	USA	CA	1
+\.
+
+
+--
+-- Data for Name: companycontact; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.companycontact (id, address_type, contact_email, contact_firstname, contact_lastname, contact_phone, contact_workphone, idcompany) FROM stdin;
+\.
+
+
+--
 -- Data for Name: country_companies; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.country_companies (id, active, centerlat, centerlong, code, idcompany, name, state) FROM stdin;
 1	t	\N	\N	US	1	USA	\N
+\.
+
+
+--
+-- Data for Name: intervention; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.intervention (id, horodotage_fin, idclient, idcompteur, idsite, horodotage_debut) FROM stdin;
 \.
 
 
@@ -902,16 +1231,36 @@ COPY public.meter_configuration (id, created_date, idcompteur, inverse, type) FR
 --
 
 COPY public.meter_data (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, idclient, idcompany, idcompteur, idsite, idpointcomptage, presence, puissance_reactive_qualite, qualite, source, horodatage) FROM stdin;
-1	2023-04-25 10:02:03.640926	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:00:00
-2	2023-04-25 10:03:46.639911	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:00:00
-3	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:10:00
-4	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:10:00
-5	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:20:00
-6	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:20:00
-7	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:30:00
-8	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:30:00
-9	2023-04-25 10:06:02.512679	0	99	0	30	Client 1	1	CPT-P	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:40:00
-10	2023-04-25 10:06:02.512679	0	101	0	31	Client 1	1	CPT-R	Diass	Point 1	\N	5	\N	\N	2022-01-02 00:40:00
+1	2023-04-25 10:02:03.640926	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:00:00
+2	2023-04-25 10:03:46.639911	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:00:00
+3	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:10:00
+4	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:10:00
+5	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:20:00
+6	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:20:00
+7	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:30:00
+8	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:30:00
+9	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:40:00
+10	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:40:00
+\.
+
+
+--
+-- Data for Name: meter_data_source_externe; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.meter_data_source_externe (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, presence, qualite, source) FROM stdin;
+205	2023-05-08 17:28:18	0	\N	0	30	2022-01-01 23:59:52	Client_1	0	5	Se
+206	2023-05-08 17:28:18	0	99.567	0	30	2022-01-02 00:09:52	Client_1	2	5	Se
+207	2023-05-08 17:28:18	0	100	0	30	2022-01-02 00:19:52	Client_1	2	5	Se
+208	2023-05-08 17:28:18	0	99999.5	\N	30	2022-01-02 00:29:52	Client_1	2	5	Se
+209	2023-05-08 17:28:18	0	99	0	30	2022-01-02 00:39:52	Client_1	2	5	Se
+210	2023-05-08 17:28:18	0	99	90	30	2022-01-02 00:49:52	Client_1	2	5	Se
+211	2023-05-08 17:28:18	0	99	0	30	2022-01-02 00:59:52	Client_1	2	5	Se
+212	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:09:52	Client_1	2	5	Se
+213	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:19:52	Client_1	2	5	Se
+214	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:29:52	Client_1	2	5	Se
+215	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:39:52	Client_1	2	5	Se
+216	2023-05-08 17:28:18	0	99	0	\N	2022-01-02 01:49:52	Client_1	2	5	Se
 \.
 
 
@@ -1004,6 +1353,14 @@ COPY public.users_questions_answers (id, answer, id_question, id_user) FROM stdi
 
 
 --
+-- Data for Name: work_table; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.work_table (id, attente_action, commentaires, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, idcompteur, idpointcomptage, presence, qualite, source, validation) FROM stdin;
+\.
+
+
+--
 -- Name: access_rules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1025,6 +1382,13 @@ SELECT pg_catalog.setval('public.companies_info_idcompany_seq', 4, true);
 
 
 --
+-- Name: companies_info_idcompany_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.companies_info_idcompany_seq1', 1, false);
+
+
+--
 -- Name: company_adress_idcompanyaddress_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1032,10 +1396,24 @@ SELECT pg_catalog.setval('public.company_adress_idcompanyaddress_seq', 5, true);
 
 
 --
+-- Name: company_adress_idcompanyaddress_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.company_adress_idcompanyaddress_seq1', 1, false);
+
+
+--
 -- Name: company_contact_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.company_contact_id_seq', 1, false);
+
+
+--
+-- Name: company_contact_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.company_contact_id_seq1', 1, false);
 
 
 --
@@ -1060,6 +1438,13 @@ SELECT pg_catalog.setval('public.country_companies_id_seq', 9, true);
 
 
 --
+-- Name: intervention_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.intervention_id_seq', 1, false);
+
+
+--
 -- Name: meter_configuration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -1071,6 +1456,13 @@ SELECT pg_catalog.setval('public.meter_configuration_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.meter_data_id_seq', 10, true);
+
+
+--
+-- Name: meter_data_source_externe_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.meter_data_source_externe_id_seq', 216, true);
 
 
 --
@@ -1109,6 +1501,13 @@ SELECT pg_catalog.setval('public.users_questions_answers_id_seq', 1, false);
 
 
 --
+-- Name: work_table_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.work_table_id_seq', 1, false);
+
+
+--
 -- Name: access_rules access_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1133,27 +1532,51 @@ ALTER TABLE ONLY public.admin_users
 
 
 --
--- Name: companies_info companies_info_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: companiesinfo companies_info_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.companies_info
+ALTER TABLE ONLY public.companiesinfo
     ADD CONSTRAINT companies_info_pkey PRIMARY KEY (idcompany);
 
 
 --
--- Name: company_adress company_adress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: companies_info companies_info_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.company_adress
+ALTER TABLE ONLY public.companies_info
+    ADD CONSTRAINT companies_info_pkey1 PRIMARY KEY (idcompany);
+
+
+--
+-- Name: companyadress company_adress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companyadress
     ADD CONSTRAINT company_adress_pkey PRIMARY KEY (idcompanyaddress);
 
 
 --
--- Name: company_contact company_contact_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: company_adress company_adress_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.company_adress
+    ADD CONSTRAINT company_adress_pkey1 PRIMARY KEY (idcompanyaddress);
+
+
+--
+-- Name: companycontact company_contact_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companycontact
+    ADD CONSTRAINT company_contact_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: company_contact company_contact_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.company_contact
-    ADD CONSTRAINT company_contact_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT company_contact_pkey1 PRIMARY KEY (id);
 
 
 --
@@ -1181,6 +1604,14 @@ ALTER TABLE ONLY public.country_companies
 
 
 --
+-- Name: intervention intervention_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.intervention
+    ADD CONSTRAINT intervention_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: meter_configuration meter_configuration_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1194,6 +1625,14 @@ ALTER TABLE ONLY public.meter_configuration
 
 ALTER TABLE ONLY public.meter_data
     ADD CONSTRAINT meter_data_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meter_data_source_externe meter_data_source_externe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.meter_data_source_externe
+    ADD CONSTRAINT meter_data_source_externe_pkey PRIMARY KEY (id);
 
 
 --
@@ -1237,10 +1676,10 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- Name: companies_info uk_ej8aycg21ldwwit9r0u73whpi; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: companiesinfo uk_ej8aycg21ldwwit9r0u73whpi; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.companies_info
+ALTER TABLE ONLY public.companiesinfo
     ADD CONSTRAINT uk_ej8aycg21ldwwit9r0u73whpi UNIQUE (companycode);
 
 
@@ -1285,11 +1724,27 @@ ALTER TABLE ONLY public.users_questions_answers
 
 
 --
+-- Name: work_table work_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.work_table
+    ADD CONSTRAINT work_table_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: profil_action act_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.profil_action
     ADD CONSTRAINT act_code_fkey FOREIGN KEY (act_code) REFERENCES public.action(act_code);
+
+
+--
+-- Name: companycontact companycontact_idcompany_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companycontact
+    ADD CONSTRAINT companycontact_idcompany_fkey FOREIGN KEY (idcompany) REFERENCES public.companiesinfo(idcompany);
 
 
 --
@@ -1305,7 +1760,15 @@ ALTER TABLE ONLY public.company_contact
 --
 
 ALTER TABLE ONLY public.admin_users
-    ADD CONSTRAINT fk_companyaddress_companiesinfo FOREIGN KEY (idcompany) REFERENCES public.companies_info(idcompany) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_companyaddress_companiesinfo FOREIGN KEY (idcompany) REFERENCES public.companiesinfo(idcompany) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: companyadress fk_companyaddress_companiesinfo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.companyadress
+    ADD CONSTRAINT fk_companyaddress_companiesinfo FOREIGN KEY (idcompany) REFERENCES public.companiesinfo(idcompany) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
@@ -1337,7 +1800,7 @@ ALTER TABLE ONLY public.company_users_profiles
 --
 
 ALTER TABLE ONLY public.company_users
-    ADD CONSTRAINT idcompanycomusers_fkey FOREIGN KEY (idcompany) REFERENCES public.companies_info(idcompany);
+    ADD CONSTRAINT idcompanycomusers_fkey FOREIGN KEY (idcompany) REFERENCES public.companiesinfo(idcompany);
 
 
 --

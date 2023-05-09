@@ -11,6 +11,7 @@ import { ResultUploadFileDemoComponent } from './result-upload-file-demo/result-
 import { ResultUploadMissedDataDemoComponent } from './result-upload-missed-data-demo/result-upload-missed-data-demo.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
 import { AddExternalSourceComponent } from './add-external-source/add-external-source/add-external-source.component';
+import { AddSourcePresenceQualiteComponent } from './add-source-presence-qualite/add-source-presence-qualite.component';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'result_update_qualite_demo', component: ResultUpdateQualiteDemoComponent },
   { path: 'add_profil', component: AddProfilComponent},
   { path: 'add_external_source', component: AddExternalSourceComponent},
+  { path: 'add_source_presence_qualite', component: AddSourcePresenceQualiteComponent},
   { path: 'result_upload_missed_data_demo', component: ResultUploadMissedDataDemoComponent }];
 
 @NgModule({

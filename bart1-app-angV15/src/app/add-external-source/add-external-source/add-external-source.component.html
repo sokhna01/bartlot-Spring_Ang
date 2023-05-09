@@ -32,7 +32,7 @@
 </div>
 
 <!--Tableau des données-->
-<table class="table" *ngIf="!showForm && meterData && meterData.length > 0">
+<table id="displayTable" class="table" *ngIf="!showForm && meterData && meterData.length > 0">
   <thead>
     <tr>
       <th *ngFor="let header of meterData[0]; let i = index" [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : '' }" > 
@@ -42,12 +42,10 @@
   <tbody>
     <tr *ngFor="let row of meterData.slice(1); let i =index">
       <td *ngFor="let cell of row; let j = index" 
-      [ngClass]="{'invalid-cell': !isCellValid(i,j)}" 
-      [ngStyle]="{ 'background-color': cell === undefined ? 'yellow' :''}"
-      
+      [ngClass]="{'invalid-cell': !isCellValid(i,j), 'null-cell': cell === null || cell === undefined || cell === '' }"       
       (click)="onCellClick($event)"
       >
-        {{ cell === undefined ? 0 : cell }}
+        {{ cell === null || cell === undefined || cell === ''? '' : cell }}
       </td>
     </tr>    
   </tbody>

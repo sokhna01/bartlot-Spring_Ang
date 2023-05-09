@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataService } from "./services/data-service/data_service";
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './services/auth-service/authentication.service';
-import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',

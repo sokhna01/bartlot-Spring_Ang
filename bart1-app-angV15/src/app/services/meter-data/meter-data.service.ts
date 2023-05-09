@@ -1,16 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeterDataService {
-  private selectListDataUrl = 'http://localhost:8080/selectListData';
 
   constructor(private http: HttpClient) { }
 
-  getSelectListData(): Observable<any> {
-    return this.http.get<any>(this.selectListDataUrl);
+  getSelectListData(baseUrl: string, token: string): Observable<any> {
+    let headers = new HttpHeaders({'Authorization': 'Bearer ' + token });
+    const url = baseUrl + 'selectListData';
+    return this.http.get<any>(url, {headers});
+  }
+  public idClient: string = '';
+  public fileName: string = '';
+
+  public file: any;
+  insertXlsxToBD(idClient: string, fileName: string, token: string, baseUrl: string, file: any) {
+    const formData = new FormData();
+    formData.append('idClient', idClient);
+    formData.append('file', file, fileName);
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+    const url = baseUrl + 'insert_meter_data_externe';
+  
+    return this.http.post<any>(url, formData, { headers, responseType: 'json' });
   }
 }

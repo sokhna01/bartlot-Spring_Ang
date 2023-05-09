@@ -42,16 +42,26 @@ public class LoginWeb {
 
         // Vérifier les informations d'authentification
         CompanyUsersEntity user = companyUsersRepository.findByUsernameAndCompanyCode(username, companyCode);
+
+        System.out.println("User: " + user);
+        System.out.println("Username: " + username);
+        System.out.println("Company Code: " + companyCode);
+        System.out.println("Password: " + password);
+
         if (user == null || !user.getPassword().equals(password)) {
             throw new AuthenticationException("Authentication failed. Invalid username,password, or company code.");
         }
 
         List<Object[]> users = companyUsersRepository.findCompanyUsers(username, password, companyCode);
+
         if (!users.isEmpty()) {
+
             Object[] userFields = users.get(0);
+
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", userFields[0]);
             userMap.put("firstname", userFields[1]);
+            System.out.println("UserField1: " + userFields[1]);
             userMap.put("lastname", userFields[2]);
             userMap.put("address1", userFields[3]);
             userMap.put("address2", userFields[4]);
@@ -129,8 +139,7 @@ public class LoginWeb {
     public CompanyUsersEntity getUserByUsername(String username) {
         Optional<CompanyUsersEntity> userOptional = companyUsersRepository.findByUsername(username);
         if (userOptional.isPresent()) {
-            // CompanyUsersEntity user = userOptional.get();
-            user = userOptional.get();
+            CompanyUsersEntity user = userOptional.get();
         } else {
             throw new UsernameNotFoundException("User with username " + username + " not found");
         }

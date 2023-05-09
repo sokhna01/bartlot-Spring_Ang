@@ -202,7 +202,6 @@ export class AddDemoFileComponent implements OnInit {
     this.loading = true;
     this.uploadMeterData().subscribe(
       {
-
         next: (data) => {
           $("#successModal ").modal("hide");
           console.log(data);

@@ -44,3 +44,6 @@ input[type="file"] {
   background-color: red;
 }
 
+.null-cell{
+  background-color: yellow;
+}

@@ -2,7 +2,6 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.MeterDataEntity;
-import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.service.MeterDataService;
@@ -10,14 +9,12 @@ import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task3Service;
 import com.bartlot.Server.service.Task4Service;
-import com.bartlot.Server.service.WorkTableService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-public class MeterDataServiceController {
+// @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+public class MeterDataController {
     @Autowired
     private MeterDataService meterDataService;
 
@@ -47,9 +44,6 @@ public class MeterDataServiceController {
 
     @Autowired
     private MeterConfigRepository meterConfigRepository;
-
-    @Autowired
-    private WorkTableService workTableService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -124,13 +118,6 @@ public class MeterDataServiceController {
 
     }
 
-    @PostMapping("/tache8")
-    public List<PropositionModel> test(@RequestParam("idcompany") String idcompany) {
-        // Code pour gérer le téléchargement du fichier
-        int idCompany = Integer.parseInt(idcompany);
-        return workTableService.workTableData(idCompany);
-    }
-
     @PostMapping("/getlistmeterdatareporting")
     public HashMap<String, List<MeterDataEntity>> getListMeterDataByType(@RequestParam("idcompany") String idcompany) {
 
@@ -163,5 +150,4 @@ public class MeterDataServiceController {
         List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
         return ResponseEntity.ok().body(selectListData);
     }
-
 }

@@ -25,8 +25,7 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
                         + "AND md.horodatage BETWEEN :startDate AND :endDate")
         List<MeterDataEntity> findMeterDataBybetweenDate(int idCompany, Date startDate, Date endDate);
 
-        List<MeterDataEntity> findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(int idCompany, Date startDate,
-                        Date endDate);
+        List<MeterDataEntity> findByIdCompanyAndHorodatageBetween(int idCompany, Date startDate, Date endDate);
 
         List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAsc(Date startDate, Date endDate);
 

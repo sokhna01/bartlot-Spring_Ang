@@ -26,8 +26,9 @@ public class SecurityConfig {
         http
                 .csrf()
                 .disable()
+                .httpBasic().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/*")
+                .requestMatchers("/login/*", "/selectListData", "/insert_meter_data_externe", "/insert_meter_data")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -41,18 +42,6 @@ public class SecurityConfig {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // package com.bartlot.Server.config;
 
