@@ -28,7 +28,8 @@ public class Task2Service {
     public void readXLSXFileForTask2(int idCompany) {
         try {
             // creating a new file
-            File file = new File(Common.meterDataPath + idCompany + "/" + Common.filename);
+            File file = new File(Common.meterDataPath + idCompany + "/" +
+                    Common.filename);
             // creating Workbook instance that refers to .xlsx file
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 // creating a Sheet object to retrieve object
@@ -95,33 +96,30 @@ public class Task2Service {
                         }
                         if (cell.getColumnIndex() == 5) {
                             if (cell.getCellType() == CellType.BLANK) {
-
-                                meterData.setDataAPlus("");
+                                meterData.setDataAPlus(null);
                             } else {
-                                meterData.setDataAPlus("" + cell.getNumericCellValue());
+                                meterData.setDataAPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 6) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataAMoins("");
+                                meterData.setDataAMoins(null);
                             } else {
-                                meterData.setDataAMoins("" + cell.getNumericCellValue());
+                                meterData.setDataAMoins(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 7) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRPlus("");
+                                meterData.setDataRPlus(null);
                             } else {
-                                meterData.setDataRPlus("" + cell.getNumericCellValue());
+                                meterData.setDataRPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 8) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRMoins("");
-
+                                meterData.setDataRMoins(null);
                             } else {
-                                meterData.setDataRMoins("" + cell.getNumericCellValue());
-
+                                meterData.setDataRMoins(cell.getNumericCellValue());
                             }
                         }
 

@@ -475,5 +475,18 @@
   "PAYBILL_DATE": "Date payement",
   "PAYBILL_TIME": "Heure payement",
   "STRING_WITH_PARAMS": "Chaine avec parametre: {{value}}",
-  "INNER_CONTENT": "Contenu avec parametre: {{value}}"
+  "INNER_CONTENT": "Contenu avec parametre: {{value}}",
+  "DATA FROM EXTERNAL SOURCES":"Données de source externe",
+  "CLIENT ID": "ID du client",
+  "SITE ID": "ID du site",
+  "METERING POINT ID": "ID du point de comptage",
+  "DATA FILE": "Fichier de données",
+  "SAVE" : "Enregistrer",
+  "SUCCESS_DATA_SAVE" : "Les données ont été enregistrées avec succès !",
+  "DOWNLOAD" : "Télécharger",
+  "SUCCESS_FILE_UPLOAD": "Le fichier est importé",
+  "TASK5_CONFIRM_MESSAGE": "Voulez-vous vraiment exécuter la tâche 5 ?",
+  "TASK6_CONFIRM_MESSAGE" : "Voulez-vous vraiment exécuter la tâche 6 ?",
+  "CONFIRM_EXCEL_DOWNLOAD": "Voulez-vous vraiment télécharger le fichier Excel ?"
+
 }

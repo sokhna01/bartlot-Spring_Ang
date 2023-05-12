@@ -241,7 +241,7 @@
   "UPDATEDRIVER_EXIST_SUBTITLE": "This driver already exist",
   "UPDATEPASSWORD_PAGE_TITLE": "Update password",
   "UPDATEPASSWORD_NEWPASSWORD": "New password",
-  "UPDATEPASSWORD_CONFIRMNEWPASSWORD": "Confim new password",
+  "UPDATEPASSWORD_CONFIRMNEWPASSWORD": "Confirm new password",
   "UPDATEPASSWORD_CONFIRM_TITLE": "Change password",
   "UPDATEPASSWORD_CONFIRM_SUBTITLE": "Do you really want to use this new password ?",
   "UPDATEPASSWORD_OK_TITLE": "Password updated",
@@ -473,5 +473,18 @@
   "PAYBILL_DATE": "Paybill date",
   "PAYBILL_TIME": "Paybill time",
   "STRING_WITH_PARAMS": "String with a parameter: {{value}}",
-  "INNER_CONTENT": "Inner content with a param: {{value}}"
+  "INNER_CONTENT": "Inner content with a param: {{value}}",
+  "DATA FROM EXTERNAL SOURCES": "Data from external sources",
+  "CLIENT ID": "Client ID",
+  "SITE ID": "Site ID",
+  "METERING POINT ID": "ID of the metering point",
+  "DATA FILE": "Data file",
+  "SAVE":"Save",
+  "SUCCESS_DATA_SAVE" : "The data has been successfully recorded!",
+  "DOWNLOAD" : "Download",
+  "SUCCESS_FILE_UPLOAD" : "File uploaded",
+  "TASK5_CONFIRM_MESSAGE" : "Do you really want to execute task 5 ?",
+  "TASK6_CONFIRM_MESSAGE" : "Do you really want to execute task 6 ?",
+  "CONFIRM_EXCEL_DOWNLOAD" : "Do you really want to upload the Excel file?"
+
 }

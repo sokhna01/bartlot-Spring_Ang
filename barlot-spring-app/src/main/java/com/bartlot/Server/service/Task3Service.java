@@ -22,7 +22,6 @@ public class Task3Service {
     @Autowired
     private MeterDataRepository meterDataRepository;
 
-
     public void updateSource(int idCompany) {
         List<MeterDataEntity> list = new ArrayList<MeterDataEntity>();
         list = meterDataService.getListMeterData(idCompany);
@@ -33,8 +32,9 @@ public class Task3Service {
             MeterDataEntity meter = list.get(i);
             List<MeterDataEntity> listCompteur = listAllCompteur.get(meter.getIdCompteur());
             try {
-                presence = getPresenceValue(meter, "" + meter.getDataAPlus(), "" +
-                        meter.getDataAMoins(), listCompteur);
+                Double dataAPlus = Double.parseDouble("" + meter.getDataAPlus());
+                Double dataAMoins = Double.parseDouble("" + meter.getDataAMoins());
+                presence = getPresenceValue(meter, dataAPlus, dataAMoins, listCompteur);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -48,8 +48,8 @@ public class Task3Service {
         }
     }
 
-    public String getPresenceValue(MeterDataEntity compteurCourant, String dataAPlus, String dataAMoins,
-                                   List<MeterDataEntity> listCompteur) throws SQLException {
+    public String getPresenceValue(MeterDataEntity compteurCourant, Double dataAPlus, Double dataAMoins,
+            List<MeterDataEntity> listCompteur) throws SQLException {
         String presence = null;
 
         int index = -1;
@@ -60,8 +60,7 @@ public class Task3Service {
             }
         }
 
-        if ((dataAPlus.isEmpty() || dataAPlus.trim().equals("null"))
-                && (dataAMoins.isEmpty() || dataAMoins.trim().equals("null"))) {
+        if ((dataAPlus == null || dataAPlus == 0.0) && (dataAMoins == null || dataAMoins == 0.0)) {
             // La donnees est absente simultanement
             // sur DataAplus et DataAmoins
             int tmp = 0;
@@ -72,11 +71,9 @@ public class Task3Service {
                     if (listCompteur.get(index - (i + 1)) != null) {
                         try {
                             boolean testEmptyOrNullAPlus = listCompteur.get(index - (i + 1)).getDataAPlus() == null
-                                    || listCompteur.get(index - (i + 1)).getDataAPlus().isEmpty()
-                                    || listCompteur.get(index - (i + 1)).getDataAPlus().trim().equals("null");
+                                    || listCompteur.get(index - (i + 1)).getDataAPlus() == 0.0;
                             boolean testEmptyOrNullAMoins = listCompteur.get(index - (i + 1)).getDataAMoins() == null
-                                    || listCompteur.get(index - (i + 1)).getDataAMoins().isEmpty()
-                                    || listCompteur.get(index - (i + 1)).getDataAMoins().trim().equals("null");
+                                    || listCompteur.get(index - (i + 1)).getDataAMoins() == 0.0;
                             if (testEmptyOrNullAPlus && testEmptyOrNullAMoins) {
                                 tmp = i + 1;
                             } else {
@@ -96,13 +93,13 @@ public class Task3Service {
                     if (index + (i + 1) < listCompteur.size()) {
                         if (listCompteur.get(index + (i + 1)) != null) {
                             try {
-                                boolean testEmptyOrNullAPlus = listCompteur.get(index + (i + 1)).getDataAPlus() == null
-                                        || listCompteur.get(index + (i + 1)).getDataAPlus().isEmpty()
-                                        || listCompteur.get(index + (i + 1)).getDataAPlus().trim().equals("null");
-                                boolean testEmptyOrNullAMoins = listCompteur.get(index + (i + 1))
-                                        .getDataAMoins() == null
-                                        || listCompteur.get(index + (i + 1)).getDataAMoins().isEmpty()
-                                        || listCompteur.get(index + (i + 1)).getDataAMoins().trim().equals("null");
+                                boolean testEmptyOrNullAPlus = Double
+                                        .isNaN(listCompteur.get(index + (i + 1)).getDataAPlus())
+                                        || Double.isInfinite(listCompteur.get(index + (i + 1)).getDataAPlus());
+                                boolean testEmptyOrNullAMoins = Double
+                                        .isNaN(listCompteur.get(index + (i + 1)).getDataAMoins())
+                                        || Double.isInfinite(listCompteur.get(index + (i + 1)).getDataAMoins());
+
                                 if (testEmptyOrNullAPlus && testEmptyOrNullAMoins) {
                                     tmpBis = i + 1;
                                 } else {
@@ -124,25 +121,23 @@ public class Task3Service {
             } else {
                 presence = "1";
             }
-        } else if (dataAPlus != null && !dataAPlus.isEmpty() && !dataAPlus.trim().equals("null")
-                && Double.parseDouble(dataAPlus.trim()) > 0 && dataAMoins != null && !dataAMoins.isEmpty()
-                && !dataAMoins.trim().equals("null") && Double.parseDouble(dataAMoins.trim()) == 0) {
+        } else if (dataAPlus != null && Double.compare(dataAPlus, 0.0) > 0 && dataAMoins != null
+                && Double.compare(dataAMoins, 0.0) == 0) {
             presence = "2";
-        } else if (dataAPlus != null && !dataAPlus.isEmpty() && !dataAPlus.trim().equals("null")
-                && Double.parseDouble(dataAPlus.trim()) == 0 && dataAMoins != null && !dataAMoins.isEmpty()
-                && !dataAMoins.trim().equals("null") && Double.parseDouble(dataAMoins.trim()) > 0) {
+        } else if (dataAPlus != null && Double.compare(dataAPlus, 0.0) == 0 && dataAMoins != null
+                && Double.compare(dataAMoins, 0.0) > 0) {
             presence = "2";
-        } else if (dataAPlus != null && !dataAPlus.isEmpty() && !dataAPlus.trim().equals("null")
-                && Double.parseDouble(dataAPlus.trim()) == 0 && dataAMoins != null && !dataAMoins.isEmpty()
-                && !dataAMoins.trim().equals("null") && Double.parseDouble(dataAMoins.trim()) == 0) {
+        } else if (dataAPlus != null && Double.compare(dataAPlus, 0.0) == 0 && dataAMoins != null
+                && Double.compare(dataAMoins, 0.0) == 0) {
+
             int tmp = 0;
             for (int i = 0; i < 6; i++) {
                 if (index > 0 && (i + 1) <= index) {
                     if (listCompteur.get(index - (i + 1)) != null
-                            && !listCompteur.get(index - (i + 1)).getDataAPlus().isEmpty()
-                            && Double.parseDouble(listCompteur.get(index - (i + 1)).getDataAPlus().trim()) == 0
-                            && !listCompteur.get(index - (i + 1)).getDataAMoins().isEmpty()
-                            && Double.parseDouble(listCompteur.get(index - (i + 1)).getDataAMoins().trim()) == 0) {
+                            && listCompteur.get(index - (i + 1)).getDataAPlus() != null
+                            && listCompteur.get(index - (i + 1)).getDataAMoins() != null
+                            && listCompteur.get(index - (i + 1)).getDataAPlus() == 0.0
+                            && listCompteur.get(index - (i + 1)).getDataAMoins() == 0.0) {
                         tmp = i + 1;
                     } else {
                         break;
@@ -151,17 +146,16 @@ public class Task3Service {
                     break;
                 }
             }
+
             // System.out.println("tmp "+tmp);
             if (tmp <= 5) {
                 int tmpBis = 0;
-                for (int i = 0; i < 6 - tmp; i++) {
 
+                for (int i = 0; i < 6 - tmp; i++) {
                     if (index + (i + 1) < listCompteur.size()) {
                         if (listCompteur.get(index + (i + 1)) != null
-                                && !listCompteur.get(index + (i + 1)).getDataAPlus().isEmpty()
-                                && Double.parseDouble(listCompteur.get(index + (i + 1)).getDataAPlus().trim()) == 0
-                                && !listCompteur.get(index + (i + 1)).getDataAMoins().isEmpty()
-                                && Double.parseDouble(listCompteur.get(index + (i + 1)).getDataAMoins().trim()) == 0) {
+                                && listCompteur.get(index + (i + 1)).getDataAPlus() != 0.0
+                                && listCompteur.get(index + (i + 1)).getDataAMoins() != 0.0) {
                             tmpBis = i + 1;
                         } else {
                             break;
@@ -185,6 +179,5 @@ public class Task3Service {
 
         return presence;
     }
-
 
 }

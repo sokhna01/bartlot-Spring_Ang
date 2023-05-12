@@ -1,29 +1,20 @@
 package com.bartlot.Server.entity;
 
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "meter_data")
+@Table(name = "work_table")
 
-public class MeterDataEntity {
+public class WorkTableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-    // JPA maps to the SERIAL data type in PostgreSQL automatically, so we don't
-    // need to specify it explicitly.
 
     @Column(name = "idclient")
     private String idClient;
-
-    @Column(name = "idsite")
-    private String idSite;
 
     @Column(name = "idpointcomptage")
     private String pointComptageId;
@@ -35,22 +26,19 @@ public class MeterDataEntity {
     private Timestamp horodatage;
 
     @Column(name = "dataaplus")
-    private Double dataAPlus;
+    private String dataAPlus;
 
     @Column(name = "dataamoins")
-    private Double dataAMoins;
+    private String dataAMoins;
 
     @Column(name = "datarplus")
-    private Double dataRPlus;
+    private String dataRPlus;
 
     @Column(name = "datarmoins")
-    private Double dataRMoins;
+    private String dataRMoins;
 
     @Column(name = "created_date", columnDefinition = "timestamp without time zone default now()")
     private Timestamp createdDate;
-
-    @Column(name = "idcompany")
-    private Integer idCompany;
 
     @Column(name = "source")
     private String source;
@@ -61,12 +49,17 @@ public class MeterDataEntity {
     @Column(name = "qualite")
     private String qualite;
 
-    @Column(name = "puissance_reactive_qualite", length = 2, columnDefinition = "varchar(2) default '5'")
-    private String puissanceReactiveQualite = "5";
+    @Column(name = "validation")
+    private String validation;
 
-    // public MeterDataModel() {
+    @Column(name = "commentaires")
+    private String commentaire;
 
-    // }
+    @Column(name = "attente_action")
+    private String attenteAction;
+
+    // Getters and Setters
+
     public Integer getId() {
         return id;
     }
@@ -81,22 +74,6 @@ public class MeterDataEntity {
 
     public void setIdClient(String idClient) {
         this.idClient = idClient;
-    }
-
-    public Integer getIdCompany() {
-        return idCompany;
-    }
-
-    public void setIdCompany(Integer idCompany) {
-        this.idCompany = idCompany;
-    }
-
-    public String getIdSite() {
-        return idSite;
-    }
-
-    public void setIdSite(String idSite) {
-        this.idSite = idSite;
     }
 
     public String getPointComptageId() {
@@ -123,35 +100,35 @@ public class MeterDataEntity {
         this.horodatage = horodatage;
     }
 
-    public Double getDataAPlus() {
+    public String getDataAPlus() {
         return dataAPlus;
     }
 
-    public void setDataAPlus(Double dataAPlus) {
+    public void setDataAPlus(String dataAPlus) {
         this.dataAPlus = dataAPlus;
     }
 
-    public Double getDataAMoins() {
+    public String getDataAMoins() {
         return dataAMoins;
     }
 
-    public void setDataAMoins(Double dataAMoins) {
+    public void setDataAMoins(String dataAMoins) {
         this.dataAMoins = dataAMoins;
     }
 
-    public Double getDataRPlus() {
+    public String getDataRPlus() {
         return dataRPlus;
     }
 
-    public void setDataRPlus(Double dataRPlus) {
+    public void setDataRPlus(String dataRPlus) {
         this.dataRPlus = dataRPlus;
     }
 
-    public Double getDataRMoins() {
+    public String getDataRMoins() {
         return dataRMoins;
     }
 
-    public void setDataRMoins(Double dataRMoins) {
+    public void setDataRMoins(String dataRMoins) {
         this.dataRMoins = dataRMoins;
     }
 
@@ -161,6 +138,14 @@ public class MeterDataEntity {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getPresence() {
@@ -179,19 +164,27 @@ public class MeterDataEntity {
         this.qualite = qualite;
     }
 
-    public String getPuissanceReactiveQualite() {
-        return puissanceReactiveQualite;
+    public String getValidation() {
+        return validation;
     }
 
-    public void setPuissanceReactiveQualite(String puissanceReactiveQualite) {
-        this.puissanceReactiveQualite = puissanceReactiveQualite;
+    public void setValidation(String validation) {
+        this.validation = validation;
     }
 
-    public String getSource() {
-        return source;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+
+    public String getAttenteAction() {
+        return attenteAction;
+    }
+
+    public void setAttenteAction(String attenteAction) {
+        this.attenteAction = attenteAction;
     }
 }

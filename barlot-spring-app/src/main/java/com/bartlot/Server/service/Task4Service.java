@@ -38,7 +38,8 @@ public class Task4Service {
                 parsed = format.parse(date);
                 Calendar c = Calendar.getInstance();
                 c.setTime(parsed);
-                nowtsp = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+                nowtsp = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1,
+                        c.get(Calendar.DAY_OF_MONTH));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -46,7 +47,8 @@ public class Task4Service {
         LocalDate oldDate = nowtsp.minusDays(Common.maxDayCompteur);
         for (LocalDate dateTime = oldDate; dateTime.isBefore(nowtsp)
                 || dateTime.isEqual(nowtsp); dateTime = dateTime.plusDays(1)) {
-            HashMap<String, List<MeterDataEntity>> map = getListMeterDataByDate(dateTime, dateTime);
+            HashMap<String, List<MeterDataEntity>> map = getListMeterDataByDate(dateTime,
+                    dateTime);
             List<MeterDataEntity> listCompteursOkQualite = new ArrayList<MeterDataEntity>();
             List<MeterDataEntity> listCompteursPrincipal = new ArrayList<MeterDataEntity>();
             List<MeterDataEntity> listCompteursRedondant = new ArrayList<MeterDataEntity>();
@@ -114,7 +116,7 @@ public class Task4Service {
                 System.out.println("bonjour");
             }
 
-            double moyenneRed = calculMoyenneRed(listRedResult); // Calcul de la moyenne journaliere
+            double moyenneRed = calculMoyenneRed(listRedResult); // Calcul de la moyennejournaliere
 
             for (int i = 0; i < listCompteursOkQualite.size(); i++) {
                 meterDataRepository.updateQualite(calculQualiteValue(moyenneRed),
@@ -156,9 +158,8 @@ public class Task4Service {
         return map;
     }
 
-    public double calculPuissance(String dataAPlus, String dataAMoins) {
-        double puissance = 0;
-        puissance = Double.parseDouble(dataAPlus) - Double.parseDouble(dataAMoins);
+    public double calculPuissance(double dataAPlus, double dataAMoins) {
+        double puissance = dataAPlus - dataAMoins;
         return puissance;
     }
 

@@ -1,0 +1,50 @@
+<h2 style="text-align: center;">{{'DATA FROM EXTERNAL SOURCES' | translate}}</h2>
+
+<!--Tableau des données-->
+<table id="sourceExterneTable" class="table" *ngIf="meterDataExterne && meterDataExterne.length > 0">
+  <thead>
+    <tr>
+      <th *ngFor="let header of meterDataExterne[0]; let i = index">
+        {{ header }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of meterDataExterne.slice(1); let i = index">
+      <td *ngFor="let cell of row; let j = index" [ngClass]="{
+        'null-cell': cell === null || cell === undefined || cell === ''
+      }">
+        {{ cell }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<div>
+  <button type="button" class="btn btn-primary" (click)="onCancel()">{{'REGISTRATION_CONFIRM_CANCEL' | translate}}</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModalnow">{{'DOWNLOAD' | translate}}</button>
+</div>
+
+<div id="confirmModalnow" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center"><b> </b></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{'CONFIRM_EXCEL_DOWNLOAD' | translate}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onDownload()">{{ 'CONFIRM_CONFIRM' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          data-dismiss="modal">{{ 'CONFIRM_CANCEL' | translate }}</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -32,7 +32,8 @@ public class Task1Service {
 
     public void readXLSXFile(String fileName, int idCompany) {
         try {
-            File file = new File(Common.meterDataPath + "/" + idCompany + "/" + fileName);
+            File file = new File(Common.meterDataPath + "/" + idCompany + "/" +
+                    fileName);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
@@ -88,40 +89,40 @@ public class Task1Service {
                         }
                         if (cell.getColumnIndex() == 5) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataAPlus("");
+                                meterData.setDataAPlus(null);
                             } else {
-                                meterData.setDataAPlus(String.valueOf(cell.getNumericCellValue()));
+                                meterData.setDataAPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 6) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataAMoins("");
+                                meterData.setDataAMoins(null);
                             } else {
-                                meterData.setDataAMoins(String.valueOf(cell.getNumericCellValue()));
+                                meterData.setDataAMoins(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 7) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRPlus("");
+                                meterData.setDataRPlus(null);
                             } else {
-                                meterData.setDataRPlus(String.valueOf(cell.getNumericCellValue()));
+                                meterData.setDataRPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 8) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRMoins("");
+                                meterData.setDataRMoins(null);
                             } else {
-                                meterData.setDataRMoins(String.valueOf(cell.getNumericCellValue()));
+                                meterData.setDataRMoins(cell.getNumericCellValue());
                             }
                         }
                     }
                     if (meterConfigMap.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = meterConfigMap.get(meterData.getIdCompteur());
                         if (conf != null && conf.isInverse()) {
-                            String dataAmoinsBis = meterData.getDataAMoins();
-                            String dataAplusBis = meterData.getDataAPlus();
-                            String dataRmoinsBis = meterData.getDataRMoins();
-                            String dataRplusBis = meterData.getDataRPlus();
+                            Double dataAmoinsBis = meterData.getDataAMoins();
+                            Double dataAplusBis = meterData.getDataAPlus();
+                            Double dataRmoinsBis = meterData.getDataRMoins();
+                            Double dataRplusBis = meterData.getDataRPlus();
 
                             meterData.setDataAMoins(dataAplusBis);
                             meterData.setDataAPlus(dataAmoinsBis);
@@ -206,30 +207,30 @@ public class Task1Service {
                         }
                         if (cell.getColumnIndex() == 5) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataAPlus("");
+                                meterData.setDataAPlus(null);
                             } else {
-                                meterData.setDataAPlus("" + cell.getNumericCellValue());
+                                meterData.setDataAPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 6) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataAMoins("");
+                                meterData.setDataAMoins(null);
                             } else {
-                                meterData.setDataAMoins("" + cell.getNumericCellValue());
+                                meterData.setDataAMoins(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 7) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRPlus("");
+                                meterData.setDataRPlus(null);
                             } else {
-                                meterData.setDataRPlus("" + cell.getNumericCellValue());
+                                meterData.setDataRPlus(cell.getNumericCellValue());
                             }
                         }
                         if (cell.getColumnIndex() == 8) {
                             if (cell.getCellType() == CellType.BLANK) {
-                                meterData.setDataRMoins("");
+                                meterData.setDataRMoins(null);
                             } else {
-                                meterData.setDataRMoins("" + cell.getNumericCellValue());
+                                meterData.setDataRMoins(cell.getNumericCellValue());
                             }
                         }
                     }
@@ -238,10 +239,10 @@ public class Task1Service {
                         MeterConfigEntity conf = map.get(meterData.getIdCompteur());
                         if (conf != null && conf.isInverse()) {
 
-                            String dataAmoinsBis = meterData.getDataAMoins();
-                            String dataAplusBis = meterData.getDataAPlus();
-                            String dataRmoinsBis = meterData.getDataRMoins();
-                            String dataRplusBis = meterData.getDataRPlus();
+                            Double dataAmoinsBis = meterData.getDataAMoins();
+                            Double dataAplusBis = meterData.getDataAPlus();
+                            Double dataRmoinsBis = meterData.getDataRMoins();
+                            Double dataRplusBis = meterData.getDataRPlus();
 
                             meterData.setDataAMoins(dataAplusBis);
                             meterData.setDataAPlus(dataAmoinsBis);

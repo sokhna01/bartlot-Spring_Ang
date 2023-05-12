@@ -71,6 +71,18 @@ public class MeterDataService {
         return response;
     }
 
+    public String insertRow(MeterDataEntity meterData, String idClient) {
+        String response = "notOk";
+        try {
+            meterData.setIdClient(idClient);
+            meterDataRepository.save(meterData);
+            response = "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
     public HashMap<String, List<MeterDataEntity>> getListMeterDataByType(int idCompany) {
 
         HashMap<String, List<MeterDataEntity>> map = new HashMap<String, List<MeterDataEntity>>();

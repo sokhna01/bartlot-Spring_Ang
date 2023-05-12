@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bartlot.Server.entity.MeterDataEntity;
 
@@ -32,7 +33,7 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Modifying
         @Transactional
         @Query("update MeterDataEntity md set md.dataAPlus = :dataAPlus,md.dataAMoins = :dataAMoins,md.dataRPlus = :dataRPlus,md.dataRMoins = :dataRMoins where md.id = :id")
-        void updateMissingData(String dataAPlus, String dataAMoins, String dataRPlus, String dataRMoins, int id);
+        void updateMissingData(Double dataAPlus, Double dataAMoins, Double dataRPlus, Double dataRMoins, int id);
 
         @Modifying
         @Transactional
@@ -48,5 +49,11 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         List<Object[]> findAllSiteClientAndPointDeComptage();
 
         Long countByIdCompany(int idCompany);
+
+        @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompteur = :idCompteur")
+        MeterDataEntity findByCompteurId(@Param("idCompteur") String idCompteur);
+
+        @Query("SELECT md FROM MeterDataEntity md WHERE md.idClient = :idClient")
+        MeterDataEntity findByClientId(@Param("idClient") String idClient);
 
 }

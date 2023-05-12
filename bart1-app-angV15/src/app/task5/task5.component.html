@@ -1,0 +1,151 @@
+<h2 style="text-align: center;">{{'DATA FROM EXTERNAL SOURCES' | translate}}</h2>
+<br>
+<div class="card">
+  <mat-card-header class="mat-primary">
+    <mat-card-title>{{ 'FORM TITLE' | translate }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="meterDataForm" (ngSubmit)="onSubmit()" *ngIf="showForm">
+      <mat-form-field class="form-group">
+        <mat-label>{{ 'CLIENT ID' | translate }}</mat-label>
+        <mat-select formControlName="idClient">
+          <mat-option disabled selected>{{ 'CLIENT ID' | translate }}</mat-option>
+          <mat-option *ngFor="let client of clients" [value]="client">{{ client }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label>{{ 'SITE ID' | translate }}</mat-label>
+        <mat-select formControlName="idSite">
+          <mat-option disabled selected>{{ 'SITE ID' | translate }}</mat-option>
+          <mat-option *ngFor="let site of sites" [value]="site">{{ site }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label>{{ 'METERING POINT ID' | translate }}</mat-label>
+        <mat-select formControlName="idPointComptage">
+          <mat-option disabled selected>{{ 'METERING POINT ID' | translate }}</mat-option>
+          <mat-option *ngFor="let point of points" [value]="point">{{ point }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="form-group">
+        <label for="fileInput">{{ 'DATA FILE' | translate }}</label>
+        <input type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx" />
+      </div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="meterDataForm.invalid || !isFileUploaded">{{ 'SUBMIT' | translate }}</button>
+    </form>
+  </mat-card-content>
+</div>
+
+<!--Tableau des données-->
+<table id="displayTable" class="table" *ngIf="!showForm && meterData && meterData.length > 0">
+  <thead>
+    <tr>
+      <th *ngFor="let header of meterData[0]; let i = index" [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : ''}">
+        {{ header }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of meterData.slice(1); let i = index">
+      <td *ngFor="let cell of row; let j = index" [ngClass]="{
+        'invalid-cell': !isCellValid(i, j),
+        'null-cell': cell === null || cell === undefined || cell === ''
+      }" (click)="onCellClick($event)">
+        {{ cell === null || cell === undefined || cell === '' ? '' : cell }}
+      </td>
+    </tr>
+  </tbody>
+  <br>
+<div>
+  <button type="button" class="btn btn-primary" (click)="onCancel()">{{'REGISTRATION_CONFIRM_CANCEL' | translate}}</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-primary" [disabled]="!isSaveEnabled"  data-toggle="modal" data-target="#confirmModalnow">{{'SAVE' | translate}}</button>
+</div>
+</table>
+
+
+
+<div id="confirmModalnow" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center"><b> </b></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{'Do you really want to execute task 5' | translate}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+          (click)="onSave()">{{ 'CONFIRM_CONFIRM' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          data-dismiss="modal">{{ 'CONFIRM_CANCEL' | translate }}</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="successModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center"><b>{{'SUCCESS_FILE_UPLOAD' | translate}}</b></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{'SUCCESS_DATA_SAVE' | translate}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onModalCancel()">{{ 'CLOSE_BUTTON' | translate }}</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="BigSizeFileErrorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center"><b>{{ 'FILESIZE_ERROR_TITLE' | translate }}</b></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'FILESIZE_ERROR_SUBTITLE' | translate }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CLOSE_BUTTON' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="failedModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align:center"><b>{{ 'ERROR_TITLE' | translate }}</b></h4>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'ERROR_SUBTITLE' | translate }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CLOSE_BUTTON' | translate }}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

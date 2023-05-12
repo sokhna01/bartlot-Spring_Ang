@@ -27,14 +27,13 @@ public class MeterDataExterneService {
         return response;
     }
 
-    // public List<Object> retrieveData(String idClient) {
-    // try {
-    // List<MeterDataExterneEntity> data =
-    // meterDataExterneRepository.findAllSourceExterne(idClient);
-    // return new ArrayList<>(data);
-    // } catch (Exception e) {
-    // return Collections.emptyList();
-    // }
-    // }
+    public List<MeterDataExterneEntity> retrieveData(String idClient) {
+        try {
+            List<MeterDataExterneEntity> data = meterDataExterneRepository.findAllSourceExterne(idClient);
+            return new ArrayList<>(data);
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
 
 }

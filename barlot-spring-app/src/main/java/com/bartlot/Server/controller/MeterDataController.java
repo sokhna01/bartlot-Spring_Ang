@@ -7,8 +7,8 @@ import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.service.MeterDataService;
 import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
-import com.bartlot.Server.service.Task3Service;
 import com.bartlot.Server.service.Task4Service;
+import com.bartlot.Server.service.Task3Service;
 
 import java.util.HashMap;
 import java.util.List;

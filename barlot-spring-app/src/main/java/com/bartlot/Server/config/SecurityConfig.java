@@ -28,7 +28,9 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/*", "/selectListData", "/insert_meter_data_externe", "/insert_meter_data")
+                .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/selectListData", "/get_xlsx_file",
+                        "/insert_meter_data_externe", "/upload", "/getlistmeterdata", "/insert_meter_data",
+                        "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -42,6 +44,10 @@ public class SecurityConfig {
     }
 
 }
+
+// .requestMatchers("/login/*", "/selectListData", "/insert_meter_data_externe",
+// "/insert_meter_data",
+// "/get_xlsx_file")
 
 // package com.bartlot.Server.config;
 
