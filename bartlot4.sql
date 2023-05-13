@@ -590,11 +590,11 @@ ALTER SEQUENCE public.meter_configuration_id_seq OWNED BY public.meter_configura
 
 CREATE TABLE public.meter_data (
     id integer NOT NULL,
-    created_date timestamp without time zone DEFAULT now(),
     dataamoins real,
-    dataaplus character varying(255),
+    dataaplus real,
     datarmoins real,
     datarplus real,
+    horodatage timestamp without time zone,
     idclient character varying(255),
     idcompany integer,
     idcompteur character varying(255),
@@ -604,7 +604,7 @@ CREATE TABLE public.meter_data (
     puissance_reactive_qualite character varying(2) DEFAULT '5'::character varying,
     qualite character varying(255),
     source character varying(255),
-    horodatage timestamp without time zone
+    created_date timestamp without time zone DEFAULT now()
 );
 
 
@@ -885,13 +885,12 @@ ALTER SEQUENCE public.users_questions_answers_id_seq OWNED BY public.users_quest
 
 
 --
--- Name: work_table; Type: TABLE; Schema: public; Owner: postgres
+-- Name: work_table; Type: TABLE; Schema: public; Owner: maoumi
 --
 
 CREATE TABLE public.work_table (
     id integer NOT NULL,
     attente_action character varying(255),
-    commentaires character varying(255),
     created_date timestamp without time zone DEFAULT now(),
     dataamoins character varying(255),
     dataaplus character varying(255),
@@ -904,33 +903,12 @@ CREATE TABLE public.work_table (
     presence character varying(255),
     qualite character varying(255),
     source character varying(255),
-    validation character varying(255)
+    validation character varying(255),
+    commentaires character varying(255)
 );
 
 
-ALTER TABLE public.work_table OWNER TO postgres;
-
---
--- Name: work_table_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.work_table_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.work_table_id_seq OWNER TO postgres;
-
---
--- Name: work_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.work_table_id_seq OWNED BY public.work_table.id;
-
+ALTER TABLE public.work_table OWNER TO maoumi;
 
 --
 -- Name: access_rules id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -1070,13 +1048,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 --
 
 ALTER TABLE ONLY public.users_questions_answers ALTER COLUMN id SET DEFAULT nextval('public.users_questions_answers_id_seq'::regclass);
-
-
---
--- Name: work_table id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.work_table ALTER COLUMN id SET DEFAULT nextval('public.work_table_id_seq'::regclass);
 
 
 --
@@ -1223,6 +1194,17 @@ COPY public.intervention (id, horodotage_fin, idclient, idcompteur, idsite, horo
 --
 
 COPY public.meter_configuration (id, created_date, idcompteur, inverse, type) FROM stdin;
+11	2022-07-22 13:34:46.425963	CPT-11	f	Re
+10	2022-07-22 13:34:46.261997	CPT-10	f	Re
+9	2022-07-22 13:34:46.097978	CPT-9	f	PR
+8	2022-07-22 13:34:45.930413	CPT-8	f	Re
+7	2022-07-22 13:34:45.750381	CPT-7	f	Re
+6	2022-07-22 13:34:45.566072	CPT-6	f	PR
+5	2022-07-22 13:34:45.386847	CPT-5	f	PR
+4	2022-07-22 13:34:45.206238	CPT-4	f	PR
+1	2022-07-22 13:34:44.494788	CPT-P	f	Pr
+3	2022-07-22 13:34:44.986031	CPT-R	f	PR
+2	2022-07-22 13:34:44.79399	CPT-R	f	Re
 \.
 
 
@@ -1230,17 +1212,45 @@ COPY public.meter_configuration (id, created_date, idcompteur, inverse, type) FR
 -- Data for Name: meter_data; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.meter_data (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, idclient, idcompany, idcompteur, idsite, idpointcomptage, presence, puissance_reactive_qualite, qualite, source, horodatage) FROM stdin;
-1	2023-04-25 10:02:03.640926	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:00:00
-2	2023-04-25 10:03:46.639911	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:00:00
-3	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:10:00
-4	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:10:00
-5	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:20:00
-6	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:20:00
-7	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:30:00
-8	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:30:00
-9	2023-04-25 10:06:02.512679	0	99	0	30	Client_1	1	CPT-P	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:40:00
-10	2023-04-25 10:06:02.512679	0	101	0	31	Client_1	1	CPT-R	Diass	Point_1	\N	5	\N	\N	2022-01-02 00:40:00
+COPY public.meter_data (id, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, idcompany, idcompteur, idsite, idpointcomptage, presence, puissance_reactive_qualite, qualite, source, created_date) FROM stdin;
+87	0	99	0	30	2022-01-02 00:00:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+88	0	101	0	31	2022-01-02 00:00:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+89	0	99	0	30	2022-01-02 00:10:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+90	0	101	0	31	2022-01-02 00:10:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+91	0	99	0	30	2022-01-02 00:20:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+92	0	101	0	31	2022-01-02 00:20:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+93	0	99	0	30	2022-01-02 00:30:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+94	0	101	0	31	2022-01-02 00:30:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+95	0	99	0	30	2022-01-02 00:40:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+96	0	101	0	31	2022-01-02 00:40:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+97	0	99	0	30	2022-01-02 00:50:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+98	0	101	0	31	2022-01-02 00:50:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+99	0	99	0	30	2022-01-02 01:00:00	Client_1	\N	CPT-P	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+100	0	101	0	31	2022-01-02 01:00:00	Client_1	\N	CPT-R	DIASS	Point_1	\N	5	\N	\N	2023-05-12 18:16:05.447093
+197	0	\N	0	31	2022-01-31 23:59:52	Client_1	1	\N	\N	\N	0	5	5	Se	2023-05-12 21:53:57
+198	0	101	0	30	2022-02-01 00:09:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+199	0	99	0	31	2022-02-01 00:19:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+200	0	101	\N	30	2022-02-01 00:29:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+201	0	99	0	\N	2022-02-01 00:39:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+202	0	101	0	30	2022-02-01 00:49:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+203	0	99	0	31	2022-02-01 00:59:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+204	0	101	0	30	2022-02-01 01:09:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+205	0	99	0	31	2022-02-01 01:19:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+206	0	101	0	30	2022-02-01 01:29:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+207	0	99	0	31	2022-02-01 01:39:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+208	0	101	0	\N	2022-02-01 01:49:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:53:57
+209	0	\N	0	31	2022-01-31 23:59:52	Client_1	1	\N	\N	\N	0	5	5	Se	2023-05-12 21:54:23
+210	0	101	0	30	2022-02-01 00:09:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+211	0	99	0	31	2022-02-01 00:19:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+212	0	101	\N	30	2022-02-01 00:29:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+213	0	99	0	\N	2022-02-01 00:39:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+214	0	101	0	30	2022-02-01 00:49:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+215	0	99	0	31	2022-02-01 00:59:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+216	0	101	0	30	2022-02-01 01:09:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+217	0	99	0	31	2022-02-01 01:19:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+218	0	101	0	30	2022-02-01 01:29:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+219	0	99	0	31	2022-02-01 01:39:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
+220	0	101	0	\N	2022-02-01 01:49:52	Client_1	1	\N	\N	\N	2	5	5	Se	2023-05-12 21:54:23
 \.
 
 
@@ -1249,18 +1259,30 @@ COPY public.meter_data (id, created_date, dataamoins, dataaplus, datarmoins, dat
 --
 
 COPY public.meter_data_source_externe (id, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, presence, qualite, source) FROM stdin;
-205	2023-05-08 17:28:18	0	\N	0	30	2022-01-01 23:59:52	Client_1	0	5	Se
-206	2023-05-08 17:28:18	0	99.567	0	30	2022-01-02 00:09:52	Client_1	2	5	Se
-207	2023-05-08 17:28:18	0	100	0	30	2022-01-02 00:19:52	Client_1	2	5	Se
-208	2023-05-08 17:28:18	0	99999.5	\N	30	2022-01-02 00:29:52	Client_1	2	5	Se
-209	2023-05-08 17:28:18	0	99	0	30	2022-01-02 00:39:52	Client_1	2	5	Se
-210	2023-05-08 17:28:18	0	99	90	30	2022-01-02 00:49:52	Client_1	2	5	Se
-211	2023-05-08 17:28:18	0	99	0	30	2022-01-02 00:59:52	Client_1	2	5	Se
-212	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:09:52	Client_1	2	5	Se
-213	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:19:52	Client_1	2	5	Se
-214	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:29:52	Client_1	2	5	Se
-215	2023-05-08 17:28:18	0	99	0	30	2022-01-02 01:39:52	Client_1	2	5	Se
-216	2023-05-08 17:28:18	0	99	0	\N	2022-01-02 01:49:52	Client_1	2	5	Se
+1157	2023-05-12 21:53:57	0	\N	0	31	2022-01-31 23:59:52	Client_1	0	5	Se
+1158	2023-05-12 21:53:57	0	101	0	30	2022-02-01 00:09:52	Client_1	2	5	Se
+1159	2023-05-12 21:53:57	0	99	0	31	2022-02-01 00:19:52	Client_1	2	5	Se
+1160	2023-05-12 21:53:57	0	101	\N	30	2022-02-01 00:29:52	Client_1	2	5	Se
+1161	2023-05-12 21:53:57	0	99	0	\N	2022-02-01 00:39:52	Client_1	2	5	Se
+1162	2023-05-12 21:53:57	0	101	0	30	2022-02-01 00:49:52	Client_1	2	5	Se
+1163	2023-05-12 21:53:57	0	99	0	31	2022-02-01 00:59:52	Client_1	2	5	Se
+1164	2023-05-12 21:53:57	0	101	0	30	2022-02-01 01:09:52	Client_1	2	5	Se
+1165	2023-05-12 21:53:57	0	99	0	31	2022-02-01 01:19:52	Client_1	2	5	Se
+1166	2023-05-12 21:53:57	0	101	0	30	2022-02-01 01:29:52	Client_1	2	5	Se
+1167	2023-05-12 21:53:57	0	99	0	31	2022-02-01 01:39:52	Client_1	2	5	Se
+1168	2023-05-12 21:53:57	0	101	0	\N	2022-02-01 01:49:52	Client_1	2	5	Se
+1169	2023-05-12 21:54:23	0	\N	0	31	2022-01-31 23:59:52	Client_1	0	5	Se
+1170	2023-05-12 21:54:23	0	101	0	30	2022-02-01 00:09:52	Client_1	2	5	Se
+1171	2023-05-12 21:54:23	0	99	0	31	2022-02-01 00:19:52	Client_1	2	5	Se
+1172	2023-05-12 21:54:23	0	101	\N	30	2022-02-01 00:29:52	Client_1	2	5	Se
+1173	2023-05-12 21:54:23	0	99	0	\N	2022-02-01 00:39:52	Client_1	2	5	Se
+1174	2023-05-12 21:54:23	0	101	0	30	2022-02-01 00:49:52	Client_1	2	5	Se
+1175	2023-05-12 21:54:23	0	99	0	31	2022-02-01 00:59:52	Client_1	2	5	Se
+1176	2023-05-12 21:54:23	0	101	0	30	2022-02-01 01:09:52	Client_1	2	5	Se
+1177	2023-05-12 21:54:23	0	99	0	31	2022-02-01 01:19:52	Client_1	2	5	Se
+1178	2023-05-12 21:54:23	0	101	0	30	2022-02-01 01:29:52	Client_1	2	5	Se
+1179	2023-05-12 21:54:23	0	99	0	31	2022-02-01 01:39:52	Client_1	2	5	Se
+1180	2023-05-12 21:54:23	0	101	0	\N	2022-02-01 01:49:52	Client_1	2	5	Se
 \.
 
 
@@ -1353,10 +1375,14 @@ COPY public.users_questions_answers (id, answer, id_question, id_user) FROM stdi
 
 
 --
--- Data for Name: work_table; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: work_table; Type: TABLE DATA; Schema: public; Owner: maoumi
 --
 
-COPY public.work_table (id, attente_action, commentaires, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, idcompteur, idpointcomptage, presence, qualite, source, validation) FROM stdin;
+COPY public.work_table (id, attente_action, created_date, dataamoins, dataaplus, datarmoins, datarplus, horodatage, idclient, idcompteur, idpointcomptage, presence, qualite, source, validation, commentaires) FROM stdin;
+1	non	2023-04-23 17:44:05	\N	\N	\N	56	2023-04-28 09:10:00	SENELEC	CPT-P	BART	\N	\N	Pr	valid├®e	wcwxc
+2	non	2023-04-24 23:05:17	\N	\N	\N	56	2023-04-28 09:10:00	SENELEC	CPT-R	BART	\N	\N	Re	valid├®e	wcwxc
+3	non	2023-04-24 23:05:17	\N	\N	\N	32.0	2023-04-28 09:20:00	SENELEC	CPT-P	BART	\N	\N	Pr	valid├®e	wcwxc
+4	non	2023-05-08 15:36:50.867501	10	15	15	65	2023-04-26 09:10:00	SENELEC	CPT-P	BART	\N	\N	Pr	\N	\N
 \.
 
 
@@ -1455,14 +1481,14 @@ SELECT pg_catalog.setval('public.meter_configuration_id_seq', 1, false);
 -- Name: meter_data_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.meter_data_id_seq', 10, true);
+SELECT pg_catalog.setval('public.meter_data_id_seq', 220, true);
 
 
 --
 -- Name: meter_data_source_externe_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.meter_data_source_externe_id_seq', 216, true);
+SELECT pg_catalog.setval('public.meter_data_source_externe_id_seq', 1180, true);
 
 
 --
@@ -1498,13 +1524,6 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.users_questions_answers_id_seq', 1, false);
-
-
---
--- Name: work_table_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.work_table_id_seq', 1, false);
 
 
 --
@@ -1721,14 +1740,6 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users_questions_answers
     ADD CONSTRAINT users_questions_answers_pkey PRIMARY KEY (id);
-
-
---
--- Name: work_table work_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.work_table
-    ADD CONSTRAINT work_table_pkey PRIMARY KEY (id);
 
 
 --
