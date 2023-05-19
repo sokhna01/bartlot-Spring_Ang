@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/login")
 // @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class LoginController {
+
     @Autowired
     private LoginWeb loginCompanyWeb;
 

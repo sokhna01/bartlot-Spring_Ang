@@ -8,6 +8,7 @@ import com.bartlot.Server.service.MeterDataService;
 import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
+import com.bartlot.Server.service.Task7Service;
 import com.bartlot.Server.service.Task3Service;
 
 import java.util.HashMap;
@@ -43,6 +44,9 @@ public class MeterDataController {
     private Task4Service task4Service;
 
     @Autowired
+    private Task7Service task7Service;
+
+    @Autowired
     private MeterConfigRepository meterConfigRepository;
 
     @PostMapping("/upload")
@@ -72,7 +76,7 @@ public class MeterDataController {
 
             task1Service.readXLSXFile(filename, idCompany);
         } else {
-
+            System.out.println("testtt");
             task1Service.readXLSXFileForNextTask1(filename, idCompany);
         }
 
@@ -113,7 +117,6 @@ public class MeterDataController {
         task4Service.executeTask4(idCompany);
 
         map.put("msg", "update_ok");
-
         return ResponseEntity.ok(map);
 
     }
@@ -149,5 +152,11 @@ public class MeterDataController {
     public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
         List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
         return ResponseEntity.ok().body(selectListData);
+    }
+
+    @PostMapping("/tache7")
+    public ResponseEntity<String> insertMDIntoWorkTable() {
+        task7Service.insertMDIntoWorkTable();
+        return ResponseEntity.ok("Données insérées dans la table de travail.");
     }
 }

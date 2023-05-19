@@ -56,4 +56,6 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Query("SELECT md FROM MeterDataEntity md WHERE md.idClient = :idClient")
         MeterDataEntity findByClientId(@Param("idClient") String idClient);
 
+        @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompteur = 'CPT-P'")
+        List<MeterDataEntity> findAllByIdCompteur();
 }

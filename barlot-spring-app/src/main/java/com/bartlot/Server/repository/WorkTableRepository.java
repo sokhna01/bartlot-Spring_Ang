@@ -11,36 +11,37 @@ import org.springframework.data.jpa.repository.Query;
 import com.bartlot.Server.entity.WorkTableEntity;
 
 public interface WorkTableRepository extends JpaRepository<WorkTableEntity, Integer> {
-    @Query("SELECT md.horodatage FROM WorkTableEntity md ORDER BY md.horodatage DESC LIMIT 1")
-    Timestamp findLastRecentRowDate();
+        @Query("SELECT md.horodatage FROM WorkTableEntity md ORDER BY md.horodatage DESC LIMIT 1")
+        Timestamp findLastRecentRowDate();
 
-    @Query("SELECT wt FROM WorkTableEntity wt WHERE "
-            + "(wt.dataAPlus IS NULL OR wt.dataAPlus = '' "
-            + "OR wt.dataAMoins IS NULL OR wt.dataAMoins = '' "
-            + "OR wt.dataRPlus IS NULL OR wt.dataRPlus = '' "
-            + "OR wt.dataRMoins IS NULL OR wt.dataRMoins = '' "
-            + "OR (wt.commentaire = 'Données disponibles sur compteur principal' AND wt.attenteAction = 'oui')) "
-            + "AND wt.horodatage BETWEEN :startDate AND :endDate")
-    List<WorkTableEntity> findByHorodatageBetweenOrderByHoradotageAsc(Date startDate, Date endDate);
+        @Query("SELECT wt FROM WorkTableEntity wt WHERE "
+                        + "(wt.dataAPlus IS NULL OR wt.dataAPlus = '' "
+                        + "OR wt.dataAMoins IS NULL OR wt.dataAMoins = '' "
+                        + "OR wt.dataRPlus IS NULL OR wt.dataRPlus = '' "
+                        + "OR wt.dataRMoins IS NULL OR wt.dataRMoins = '' "
+                        + "OR (wt.commentaire = 'Données disponibles sur compteur principal' AND wt.attenteAction = 'oui')) "
+                        + "AND wt.horodatage BETWEEN :startDate AND :endDate")
+        List<WorkTableEntity> findByHorodatageBetweenOrderByHoradotageAsc(Date startDate, Date endDate);
 
-    @Modifying
-    @Transactional
-    @Query("update WorkTableEntity md set md.dataAPlus = :dataAPlus,"
-            + "md.dataAMoins = :dataAMoins, md.dataRPlus = :dataRPlus, md.dataRMoins = :dataRMoins,"
-            + "md.commentaire = :commentaire,validation = 'validée',attenteAction ='non' where md.horodatage = :horodatage")
-    void update(Timestamp horodatage, String dataAPlus, String dataAMoins, String dataRPlus, String dataRMoins,
-            String commentaire);
+        @Modifying
+        @Transactional
+        @Query("update WorkTableEntity md set md.dataAPlus = :dataAPlus,"
+                        + "md.dataAMoins = :dataAMoins, md.dataRPlus = :dataRPlus, md.dataRMoins = :dataRMoins,"
+                        + "md.commentaire = :commentaire,validation = 'validée',attenteAction ='non' where md.horodatage = :horodatage")
+        void update(Timestamp horodatage, String dataAPlus, String dataAMoins, String dataRPlus, String dataRMoins,
+                        String commentaire);
 
-    @Query("SELECT wt FROM WorkTableEntity wt WHERE "
-            + "wt.dataAPlus IS NOT NULL OR wt.dataAPlus != '' AND "
-            + "wt.dataAMoins IS NOT NULL OR wt.dataAMoins != '' AND "
-            + "wt.dataRPlus IS NOT NULL OR wt.dataRPlus != '' AND "
-            + "wt.dataRMoins IS NOT NULL OR wt.dataRMoins != '' AND "
-            + "wt.horodatage < :horodatage")
-    List<WorkTableEntity> findByHorodatage(Timestamp horodatage);
+        @Query("SELECT wt FROM WorkTableEntity wt WHERE "
+                        + "wt.dataAPlus IS NOT NULL OR wt.dataAPlus != '' AND "
+                        + "wt.dataAMoins IS NOT NULL OR wt.dataAMoins != '' AND "
+                        + "wt.dataRPlus IS NOT NULL OR wt.dataRPlus != '' AND "
+                        + "wt.dataRMoins IS NOT NULL OR wt.dataRMoins != '' AND "
+                        + "wt.horodatage < :horodatage")
+        List<WorkTableEntity> findByHorodatage(Timestamp horodatage);
 
-    // @Query("SELECT wt FROM WorkTableEntity wt WHERE wt.horodatage = :horodatage
-    // AND wt.idCompteur = :idCompteur ")
-    // WorkTableEntity findByHorodatageAndIdCompteur(Timestamp horodatage, String
-    // idCompteur);
+        @Query("SELECT wt FROM WorkTableEntity wt WHERE "
+                        + "wt.horodatage = :horodatage AND "
+                        + "wt.idCompteur = :idCompteur ")
+        List<WorkTableEntity> existsByHorodatageAndIdCompteur(Timestamp horodatage, String idCompteur);
+
 }

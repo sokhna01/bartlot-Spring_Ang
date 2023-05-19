@@ -33,8 +33,7 @@ public class MeterDataExterneController {
         Map<String, String> map = new HashMap<String, String>();
         String idClient = strIdClient;
 
-        task5Service.readXLSXFile(file, idClient, intIdCompany);
-        // task6Service.readXLSXFile(file, idClient, intIdCompany);
+        task5Service.readXLSXFileForExt(file, idClient, intIdCompany);
 
         map.put("msg", "insert_ok");
         return ResponseEntity.ok(map);

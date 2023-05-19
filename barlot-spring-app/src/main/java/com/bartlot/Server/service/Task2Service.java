@@ -21,6 +21,7 @@ public class Task2Service {
 
     @Autowired
     private MeterDataService meterDataService;
+
     @Autowired
     private MeterDataRepository meterDataRepository;
 

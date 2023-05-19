@@ -142,8 +142,8 @@ public class Task1Service {
     public void readXLSXFileForNextTask1(String fileName, int idCompany) {
         // taches 1
         try {
-            File file = new File(Common.meterDataPath + idCompany + "/" + fileName);
-
+            File file = new File(Common.meterDataPath + "/" + idCompany + "/" + fileName);
+            System.out.println("Filename" + file);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();

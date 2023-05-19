@@ -16,6 +16,7 @@ public class Task3Service {
 
     @Autowired
     private MeterDataService meterDataService;
+
     @Autowired
     private MeterConfigService meterConfigService;
 

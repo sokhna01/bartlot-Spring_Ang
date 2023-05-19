@@ -16,6 +16,9 @@ public class WorkTableEntity {
     @Column(name = "idclient")
     private String idClient;
 
+    @Column(name = "idsite")
+    private String idSite;
+
     @Column(name = "idpointcomptage")
     private String pointComptageId;
 
@@ -26,16 +29,16 @@ public class WorkTableEntity {
     private Timestamp horodatage;
 
     @Column(name = "dataaplus")
-    private String dataAPlus;
+    private Double dataAPlus;
 
     @Column(name = "dataamoins")
-    private String dataAMoins;
+    private Double dataAMoins;
 
     @Column(name = "datarplus")
-    private String dataRPlus;
+    private Double dataRPlus;
 
     @Column(name = "datarmoins")
-    private String dataRMoins;
+    private Double dataRMoins;
 
     @Column(name = "created_date", columnDefinition = "timestamp without time zone default now()")
     private Timestamp createdDate;
@@ -76,6 +79,14 @@ public class WorkTableEntity {
         this.idClient = idClient;
     }
 
+    public String getIdSite() {
+        return idSite;
+    }
+
+    public void setIdSite(String idSite) {
+        this.idSite = idSite;
+    }
+
     public String getPointComptageId() {
         return pointComptageId;
     }
@@ -100,35 +111,35 @@ public class WorkTableEntity {
         this.horodatage = horodatage;
     }
 
-    public String getDataAPlus() {
+    public Double getDataAPlus() {
         return dataAPlus;
     }
 
-    public void setDataAPlus(String dataAPlus) {
+    public void setDataAPlus(Double dataAPlus) {
         this.dataAPlus = dataAPlus;
     }
 
-    public String getDataAMoins() {
+    public Double getDataAMoins() {
         return dataAMoins;
     }
 
-    public void setDataAMoins(String dataAMoins) {
+    public void setDataAMoins(Double dataAMoins) {
         this.dataAMoins = dataAMoins;
     }
 
-    public String getDataRPlus() {
+    public Double getDataRPlus() {
         return dataRPlus;
     }
 
-    public void setDataRPlus(String dataRPlus) {
+    public void setDataRPlus(Double dataRPlus) {
         this.dataRPlus = dataRPlus;
     }
 
-    public String getDataRMoins() {
+    public Double getDataRMoins() {
         return dataRMoins;
     }
 
-    public void setDataRMoins(String dataRMoins) {
+    public void setDataRMoins(Double dataRMoins) {
         this.dataRMoins = dataRMoins;
     }
 

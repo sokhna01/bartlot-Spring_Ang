@@ -24,10 +24,10 @@ import java.util.List;
 public class Task5Service {
 
     @Autowired
-    private MeterDataService meterDataService;
+    private MeterDataExterneService meterDataExterneService;
 
     @Autowired
-    private MeterDataExterneService meterDataExterneService;
+    private MeterDataService meterDataService;
 
     @Autowired
     private Task3Service task3Service;
@@ -100,7 +100,8 @@ public class Task5Service {
 
                 meterData.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
 
-                String presence = task3Service.getPresenceValue(meterData, meterData.getDataAPlus(),
+                String presence = task3Service.getPresenceValue(meterData,
+                        meterData.getDataAPlus(),
                         meterData.getDataAMoins(), listCompteur);
 
                 meterData.setPresence(presence);
@@ -184,6 +185,8 @@ public class Task5Service {
                 String formattedTimestamp = dateFormat.format(currentTimestamp);
 
                 meterDataExterne.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
+                meterDataExterne.setSource("Se");
+                meterDataExterne.setQualite("5");
 
                 String presence = getPresenceValueExt(meterDataExterne,
                         meterDataExterne.getDataAPlus(),

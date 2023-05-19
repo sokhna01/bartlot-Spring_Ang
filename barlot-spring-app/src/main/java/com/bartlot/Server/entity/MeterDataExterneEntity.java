@@ -38,14 +38,14 @@ public class MeterDataExterneEntity {
     @Column(name = "created_date", columnDefinition = "timestamp without time zone default now()")
     private Timestamp createdDate;
 
-    @Column(name = "source", columnDefinition = "default 'Se'")
-    private String source = "Se";
+    @Column(name = "source")
+    private String source;
 
     @Column(name = "presence")
     private String presence;
 
-    @Column(name = "qualite", columnDefinition = "default '5'")
-    private String qualite = "5";
+    @Column(name = "qualite")
+    private String qualite;
 
     public Integer getId() {
         return id;

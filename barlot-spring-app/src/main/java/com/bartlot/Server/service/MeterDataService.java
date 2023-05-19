@@ -22,6 +22,7 @@ import com.bartlot.Server.config.Common;
 
 @Service
 public class MeterDataService {
+
     @Autowired
     private MeterDataRepository meterDataRepository;
 
@@ -63,18 +64,6 @@ public class MeterDataService {
         String response = "notOk";
         try {
             meterData.setIdCompany(idCompany);
-            meterDataRepository.save(meterData);
-            response = "ok";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-
-    public String insertRow(MeterDataEntity meterData, String idClient) {
-        String response = "notOk";
-        try {
-            meterData.setIdClient(idClient);
             meterDataRepository.save(meterData);
             response = "ok";
         } catch (Exception e) {

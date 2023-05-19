@@ -3,6 +3,7 @@ package com.bartlot.Server.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.bartlot.Server.entity.MeterDataExterneEntity;
@@ -13,5 +14,11 @@ public interface MeterDataExterneRepository extends JpaRepository<MeterDataExter
     // nativeQuery = true)
     @Query("SELECT e FROM MeterDataExterneEntity e WHERE e.idClient = :idClient")
     List<MeterDataExterneEntity> findAllSourceExterne(String idClient);
+
+    // @Modifying
+    // @Query("UPDATE MeterDataExterneEntity e SET e.presence = :presence, e.qualite
+    // = :qualite, e.source = :source WHERE e.id = :id")
+    // void updatePresenceQualiteSource(String idClient, String presence, String
+    // qualite);
 
 }

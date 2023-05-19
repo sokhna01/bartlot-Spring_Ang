@@ -12,6 +12,7 @@ import com.bartlot.Server.repository.MeterDataExterneRepository;
 
 @Service
 public class MeterDataExterneService {
+
     @Autowired
     private MeterDataExterneRepository meterDataExterneRepository;
 
