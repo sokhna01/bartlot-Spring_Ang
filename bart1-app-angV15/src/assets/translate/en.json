@@ -478,7 +478,6 @@
   "CLIENT ID": "Client ID",
   "SITE ID": "Site ID",
   "METERING POINT ID": "ID of the metering point",
-  "DATA FILE": "Data file",
   "SAVE":"Save",
   "SUCCESS_DATA_SAVE" : "The data has been successfully recorded!",
   "DOWNLOAD" : "Download",
@@ -489,5 +488,10 @@
   "NO_EXTERNAL_SOURCE_ADDED":"No external source added",
   "TASK5":"Task 5",
   "TASK6":"Task 6",
-  "TASK7":"Task 7"
+  "TASK7":"Task 7",
+  "ADD_EXTERNAL_FORM_TITLE": "Add data",
+  "SEARCH_CLIENT":"Search Client Id",
+  "SEARCH_SITE":"Search Site Id",
+  "SEARCH_POINT":"Search Metering point Id"
+
 }

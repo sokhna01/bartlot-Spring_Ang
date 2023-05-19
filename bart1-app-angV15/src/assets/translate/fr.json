@@ -480,7 +480,6 @@
   "CLIENT ID": "ID du client",
   "SITE ID": "ID du site",
   "METERING POINT ID": "ID du point de comptage",
-  "DATA FILE": "Fichier de données",
   "SAVE" : "Enregistrer",
   "SUCCESS_DATA_SAVE" : "Les données ont été enregistrées avec succès !",
   "DOWNLOAD" : "Télécharger",
@@ -491,5 +490,10 @@
   "NO_EXTERNAL_SOURCE_ADDED":"Aucune donnée de source externe n'est ajoutée",
   "TASK5":"Tâche 5",
   "TASK6":"Tâche 6",
-  "TASK7":"Tâche 7"
+  "TASK7":"Tâche 7",
+  "ADD_EXTERNAL_FORM_TITLE": "Ajouter les données",
+  "SEARCH_CLIENT":"Rechercher l'Id du client",
+  "SEARCH_SITE":"Rechercher l'Id du site",
+  "SEARCH_POINT":"Rechercher l'Id du point de comptage"
+
 }

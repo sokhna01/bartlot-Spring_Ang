@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Data, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service/data_service';
 import { MeterDataService } from 'src/app/services/meter-data/meter-data.service';
@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { BaseApp } from 'src/app/services/base-app/base_app';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 declare var $: any;
 
@@ -17,32 +18,40 @@ declare var $: any;
   styleUrls: ['./task5.component.css']
 })
 export class Task5Component implements OnInit {
+  clientSearchControl = new FormControl();
+
   regexDate = /^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}\s([01][0-9]|2[0-3]):[0-5][0-9]$/;
   regexDec =  /^\d+\.\d+$/;
   regexInt =  /^\d+$/;
- clients: any[] = [];
- sites: any[] = [];
- points: any[] = [];
 
- token!: string;
- baseUrl!: string;
+  clients: any[] = [];
+  filteredClients: string[] = []; 
 
- meterDataForm!: FormGroup;
- selectedFile!: File;
+  sites: any[] = [];
+  filteredSites: string[] = [];
 
- headers!: string[];
- isFileUploaded: boolean = false;
- rows!: any[][];
- meterData: any[][] = [];
+  points: any[] = [];
+  filteredPoints: string[] = [];
 
- showForm = true;
- rowIndex = -1;
- hasErrors: boolean = false;
+  token!: string;
+  baseUrl!: string;
 
- idCompany: any= localStorage.getItem('company_id');
+  meterDataForm!: FormGroup;
+  selectedFile!: File;
 
- isSaveEnabled: boolean = false;
- sizeOk: boolean = false;
+  headers!: string[];
+  isFileUploaded: boolean = false;
+  rows!: any[][];
+  meterData: any[][] = [];
+
+  showForm = true;
+  rowIndex = -1;
+  hasErrors: boolean = false;
+
+  idCompany: any= localStorage.getItem('company_id');
+
+  isSaveEnabled: boolean = false;
+  sizeOk: boolean = false;
 
  // displayedColumns: string[] = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
 
@@ -83,7 +92,42 @@ export class Task5Component implements OnInit {
        this.points[i] = data[i].idpointcomptage
      }
    });
+
+   this.clientSearchControl.valueChanges.pipe(
+    startWith(''), 
+    debounceTime(300), // Temps d'attente après la saisie avant de déclencher la recherche
+    distinctUntilChanged() // Ne déclenche la recherche que lorsque la valeur a changé
+  ).subscribe(value => {
+    this.filteredClients = this.filterClients(value);
+    this.filteredSites = this.filterSites(value);
+    this.filteredPoints = this.filterPoints(value);
+  });
  }
+
+  filterClients(value: string): string[] {
+  const filterValue = value.toLowerCase();
+  return this.clients.filter(client => client.toLowerCase().includes(filterValue));
+}
+
+  filterSites(value: string): string[] {
+  const filterValue = value.toLowerCase();
+  return this.sites.filter(site => site.toLowerCase().includes(filterValue));
+}
+
+  filterPoints(value: string): string[] {
+  const filterValue = value.toLowerCase();
+  return this.points.filter(point => point.toLowerCase().includes(filterValue));
+}
+
+onClientSelectionChange() {
+  const selectedClientId = this.meterDataForm.get('idClient')?.value;
+  this.filteredSites = this.sites.filter(site => {
+    // Remplacer condition par celle qui correspond à votre logique de correspondance entre client et site
+    return site.clientId === selectedClientId;
+  });
+}
+
+
  onSubmit() {
    if (this.rows) {
      const meterData = [
