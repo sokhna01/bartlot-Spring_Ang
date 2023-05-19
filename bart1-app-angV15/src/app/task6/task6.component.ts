@@ -23,6 +23,8 @@ export class Task6Component implements OnInit {
   rows!: any[][];
   headers!: string[];
 
+  empty: boolean = true;
+
 
 
   constructor(
@@ -45,96 +47,84 @@ export class Task6Component implements OnInit {
 
 
   ngOnInit() {
-    this.getXLSXFile();
+    if (!this.empty) {
+      this.getXLSXFile();
+    }
   }
+  
 
   getXLSXFile() {
-    //const idClient = this.meterDataService.idClient;
     const idClient = localStorage.getItem('idClient');
     const idCompany = localStorage.getItem('company_id');
-  if (idClient !== null) {
-    this.meterDataService.getCreatedXLSX(idClient, this.token, this.baseUrl)
-      .subscribe((blob: Blob) => {
-        const fileReader = new FileReader();
-        fileReader.onload = (e: any) => {
-          const binaryString = e.target.result;
-          const workbook = XLSX.read(binaryString, { type: 'binary' });
-          const firstSheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[firstSheetName];
-
-          let meterDataExterne: Array<Array<string>> = [];  // Initialize meterDataExterne
-          meterDataExterne = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as Array<Array<string>>;
-
-          for (let i = 0; i < meterDataExterne.length; i++) {
-            if (meterDataExterne[i].length < 8) {
-              meterDataExterne[i].push('');
-            } else if (meterDataExterne[i].length > 8) {
-              meterDataExterne[i].pop();
-            }
-          }
-          this.headers = meterDataExterne[0];
-          this.rows = meterDataExterne.slice(1).map((row: Array<string>, i: number) => {
-            const rowData: Array<string | number | null> = row.map((cell: string | number, j: number) => {
-              // if (j === 0 && typeof cell === 'number') {
-              //   let milliseconds = (cell - 2556) * 86400 * 1000;
-              //   milliseconds = ((milliseconds + 6) / 600000) * 600000;
-              //   const date = new Date(milliseconds);
-              //   const datePipe = new DatePipe('en-US');
-              //   return cell;
-
-              //    return datePipe.transform(date, 'dd/MM/yyyy HH:mm');
-              //   //return(milliseconds);            
-              // } 
-              if (j === 0 && typeof cell === 'number') {
-                const secondsInDay = 86400;
-                const excelStartDate = new Date(Date.UTC(1899, 11, 30, 0, 0, 0)); 
-                const excelDays = Math.floor(cell);
-                const excelTime = (cell - excelDays) * secondsInDay * 1000;
-                const excelDate = excelStartDate.getTime() + (excelDays * secondsInDay * 1000) + excelTime;
-                const date = new Date(excelDate);
-                date.setSeconds(date.getSeconds() + 9);
-                const datePipe = new DatePipe('en-US');
-                return datePipe.transform(date, 'yyyy-MM-dd HH:mm');
-              } else {
-                return cell;
+    
+    if (idClient !== null) {
+      this.meterDataService.getCreatedXLSX(idClient, this.token, this.baseUrl)
+        .subscribe((blob: Blob) => {
+          const fileReader = new FileReader();
+          fileReader.onload = (e: any) => {
+            const binaryString = e.target.result;
+            const workbook = XLSX.read(binaryString, { type: 'binary' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+  
+            let meterDataExterne: Array<Array<string>> = [];
+            meterDataExterne = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as Array<Array<string>>;
+  
+            for (let i = 0; i < meterDataExterne.length; i++) {
+              if (meterDataExterne[i].length < 8) {
+                meterDataExterne[i].push('');
+              } else if (meterDataExterne[i].length > 8) {
+                meterDataExterne[i].pop();
               }
-              
-              
-              
-              
-              
-            });
-            return rowData;
-          });
-
-          if (this.rows) {
-            const meterDataExterne = [
-              this.headers,
-              ...this.rows.filter((_, i) => true).map((row: Array<string | number | null>) => {
-                if (row.length < this.headers.length) {
-                  const diff = this.headers.length - row.length;
-                  const newRow = [...row, ...new Array(diff).fill(null)];
-                  return newRow;
+            }
+            this.headers = meterDataExterne[0];
+            this.rows = meterDataExterne.slice(1).map((row: Array<string>, i: number) => {
+              const rowData: Array<string | number | null> = row.map((cell: string | number, j: number) => {
+                if (j === 0 && typeof cell === 'number') {
+                  const secondsInDay = 86400;
+                  const excelStartDate = new Date(Date.UTC(1899, 11, 30, 0, 0, 0)); 
+                  const excelDays = Math.floor(cell);
+                  const excelTime = (cell - excelDays) * secondsInDay * 1000;
+                  const excelDate = excelStartDate.getTime() + (excelDays * secondsInDay * 1000) + excelTime;
+                  const date = new Date(excelDate);
+                  date.setSeconds(date.getSeconds() + 9);
+                  const datePipe = new DatePipe('en-US');
+                  return datePipe.transform(date, 'yyyy-MM-dd HH:mm');
                 } else {
-                  return row;
+                  return cell;
                 }
-              })
-            ];
-            this.meterDataExterne = meterDataExterne;
-          }
-
-        };
-
-        fileReader.readAsBinaryString(blob);
-      });
-
-  }else{
-    console.log("Client ID is null");
-    $("#failedModal").modal({ backdrop: "static" });
-
+              });
+              return rowData;
+            });
+  
+            if (this.rows && this.rows.length > 0) {
+              const meterDataExterne = [
+                this.headers,
+                ...this.rows.filter((_, i) => true).map((row: Array<string | number | null>) => {
+                  if (row.length < this.headers.length) {
+                    const diff = this.headers.length - row.length;
+                    const newRow = [...row, ...new Array(diff).fill(null)];
+                    return newRow;
+                  } else {
+                    return row;
+                  }
+                })
+              ];
+              this.meterDataExterne = meterDataExterne;
+              this.empty = false; // Set empty to false since the file returned data
+            } else {
+              this.empty = true; // Set empty to true if the file doesn't have any rows
+            }
+          };
+  
+          fileReader.readAsBinaryString(blob);
+        });
+    } else {
+      console.log("Client ID is null");
+      $("#failedModal").modal({ backdrop: "static" });
+    }
   }
-}
-
+  
   onDownload() {
     const filename = 'donnees_externe.xlsx';
   

@@ -485,6 +485,9 @@
   "SUCCESS_FILE_UPLOAD" : "File uploaded",
   "TASK5_CONFIRM_MESSAGE" : "Do you really want to execute task 5 ?",
   "TASK6_CONFIRM_MESSAGE" : "Do you really want to execute task 6 ?",
-  "CONFIRM_EXCEL_DOWNLOAD" : "Do you really want to upload the Excel file?"
-
+  "CONFIRM_EXCEL_DOWNLOAD" : "Do you really want to upload the Excel file?",
+  "NO_EXTERNAL_SOURCE_ADDED":"No external source added",
+  "TASK5":"Task 5",
+  "TASK6":"Task 6",
+  "TASK7":"Task 7"
 }

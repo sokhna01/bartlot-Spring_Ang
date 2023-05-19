@@ -487,6 +487,9 @@
   "SUCCESS_FILE_UPLOAD": "Le fichier est importé",
   "TASK5_CONFIRM_MESSAGE": "Voulez-vous vraiment exécuter la tâche 5 ?",
   "TASK6_CONFIRM_MESSAGE" : "Voulez-vous vraiment exécuter la tâche 6 ?",
-  "CONFIRM_EXCEL_DOWNLOAD": "Voulez-vous vraiment télécharger le fichier Excel ?"
-
+  "CONFIRM_EXCEL_DOWNLOAD": "Voulez-vous vraiment télécharger le fichier Excel ?",
+  "NO_EXTERNAL_SOURCE_ADDED":"Aucune donnée de source externe n'est ajoutée",
+  "TASK5":"Tâche 5",
+  "TASK6":"Tâche 6",
+  "TASK7":"Tâche 7"
 }
