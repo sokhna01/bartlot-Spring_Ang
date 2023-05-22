@@ -152,6 +152,7 @@ filterSites(clientValue: string): string[] {
 filterPoints(clientValue: string): string[] {
   const filteredPoints: string[] = [];
 
+<<<<<<< HEAD
   if (clientValue) {
     const selectedClient = clientValue.toLowerCase();
     for (const association of this.clientsData) {
@@ -162,6 +163,13 @@ filterPoints(clientValue: string): string[] {
   }
 
   return filteredPoints;
+=======
+onClientSelectionChange() {
+  const selectedClientId = this.meterDataForm.get('idClient')?.value;
+  this.filteredSites = this.sites.filter(site => {
+    return site.clientId === selectedClientId;
+  });
+>>>>>>> bdf770de37dd141d40eb605d4842269acdc3ba53
 }
 
 
