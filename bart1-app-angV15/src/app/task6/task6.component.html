@@ -1,6 +1,6 @@
-<h3 style="text-align: center; font-size: 30px; color: rgb(9, 151, 170);">{{'NO_EXTERNAL_SOURCE_ADDED' | translate}}</h3>
+<h3 style="text-align: center; font-size: 30px; color: rgb(9, 151, 170);" [hidden]="!empty">{{'NO_EXTERNAL_SOURCE_ADDED' | translate}}</h3>
 <!--Tableau des données-->
-<div id="container"  [hidden]="empty">
+<div id="container" [hidden]="empty" >
   <h2 style="text-align: center;">{{'DATA FROM EXTERNAL SOURCES' | translate}}</h2>
   <br>
   <table id="sourceExterneTable" class="table" *ngIf="meterDataExterne && meterDataExterne.length > 0">

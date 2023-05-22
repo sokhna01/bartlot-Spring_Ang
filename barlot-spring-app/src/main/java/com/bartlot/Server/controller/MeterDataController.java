@@ -2,6 +2,7 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.repository.MeterConfigRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.service.MeterDataService;
@@ -158,5 +159,10 @@ public class MeterDataController {
     public ResponseEntity<String> insertMDIntoWorkTable() {
         task7Service.insertMDIntoWorkTable();
         return ResponseEntity.ok("Données insérées dans la table de travail.");
+    }
+
+    @GetMapping("/clients")
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
+        return meterDataService.getAllClientsWithSitesAndPoints();
     }
 }

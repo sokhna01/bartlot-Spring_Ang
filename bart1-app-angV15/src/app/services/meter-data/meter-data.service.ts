@@ -46,5 +46,10 @@ export class MeterDataService {
     });
   }
 
+  getAllClientsWithSitesAndPoints(baseUrl: string, token: string): Observable<any> {
+    const url = baseUrl + 'clients';
+    let headers = new HttpHeaders({'Authorization': 'Bearer ' + token });
+    return this.http.get<any>(url, {headers});
+  }
 
 }

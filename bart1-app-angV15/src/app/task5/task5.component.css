@@ -47,3 +47,9 @@
   .null-cell{
     background-color: yellow;
   }
+
+  .invalid-form .mat-form-field-underline {
+    background-color: red;
+  }
+  
+  

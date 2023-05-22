@@ -11,6 +11,12 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 declare var $: any;
 
+interface ClientData {
+  idClient: string;
+  idSites: string[];
+  idPoints: string[];
+}
+
 
 @Component({
   selector: 'app-task5',
@@ -18,7 +24,10 @@ declare var $: any;
   styleUrls: ['./task5.component.css']
 })
 export class Task5Component implements OnInit {
-  clientSearchControl = new FormControl();
+
+  idClient = new FormControl();
+  idSite = new FormControl();
+  idPointComptage = new FormControl();
 
   regexDate = /^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}\s([01][0-9]|2[0-3]):[0-5][0-9]$/;
   regexDec =  /^\d+\.\d+$/;
@@ -32,6 +41,8 @@ export class Task5Component implements OnInit {
 
   points: any[] = [];
   filteredPoints: string[] = [];
+
+  clientsData: ClientData[] = [];
 
   token!: string;
   baseUrl!: string;
@@ -52,6 +63,8 @@ export class Task5Component implements OnInit {
 
   isSaveEnabled: boolean = false;
   sizeOk: boolean = false;
+
+
 
  // displayedColumns: string[] = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
 
@@ -77,54 +90,78 @@ export class Task5Component implements OnInit {
  }
 
  ngOnInit() {
-   this.meterDataForm = this.formBuilder.group({
-     idClient: ['', Validators.required],
-     idSite: ['', Validators.required],
-     idPointComptage: ['', Validators.required]
-   });
-   const token = localStorage.getItem("token");
-   this.baseUrl = this.baseApp.getBaseUrl();
-
-   this.meterDataService.getSelectListData(this.baseUrl, this.token).subscribe((data: any) => {
-     for (let i = 0; i < data.length; i++) {
-       this.sites[i] = data[i].idsite;
-       this.clients[i] = data[i].idclient;
-       this.points[i] = data[i].idpointcomptage
-     }
-   });
-
-   this.clientSearchControl.valueChanges.pipe(
-    startWith(''), 
-    debounceTime(300), // Temps d'attente après la saisie avant de déclencher la recherche
-    distinctUntilChanged() // Ne déclenche la recherche que lorsque la valeur a changé
-  ).subscribe(value => {
-    this.filteredClients = this.filterClients(value);
-    this.filteredSites = this.filterSites(value);
-    this.filteredPoints = this.filterPoints(value);
+  
+  this.meterDataForm = this.formBuilder.group({
+    idClient: ['', Validators.required],
+    idSite: ['', Validators.required],
+    idPointComptage: ['', Validators.required]
   });
- }
+  
+  
+  
+  const token = localStorage.getItem("token");
+  this.baseUrl = this.baseApp.getBaseUrl();
 
-  filterClients(value: string): string[] {
+  this.meterDataService.getSelectListData(this.baseUrl, this.token).subscribe((data: any) => {
+    for (let i = 0; i < data.length; i++) {
+      this.sites[i] = data[i].idsite;
+      this.clients[i] = data[i].idclient;
+      this.points[i] = data[i].idpointcomptage;
+    }
+  });
+
+  this.meterDataService.getAllClientsWithSitesAndPoints(this.baseUrl, this.token).subscribe((data: any) => {
+    this.clientsData = data;
+  });
+
+  this.idClient.valueChanges.pipe(
+    startWith(''), 
+    debounceTime(300),
+    distinctUntilChanged()
+  ).subscribe(clientValue => {
+    this.filteredClients = this.filterClients(clientValue);
+    this.filteredSites = this.filterSites(clientValue);
+    this.filteredPoints = this.filterPoints(clientValue);
+    
+    this.idSite.setValue('');
+    this.idPointComptage.setValue('');
+  });
+}
+
+filterClients(value: string): string[] {
   const filterValue = value.toLowerCase();
+
   return this.clients.filter(client => client.toLowerCase().includes(filterValue));
 }
 
-  filterSites(value: string): string[] {
-  const filterValue = value.toLowerCase();
-  return this.sites.filter(site => site.toLowerCase().includes(filterValue));
+filterSites(clientValue: string): string[] {
+  const filteredSites: string[] = [];
+
+  if (clientValue) {
+    const selectedClient = clientValue.toLowerCase();
+    for (const association of this.clientsData) {
+      if (association.idClient.toLowerCase() === selectedClient) {
+        filteredSites.push(...association.idSites);
+      }
+    }
+  }
+
+  return filteredSites;
 }
 
-  filterPoints(value: string): string[] {
-  const filterValue = value.toLowerCase();
-  return this.points.filter(point => point.toLowerCase().includes(filterValue));
-}
+filterPoints(clientValue: string): string[] {
+  const filteredPoints: string[] = [];
 
-onClientSelectionChange() {
-  const selectedClientId = this.meterDataForm.get('idClient')?.value;
-  this.filteredSites = this.sites.filter(site => {
-    // Remplacer condition par celle qui correspond à votre logique de correspondance entre client et site
-    return site.clientId === selectedClientId;
-  });
+  if (clientValue) {
+    const selectedClient = clientValue.toLowerCase();
+    for (const association of this.clientsData) {
+      if (association.idClient.toLowerCase() === selectedClient) {
+        filteredPoints.push(...association.idPoints);
+      }
+    }
+  }
+
+  return filteredPoints;
 }
 
 
@@ -144,8 +181,26 @@ onClientSelectionChange() {
      ];
      this.showForm = false;
      this.meterData = meterData;
-   }
+    } 
  }
+
+ isFormValid(): boolean {
+  const idClient = this.idClient.value;
+  const idSite = this.idSite.value;
+  const idPointComptage = this.idPointComptage.value;
+
+  return (
+    idClient !== '' &&
+    idSite !== '' &&
+    idPointComptage !== '' &&
+    this.isFileUploaded &&
+    this.filteredClients.includes(idClient) &&
+    this.filteredSites.includes(idSite) &&
+    this.filteredPoints.includes(idPointComptage)
+  );
+}
+
+
 
 
 onFileSelected(event: any) {
@@ -158,7 +213,7 @@ onFileSelected(event: any) {
     if (fileSize > 80000000 || fileType !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
       this.sizeOk = false;
       $("#BigSizeFileErrorModal").modal({ backdrop: "static" });
-    } else {
+    } else { 
       this.sizeOk = true;
     }
 
@@ -257,9 +312,9 @@ onFileSelected(event: any) {
          td.classList.toggle('invalid-cell', !isCellValid);
          
          const invalidCells = document.querySelectorAll('.invalid-cell');
-         const isFormValid = invalidCells.length === 0;
+         const isTableValid = invalidCells.length === 0;
 
-         this.isSaveEnabled = isFormValid;
+         this.isSaveEnabled = isTableValid;
        });
        
      }
@@ -296,7 +351,6 @@ onFileSelected(event: any) {
   //  this.meterDataService.idCompteur = idClient;
    this.meterDataService.idSite = idSite;
    this.meterDataService.idPointDeComptage = idPointComptage;
-
 
 
    this.meterDataService.insertXlsxToBD(idClient,this.idCompany, fileName, this.token, this.baseUrl, file).subscribe(

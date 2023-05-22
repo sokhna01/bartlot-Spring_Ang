@@ -47,15 +47,13 @@ export class Task6Component implements OnInit {
 
 
   ngOnInit() {
-    if (!this.empty) {
       this.getXLSXFile();
-    }
   }
   
 
   getXLSXFile() {
     const idClient = localStorage.getItem('idClient');
-    const idCompany = localStorage.getItem('company_id');
+    // const idCompany = localStorage.getItem('company_id');
     
     if (idClient !== null) {
       this.meterDataService.getCreatedXLSX(idClient, this.token, this.baseUrl)
@@ -111,10 +109,12 @@ export class Task6Component implements OnInit {
                 })
               ];
               this.meterDataExterne = meterDataExterne;
-              this.empty = false; // Set empty to false since the file returned data
-            } else {
-              this.empty = true; // Set empty to true if the file doesn't have any rows
+              if (this.meterDataExterne && this.meterDataExterne.length > 0) {
+                this.empty = false;
+              } else {
+                this.empty = true;
             }
+          }
           };
   
           fileReader.readAsBinaryString(blob);

@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5", "/selectListData",
                         "/get_xlsx_file", "/tache7",
                         "/insert_meter_data_externe", "/upload", "/getlistmeterdata", "/insert_meter_data",
-                        "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid")
+                        "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

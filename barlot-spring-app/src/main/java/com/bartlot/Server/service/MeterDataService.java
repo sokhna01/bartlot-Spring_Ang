@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.repository.MeterDataRepository;
 
 import java.sql.Timestamp;
@@ -250,5 +251,29 @@ public class MeterDataService {
             selectListData.add(selectListMap);
         }
         return selectListData;
+    }
+
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
+        List<Object[]> results = meterDataRepository.findAllSiteClientAndPointDeComptage();
+        Map<String, ClientSitePointAssociation> clientAssociationMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            String clientId = (String) result[0];
+            String siteId = (String) result[1];
+            String pointId = (String) result[2];
+
+            ClientSitePointAssociation clientAssociation = clientAssociationMap.get(clientId);
+            if (clientAssociation == null) {
+                clientAssociation = new ClientSitePointAssociation();
+                clientAssociation.setIdClient(clientId);
+                clientAssociation.setIdSites(new ArrayList<>());
+                clientAssociation.setIdPoints(new ArrayList<>());
+                clientAssociationMap.put(clientId, clientAssociation);
+            }
+            clientAssociation.getIdSites().add(siteId);
+            clientAssociation.getIdPoints().add(pointId);
+        }
+
+        return new ArrayList<>(clientAssociationMap.values());
     }
 }

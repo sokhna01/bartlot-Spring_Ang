@@ -1,65 +1,84 @@
 <h2 style="text-align: center;">{{'DATA FROM EXTERNAL SOURCES' | translate}}</h2>
 <br>
-<div class="card text-center" 
-     style="background-color: rgb(225, 234, 234); width: 70%; margin-left: 13%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);"  *ngIf="showForm">
+<div class="card text-center"
+  style="background-color: rgb(225, 234, 234); width: 70%; margin-left: 13%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);"
+  *ngIf="showForm">
   <mat-card-header class="mat-primary d-flex justify-content-center align-items-center">
     <mat-card-title>{{ 'ADD_EXTERNAL_FORM_TITLE' | translate }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="d-flex justify-content-center align-items-center">
+    
     <form [formGroup]="meterDataForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="form-group" style="width: 90%">
+
+      <mat-form-field class="form-group" style="width: 90%" >
         <mat-label>{{ 'CLIENT ID' | translate }}</mat-label>
-        <input matInput [formControl]="clientSearchControl" placeholder="{{ 'SEARCH_CLIENT' | translate }}" [disabled]="filteredClients.length === 0" />
-        <mat-select formControlName="idClient">
-          <mat-option disabled selected>{{ 'CLIENT ID' | translate }}</mat-option>
+
+        <input matInput 
+        [formControl]="idClient" 
+        placeholder="{{ 'SEARCH_CLIENT' | translate }}"
+        [matAutocomplete]="autoClient"
+        required/>
+
+        <mat-autocomplete #autoClient="matAutocomplete">
           <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
-        </mat-select>
+        </mat-autocomplete>
+
       </mat-form-field>
-      
 
       <br>
-      <mat-form-field class="form-group"  style="width: 90%">
+      <mat-form-field class="form-group" style="width: 90%">
         <mat-label>{{ 'SITE ID' | translate }}</mat-label>
-        <input matInput [formControl]="clientSearchControl" placeholder="{{ 'SEARCH_SITE' | translate }}" [disabled]="filteredSites.length === 0"  />
-        <mat-select formControlName="idSite">
-          <mat-option disabled selected>{{ 'SITE ID' | translate }}</mat-option>
+
+        <input matInput 
+        [formControl]="idSite"
+        placeholder="{{ 'SEARCH_SITE' | translate }}"
+        [matAutocomplete]="autoSite"
+        required/>
+
+        <mat-autocomplete #autoSite="matAutocomplete">
           <mat-option *ngFor="let site of filteredSites" [value]="site">{{ site }}</mat-option>
-        </mat-select>
+        </mat-autocomplete>
+
       </mat-form-field>
+      
       <br>
-      <mat-form-field class="form-group"  style="width: 90%">
+
+      <mat-form-field class="form-group" style="width: 90%">
         <mat-label>{{ 'METERING POINT ID' | translate }}</mat-label>
-        <input matInput [formControl]="clientSearchControl" placeholder="{{ 'SEARCH_POINT' | translate }}" [disabled]="filteredPoints.length === 0"  />
-        <mat-select formControlName="idPointComptage">
-          <mat-option disabled selected>{{ 'METERING POINT ID' | translate }}</mat-option>
+
+        <input matInput [formControl]="idPointComptage" 
+        placeholder="{{ 'SEARCH_POINT' | translate }}"
+        [matAutocomplete]="autoPoint"
+        required/>
+
+        <mat-autocomplete #autoPoint="matAutocomplete">
           <mat-option *ngFor="let point of filteredPoints" [value]="point">{{ point }}</mat-option>
-        </mat-select>
+        </mat-autocomplete>
+        
       </mat-form-field>
       <br>
       <div class="form-group" style="margin-left: 35%;">
         <div class="d-flex justify-content-center">
-          <input type="file" class="form-control-file custom-file-input" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx" style="width: 300px;">
+          <input type="file" class="form-control-file custom-file-input" id="fileInput"
+            (change)="onFileSelected($event)" accept=".xlsx" style="width: 300px;">
         </div>
-      </div>      
+      </div>
       <br>
       <div class="d-flex justify-content-center">
-        <button mat-raised-button color="primary" type="submit" [disabled]="meterDataForm.invalid || !isFileUploaded">{{ 'SUBMIT' | translate }}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()">{{
+          'SUBMIT' | translate }}</button>
       </div>
     </form>
   </mat-card-content>
 </div>
 
 
-
-
-
-
-
 <!--Tableau des données-->
 <table id="displayTable" class="table" *ngIf="!showForm && meterData && meterData.length > 0">
   <thead>
     <tr>
-      <th *ngFor="let header of meterData[0]; let i = index" [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : ''}">
+      <th *ngFor="let header of meterData[0]; let i = index"
+        [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : ''}">
         {{ header }}
       </th>
     </tr>
@@ -75,11 +94,14 @@
     </tr>
   </tbody>
   <br>
-<div>
-  <button type="button" class="btn btn-primary" (click)="onCancel()">{{'REGISTRATION_CONFIRM_CANCEL' | translate}}</button>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <button type="button" class="btn btn-primary" [disabled]="!isSaveEnabled"  data-toggle="modal" data-target="#confirmModalnow">{{'SAVE' | translate}}</button>
-</div>
+  <div>
+    <button type="button" class="btn btn-primary" (click)="onCancel()">{{'REGISTRATION_CONFIRM_CANCEL' |
+      translate}}</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" [disabled]="!isSaveEnabled" data-toggle="modal"
+      data-target="#confirmModalnow">{{'SAVE' | translate}}</button>
+  </div>
+
 </table>
 
 
@@ -97,10 +119,8 @@
         <p>{{'Do you really want to execute task 5' | translate}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"
-          (click)="onSave()">{{ 'CONFIRM_CONFIRM' | translate }}</button>
-        <button type="button" class="btn btn-default"
-          data-dismiss="modal">{{ 'CONFIRM_CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">{{ 'CONFIRM_CONFIRM' | translate }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CONFIRM_CANCEL' | translate }}</button>
       </div>
     </div>
 
@@ -120,7 +140,8 @@
         <p>{{'SUCCESS_DATA_SAVE' | translate}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onModalCancel()">{{ 'CLOSE_BUTTON' | translate }}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onModalCancel()">{{ 'CLOSE_BUTTON' |
+          translate }}</button>
       </div>
     </div>
 
@@ -165,6 +186,3 @@
     </div>
   </div>
 </div>
-
-
-

@@ -23,6 +23,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FileUploadModule } from 'ng2-file-upload';
 
 /*
@@ -100,6 +101,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
+    MatAutocompleteModule,
 
     TranslateModule.forRoot({
       loader: {
