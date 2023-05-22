@@ -122,7 +122,6 @@ export class Task5Component implements OnInit {
 onClientSelectionChange() {
   const selectedClientId = this.meterDataForm.get('idClient')?.value;
   this.filteredSites = this.sites.filter(site => {
-    // Remplacer condition par celle qui correspond à votre logique de correspondance entre client et site
     return site.clientId === selectedClientId;
   });
 }
