@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { BaseApp } from '../services/base-app/base_app';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -16,7 +16,7 @@ import { ListMeterServiceService } from '../services/service/list-meter-service.
   templateUrl: './result-update-source-demo.component.html',
   styleUrls: ['./result-update-source-demo.component.css']
 })
-export class ResultUpdateSourceDemoComponent implements AfterViewInit {
+export class ResultUpdateSourceDemoComponent implements OnInit {
   baseUrl: string;
   token!: string;
   pickupDate!: Date;
@@ -57,7 +57,7 @@ export class ResultUpdateSourceDemoComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     console.log('Outside route');
     this.sub = this.route.params.subscribe(params => {
       this.pickupDate_string = params['pickup_date'];

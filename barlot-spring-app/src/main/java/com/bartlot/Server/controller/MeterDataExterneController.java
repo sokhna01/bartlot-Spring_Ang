@@ -3,6 +3,7 @@ package com.bartlot.Server.controller;
 import com.bartlot.Server.service.Task5Service;
 import com.bartlot.Server.service.Task6Service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +34,18 @@ public class MeterDataExterneController {
         Map<String, String> map = new HashMap<String, String>();
         String idClient = strIdClient;
 
-        task5Service.readXLSXFileForExt(file, idClient, intIdCompany);
+        task5Service.readXLSXFile(file, idClient, intIdCompany);
 
         map.put("msg", "insert_ok");
         return ResponseEntity.ok(map);
     }
 
     @GetMapping("/get_xlsx_file")
-    public ResponseEntity<byte[]> createXLSXFile(@RequestParam("idClient") String idClient) {
+    public ResponseEntity<byte[]> createXLSXFile(@RequestParam("idClient") String idClient, Integer idCompany)
+            throws SQLException {
         System.out.println("Id du client" + idClient);
 
+        task6Service.executeTask6(idClient, idCompany);
         byte[] fileContent = task6Service.generateXLSXFile(idClient);
 
         HttpHeaders headers = new HttpHeaders();
@@ -52,6 +55,17 @@ public class MeterDataExterneController {
                 .headers(headers)
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(fileContent);
+    }
+
+    @PostMapping("/tache6")
+    public ResponseEntity<?> executeTask6(@RequestParam("idClient") String strIdClient,
+            @RequestParam("idCompany") Integer intIdCompany) throws SQLException {
+
+        Map<String, String> map = new HashMap<String, String>();
+        String idClient = strIdClient;
+
+        map.put("msg", "insert_ok");
+        return ResponseEntity.ok(map);
     }
 
 }

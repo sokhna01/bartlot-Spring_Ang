@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { BaseApp } from '../services/base-app/base_app';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -14,7 +14,7 @@ import { ListMeterServiceService } from '../services/service/list-meter-service.
   templateUrl: './result-upload-missed-data-demo.component.html',
   styleUrls: ['./result-upload-missed-data-demo.component.css']
 })
-export class ResultUploadMissedDataDemoComponent implements AfterViewInit {
+export class ResultUploadMissedDataDemoComponent implements OnInit {
   baseUrl: string;
   token!: string;
   pickupDate!: Date;
@@ -60,7 +60,7 @@ export class ResultUploadMissedDataDemoComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     console.log('Outside route');
     this.sub = this.route.params.subscribe(params => {
       this.pickupDate_string = params['pickup_date'];

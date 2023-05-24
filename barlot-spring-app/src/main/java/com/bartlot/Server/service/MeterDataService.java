@@ -241,15 +241,40 @@ public class MeterDataService {
 
     public List<Map<String, Object>> findAllClientSitePointComptage() {
         List<Object[]> results = meterDataRepository.findAllSiteClientAndPointDeComptage();
-        List<Map<String, Object>> selectListData = new ArrayList<>();
+        Map<String, List<String>> siteMap = new HashMap<>();
+        Map<String, List<String>> clientMap = new HashMap<>();
+        Map<String, List<String>> pointComptageMap = new HashMap<>();
 
         for (Object[] result : results) {
-            Map<String, Object> selectListMap = new HashMap<>();
-            selectListMap.put("idclient", result[0]);
-            selectListMap.put("idsite", result[1]);
-            selectListMap.put("idpointcomptage", result[2]);
-            selectListData.add(selectListMap);
+            String client = (String) result[0];
+            String site = (String) result[1];
+            String pointComptage = (String) result[2];
+
+            if (client != null) {
+                clientMap.computeIfAbsent(client, k -> new ArrayList<>()).add(client);
+            }
+            if (site != null) {
+                siteMap.computeIfAbsent(site, k -> new ArrayList<>()).add(site);
+            }
+            if (pointComptage != null) {
+                pointComptageMap.computeIfAbsent(pointComptage, k -> new ArrayList<>()).add(pointComptage);
+            }
         }
+
+        List<Map<String, Object>> selectListData = new ArrayList<>();
+
+        Map<String, Object> siteClientPointMap = new HashMap<>();
+        if (!clientMap.isEmpty()) {
+            siteClientPointMap.put("idClients", clientMap.keySet());
+        }
+        if (!siteMap.isEmpty()) {
+            siteClientPointMap.put("idSites", siteMap.keySet());
+        }
+        if (!pointComptageMap.isEmpty()) {
+            siteClientPointMap.put("idPointComptage", pointComptageMap.keySet());
+        }
+        selectListData.add(siteClientPointMap);
+
         return selectListData;
     }
 
@@ -276,4 +301,9 @@ public class MeterDataService {
 
         return new ArrayList<>(clientAssociationMap.values());
     }
+
+    public List<MeterDataEntity> getListCompteurMD() {
+        return meterDataRepository.findAll();
+    }
+
 }

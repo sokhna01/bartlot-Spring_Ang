@@ -28,8 +28,9 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5", "/selectListData",
-                        "/get_xlsx_file", "/tache7",
+                .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5", "/tache6", "/tache7",
+                        "/selectListData",
+                        "/get_xlsx_file",
                         "/insert_meter_data_externe", "/upload", "/getlistmeterdata", "/insert_meter_data",
                         "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients")
                 .permitAll()

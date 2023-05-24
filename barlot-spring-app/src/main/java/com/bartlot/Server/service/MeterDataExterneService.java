@@ -37,4 +37,8 @@ public class MeterDataExterneService {
         }
     }
 
+    public List<MeterDataExterneEntity> getListCompteur() {
+        return meterDataExterneRepository.findAll();
+    }
+
 }

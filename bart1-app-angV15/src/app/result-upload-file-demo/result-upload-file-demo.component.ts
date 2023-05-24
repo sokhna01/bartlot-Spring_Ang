@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { BaseApp } from '../services/base-app/base_app';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -18,7 +18,7 @@ import { ListMeterServiceService } from '../services/service/list-meter-service.
   templateUrl: './result-upload-file-demo.component.html',
   styleUrls: ['./result-upload-file-demo.component.css']
 })
-export class ResultUploadFileDemoComponent implements AfterViewInit {
+export class ResultUploadFileDemoComponent implements OnInit {
   baseUrl: string;
   token!: string;
   pickupDate!: Date;
@@ -63,7 +63,7 @@ export class ResultUploadFileDemoComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
       this.pickupDate_string = params['pickup_date'];

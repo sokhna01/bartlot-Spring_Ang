@@ -102,13 +102,12 @@ export class Task5Component implements OnInit {
   const token = localStorage.getItem("token");
   this.baseUrl = this.baseApp.getBaseUrl();
 
-  this.meterDataService.getSelectListData(this.baseUrl, this.token).subscribe((data: any) => {
-    for (let i = 0; i < data.length; i++) {
-      this.sites[i] = data[i].idsite;
-      this.clients[i] = data[i].idclient;
-      this.points[i] = data[i].idpointcomptage;
-    }
+  this.meterDataService.getSelectListData(this.baseUrl, this.token).subscribe((data: any) => {  
+    this.clients = data[0].idClients;
+    this.sites = data[0].idSites;
+    this.points = data[0].idPointComptage;
   });
+  
 
   this.meterDataService.getAllClientsWithSitesAndPoints(this.baseUrl, this.token).subscribe((data: any) => {
     this.clientsData = data;
@@ -135,42 +134,39 @@ filterClients(value: string): string[] {
 }
 
 filterSites(clientValue: string): string[] {
-  const filteredSites: string[] = [];
+  const filteredSites: Set<string> = new Set();
 
   if (clientValue) {
     const selectedClient = clientValue.toLowerCase();
     for (const association of this.clientsData) {
       if (association.idClient.toLowerCase() === selectedClient) {
-        filteredSites.push(...association.idSites);
+        for (const site of association.idSites) {
+          filteredSites.add(site);
+        }
       }
     }
   }
 
-  return filteredSites;
+  return Array.from(filteredSites);
 }
 
 filterPoints(clientValue: string): string[] {
-  const filteredPoints: string[] = [];
+  const filteredPoints: Set<string> = new Set();
 
-<<<<<<< HEAD
   if (clientValue) {
     const selectedClient = clientValue.toLowerCase();
     for (const association of this.clientsData) {
       if (association.idClient.toLowerCase() === selectedClient) {
-        filteredPoints.push(...association.idPoints);
+        for (const point of association.idPoints) {
+          filteredPoints.add(point);
+        }
       }
     }
   }
 
-  return filteredPoints;
-=======
-onClientSelectionChange() {
-  const selectedClientId = this.meterDataForm.get('idClient')?.value;
-  this.filteredSites = this.sites.filter(site => {
-    return site.clientId === selectedClientId;
-  });
->>>>>>> bdf770de37dd141d40eb605d4842269acdc3ba53
+  return Array.from(filteredPoints);
 }
+
 
 
  onSubmit() {
