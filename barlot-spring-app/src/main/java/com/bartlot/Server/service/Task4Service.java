@@ -23,8 +23,8 @@ public class Task4Service {
     @Autowired
     private MeterDataRepository meterDataRepository;
 
-    // @Autowired
-    // private Task7Service task7Service;
+    @Autowired
+    private Task7Service task7Service;
 
     public void executeTask4(int idCompany) {
         double borneSup = Common.puissanceNominale * 1.2;
@@ -48,7 +48,9 @@ public class Task4Service {
             }
         }
         LocalDate oldDate = nowtsp.minusDays(Common.maxDayCompteur);
-        System.out.println("Date ancienne:" + oldDate);
+        // System.out.println("Old date:" + oldDate);
+        // System.out.println("nowtsp :" + nowtsp);
+        // System.out.println("Date ancienne:" + oldDate);
         for (LocalDate dateTime = oldDate; dateTime.isBefore(nowtsp)
                 || dateTime.isEqual(nowtsp); dateTime = dateTime.plusDays(1)) {
             HashMap<String, List<MeterDataEntity>> map = getListMeterDataByDate(dateTime,
@@ -59,10 +61,10 @@ public class Task4Service {
             List<Double> listRedResult = new ArrayList<Double>();
             listCompteursPrincipal = map.get("compteurPrincipal");
             listCompteursRedondant = map.get("compteurRedondant");
-            System.out.println("Liste Compteur Principal" + listCompteursPrincipal.size());
-            System.out.println("Liste Compteur Redondant" + listCompteursRedondant.size());
-            if (listCompteursPrincipal.size() > 0 && listCompteursRedondant.size() > 0) {
-                for (int i = 1; i < 144; i++) {
+            System.out.println("Taille de la liste Compteur Principal : " + listCompteursPrincipal.size());
+            System.out.println("Taille de la liste Compteur Redondant : " + listCompteursRedondant.size());
+            if (listCompteursPrincipal.size() >= 144 && listCompteursRedondant.size() >= 144) {
+                for (int i = 0; i < 144; i++) {
 
                     boolean statusPi = false;
                     boolean statusPj = false;
@@ -118,7 +120,7 @@ public class Task4Service {
                 }
                 // Fin loop 144
             } else {
-                System.out.println("bonjour");
+                System.out.println("Bonjour");
             }
 
             double moyenneRed = calculMoyenneRed(listRedResult); // Calcul de la moyenne journaliere
@@ -129,9 +131,7 @@ public class Task4Service {
             }
 
         }
-
-        // task7Service.insertMDIntoWorkTable();
-
+        task7Service.insertMDIntoWorkTable();
     }
 
     public HashMap<String, List<MeterDataEntity>> getListMeterDataByDate(LocalDate beginDate, LocalDate endDate) {

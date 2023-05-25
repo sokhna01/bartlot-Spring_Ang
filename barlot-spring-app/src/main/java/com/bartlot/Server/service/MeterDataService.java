@@ -58,13 +58,27 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany, begin_date, end_date);
+        return meterDataRepository.findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany, begin_date,
+                end_date);
     }
 
     public String insertRow(MeterDataEntity meterData, int idCompany) {
         String response = "notOk";
         try {
             meterData.setIdCompany(idCompany);
+            meterDataRepository.save(meterData);
+            response = "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public String insertRow(MeterDataEntity meterData, int idCompany, String idClient) {
+        String response = "notOk";
+        try {
+            meterData.setIdCompany(idCompany);
+            meterData.setIdClient(idClient);
             meterDataRepository.save(meterData);
             response = "ok";
         } catch (Exception e) {
@@ -107,9 +121,10 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
-                begin_date,
-                end_date);
+        List<MeterDataEntity> meterDataList = meterDataRepository
+                .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
+                        begin_date,
+                        end_date);
 
         for (MeterDataEntity meterData : meterDataList) {
 
@@ -165,8 +180,9 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository.findByIdCompanyAndHorodatageBetween(idCompany,
-                    begin_date, end_date);
+            List<MeterDataEntity> meterDataList = meterDataRepository
+                    .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
+                            begin_date, end_date);
 
             for (MeterDataEntity meterData : meterDataList) {
 
@@ -250,17 +266,12 @@ public class MeterDataService {
             String site = (String) result[1];
             String pointComptage = (String) result[2];
 
-            if (client != null) {
-                clientMap.computeIfAbsent(client, k -> new ArrayList<>()).add(client);
-            }
-            if (site != null) {
-                siteMap.computeIfAbsent(site, k -> new ArrayList<>()).add(site);
-            }
-            if (pointComptage != null) {
-                pointComptageMap.computeIfAbsent(pointComptage, k -> new ArrayList<>()).add(pointComptage);
-            }
-        }
+            clientMap.computeIfAbsent(client, k -> new ArrayList<>()).add(client);
 
+            siteMap.computeIfAbsent(site, k -> new ArrayList<>()).add(site);
+
+            pointComptageMap.computeIfAbsent(pointComptage, k -> new ArrayList<>()).add(pointComptage);
+        }
         List<Map<String, Object>> selectListData = new ArrayList<>();
 
         Map<String, Object> siteClientPointMap = new HashMap<>();
@@ -303,7 +314,7 @@ public class MeterDataService {
     }
 
     public List<MeterDataEntity> getListCompteurMD() {
-        return meterDataRepository.findAll();
+        return meterDataRepository.findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
     }
 
 }

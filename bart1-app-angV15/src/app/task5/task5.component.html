@@ -77,10 +77,11 @@
 <table id="displayTable" class="table" *ngIf="!showForm && meterData && meterData.length > 0">
   <thead>
     <tr>
-      <th *ngFor="let header of meterData[0]; let i = index"
-        [ngStyle]="{'background-color': isHeaderInvalid(i) ? 'red' : ''}">
+        <th *ngFor="let header of meterData[0]; let i = index"
+        [ngClass]="{'invalid-header': !isHeaderValid(i)}"
+        (click)="onHeaderClick($event)">
         {{ header }}
-      </th>
+        </th>  
     </tr>
   </thead>
   <tbody>

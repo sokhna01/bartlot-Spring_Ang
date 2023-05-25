@@ -66,7 +66,7 @@ export class Task5Component implements OnInit {
 
 
 
- // displayedColumns: string[] = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
+  expectedHeaders = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
 
  constructor(
    private formBuilder: FormBuilder,
@@ -85,8 +85,6 @@ export class Task5Component implements OnInit {
    if (typeof item == "string") {
      this.token = item;
    }
-
-   
  }
 
  ngOnInit() {
@@ -96,8 +94,6 @@ export class Task5Component implements OnInit {
     idSite: ['', Validators.required],
     idPointComptage: ['', Validators.required]
   });
-  
-  
   
   const token = localStorage.getItem("token");
   this.baseUrl = this.baseApp.getBaseUrl();
@@ -125,6 +121,7 @@ export class Task5Component implements OnInit {
     this.idSite.setValue('');
     this.idPointComptage.setValue('');
   });
+  
 }
 
 filterClients(value: string): string[] {
@@ -262,10 +259,13 @@ onFileSelected(event: any) {
    }
  }
 }
- isHeaderInvalid(index: number): boolean {
-   const expectedHeaders = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
-   return this.meterData[0][index] !== expectedHeaders[index];
+ isHeaderValid(index: number): boolean {
+   return this.meterData[0][index] == this.expectedHeaders[index];
  }
+
+ isNewHeaderValid(index: number, value: any): boolean {
+  return value === this.expectedHeaders[index];
+}
 
  isCellValid(i: number, j: number): boolean {
    if (j === 0) {
@@ -296,47 +296,139 @@ onFileSelected(event: any) {
    }
  }
  
+ onHeaderClick(event: MouseEvent) {
+  const th = event.target as HTMLTableCellElement;
+  const index = th.cellIndex;
 
- onCellClick(event: MouseEvent) {
-   const td = event.target as HTMLTableCellElement;
-   // const tr = event.target as HTMLTableRowElement;
-   // const i = (tr)?.rowIndex;
-   const j = td.cellIndex;
-   const isValid = false;
-   
-   if (td.classList.contains('invalid-cell') && td.innerText !== 'null') {
-     
-     if (td.isContentEditable === false) {
-       td.contentEditable = 'true';
-       td.focus();
-       td.addEventListener('input', () => {
-         const value = td.innerText;
-         const isCellValid = j === 0 ? this.regexDate.test(value) : (this.regexDec.test(value) || this.regexInt.test(value));
-         
-         td.classList.toggle('invalid-cell', !isCellValid);
-         
-         const invalidCells = document.querySelectorAll('.invalid-cell');
-         const isTableValid = invalidCells.length === 0;
+  if (th.classList.contains('invalid-header')) {
+    if (th.isContentEditable === false) {
+      th.contentEditable = 'true';
+      th.focus();
+      th.addEventListener('input', () => {
+        const value = th.innerText;
+        const isValidHeader = this.isNewHeaderValid(index, value);
+        
+        th.classList.toggle('invalid-header', !isValidHeader);
 
-         this.isSaveEnabled = isTableValid;
-       });
-       
-     }
-     //Surveillance des clics hors de la cellule
-     document.addEventListener('click', function clickOutsideCell(e: MouseEvent) {
-      const tr = event.target as HTMLTableRowElement;
-      const i = (tr)?.rowIndex;
-      const j = td.cellIndex;
+        this.isSaveEnabled = this.isTableValid();
+      });
+    }
+  
+    // Surveillance des clics hors de la cellule
+    const clickOutsideCell = (e: MouseEvent) => {
+      if (e.target !== th) {
+        let value = th.innerText.trim();
+        th.innerText = value;
+        th.contentEditable = 'true';
+        document.removeEventListener('click', clickOutsideCell);
+        document.removeEventListener('keydown', handleKeyDown);
+      }
+    };
 
-       if (e.target !== td) {
-         let value = td.innerText.trim();
-         td.innerText = value;
-         td.contentEditable = 'true';
-         document.removeEventListener('click', clickOutsideCell);
-       }
-     });
-   }
- }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        th.blur(); 
+        e.preventDefault(); 
+      }
+    };
+
+    th.addEventListener('blur', () => {
+      const value = th.innerText;
+
+      const isValidHeader = this.isNewHeaderValid(index, value);
+
+      th.classList.toggle('invalid-header', !isValidHeader);
+
+
+      this.isSaveEnabled = this.isTableValid();
+    });
+
+    document.addEventListener('click', clickOutsideCell);
+    document.addEventListener('keydown', handleKeyDown);
+  }
+}
+
+onCellClick(event: MouseEvent) {
+  const td = event.target as HTMLTableCellElement;
+  const j = td.cellIndex;
+
+  if (td.classList.contains('invalid-cell') && td.innerText !== 'null') {
+    if (td.isContentEditable === false) {
+      td.contentEditable = 'true';
+      td.focus();
+      td.addEventListener('input', () => {
+        const value = td.innerText;
+        const isCellValid = j === 0 ? this.regexDate.test(value) : (this.regexDec.test(value) || this.regexInt.test(value));
+
+        td.classList.toggle('invalid-cell', !isCellValid);
+ 
+        this.isSaveEnabled = this.isTableValid();
+      });
+      
+    }
+
+    // Surveillance des clics hors de la cellule
+    const clickOutsideCell = (e: MouseEvent) => {
+      if (e.target !== td) {
+        let value = td.innerText.trim();
+        td.innerText = value;
+        td.contentEditable = 'true';
+        document.removeEventListener('click', clickOutsideCell);
+        document.removeEventListener('keydown', handleKeyDown);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        td.blur(); 
+        e.preventDefault(); 
+      }
+    };
+
+    td.addEventListener('blur', () => {
+      const value = td.innerText;
+      const isCellValid = j === 0 ? this.regexDate.test(value) : (this.regexDec.test(value) || this.regexInt.test(value));
+
+      td.classList.toggle('invalid-cell', !isCellValid);
+
+      this.isSaveEnabled = this.isTableValid();
+    });
+
+    document.addEventListener('click', clickOutsideCell);
+    document.addEventListener('keydown', handleKeyDown);
+  }
+}
+
+// checkTableValidity(): void {
+//   let hasErrors = false;
+
+//   // Vérifier les en-têtes
+//   for (let i = 0; i < this.headers.length; i++) {
+//     if (!this.isHeaderValid(i)) {
+//       hasErrors = true;
+//       break;
+//     }
+//   }
+
+//   // Vérifier les cellules
+//   for (let i = 0; i < this.rows.length; i++) {
+//     for (let j = 0; j < this.rows[i].length; j++) {
+//       if (!this.isCellValid(i, j)) {
+//         hasErrors = true;
+//         break;
+//       }
+//     }
+//   }
+
+//   this.isSaveEnabled = !hasErrors;
+// }
+
+isTableValid(): boolean {
+  const invalidHeaders = document.querySelectorAll('.invalid-header');
+  const invalidCells = document.querySelectorAll('.invalid-cell');
+  const isTableValid = invalidHeaders.length === 0 && invalidCells.length === 0;
+  return isTableValid;
+}
 
  onSave() {
    const worksheet = XLSX.utils.table_to_sheet(document.getElementById('displayTable'));
@@ -405,36 +497,6 @@ onFileSelected(event: any) {
 //   }
 // }
 
-  // onCellClick(event: MouseEvent) {
-  //   const td = event.target as HTMLTableCellElement;
-  //   const j = td.cellIndex;
-  
-  //   if (td.classList.contains('invalid-cell') && td.innerText !== undefined) {
-  
-  //     if (td.isContentEditable === false) {
-  //       td.contentEditable = 'true';
-  //       td.focus();
-  //       td.addEventListener('blur', () => {
-  //         const value = td.innerText.trim();
-  //         if (j == 0) {
-  //           if (this.regexDate.test(value)) {
-  //             td.classList.remove('invalid-cell');
-  //           } else {
-  //             td.classList.add('invalid-cell');
-  //           }
-  //         } else {
-  //           if (this.regexDec.test(value) || this.regexInt.test(value)) {
-  //             td.classList.remove('invalid-cell');
-  //           } else {
-  //             td.classList.add('invalid-cell');
-  //           }
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
-  
-
 
   // checkValidity(): void {
   //   const cells = document.querySelectorAll('.invalid-cell');
@@ -458,10 +520,3 @@ onFileSelected(event: any) {
     
   //   this.hasErrors = false;
   // }
-  
-
-
-      
-              
-
-

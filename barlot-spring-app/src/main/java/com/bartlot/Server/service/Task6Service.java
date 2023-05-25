@@ -81,8 +81,7 @@ public class Task6Service {
 
         if ((dataAPlus == null || dataAPlus == 0.0) && (dataAMoins == null ||
                 dataAMoins == 0.0)) {
-            // La donnees est absente simultanement
-            // sur DataAplus et DataAmoins
+            // La donnée est absente simultanement sur DataAplus et DataAmoins
             int tmp = 0;
             for (int i = 0; i < 6; i++) {
 

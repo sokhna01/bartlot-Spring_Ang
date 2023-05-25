@@ -81,19 +81,19 @@ export class ChartDemoLineComponent implements OnInit {
             for (let i = 0; i < this.listCompteurPr.length; i++) {
               objPresencePr['x'] = i + 1;
               objPresencePr['y'] = Number(this.listCompteurPr[i].presence);
-              objPresencePr['datetime'] = this.listCompteurPr[i].horodotage;
+              objPresencePr['datetime'] = this.listCompteurPr[i].horodatage;
               // console.log(obj)
               this.listPresencePr.push(objPresencePr);
               // this.listPresencePr.push(Number(this.listCompteurPr[i].presence));
 
               objPuissancePr['x'] = i + 1;
               objPuissancePr['y'] = Number(this.listCompteurPr[i].dataAPlus) - Number(this.listCompteurPr[i].dataAMoins);
-              objPuissancePr['datetime'] = this.listCompteurPr[i].horodotage;
+              objPuissancePr['datetime'] = this.listCompteurPr[i].horodatage;
               this.listPuissancePr.push(objPuissancePr);
 
               objQualitePr['x'] = i + 1;
               objQualitePr['y'] = Number(this.listCompteurPr[i].qualite);
-              objQualitePr['datetime'] = this.listCompteurPr[i].horodotage;
+              objQualitePr['datetime'] = this.listCompteurPr[i].horodatage;
               this.listQualitePr.push(objQualitePr);
 
               objPresencePr = {};
@@ -104,18 +104,18 @@ export class ChartDemoLineComponent implements OnInit {
             for (let i = 0; i < this.listCompteurRe.length; i++) {
               objPresenceRe['x'] = i + 1;
               objPresenceRe['y'] = Number(this.listCompteurRe[i].presence);
-              objPresenceRe['datetime'] = this.listCompteurRe[i].horodotage;
+              objPresenceRe['datetime'] = this.listCompteurRe[i].horodatage;
               this.listPresenceRe.push(objPresenceRe);
               // this.listPresenceRe.push(Number(this.listCompteurRe[i].presence));
 
               objPuissanceRe['x'] = i + 1;
               objPuissanceRe['y'] = Number(this.listCompteurRe[i].dataAPlus) - Number(this.listCompteurRe[i].dataAMoins);
-              objPuissanceRe['datetime'] = this.listCompteurRe[i].horodotage;
+              objPuissanceRe['datetime'] = this.listCompteurRe[i].horodatage;
               this.listPuissanceRe.push(objPuissanceRe);
 
               objQualiteRe['x'] = i + 1;
               objQualiteRe['y'] = Number(this.listCompteurRe[i].qualite);
-              objQualiteRe['datetime'] = this.listCompteurRe[i].horodotage;
+              objQualiteRe['datetime'] = this.listCompteurRe[i].horodatage;
               this.listQualiteRe.push(objQualiteRe);
 
               objPresenceRe = {};

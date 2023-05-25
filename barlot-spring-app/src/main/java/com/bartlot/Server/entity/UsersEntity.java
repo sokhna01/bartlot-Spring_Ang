@@ -1,8 +1,5 @@
 package com.bartlot.Server.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
@@ -14,8 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+
 public class UsersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

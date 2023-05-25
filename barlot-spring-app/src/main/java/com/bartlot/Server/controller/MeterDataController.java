@@ -111,13 +111,25 @@ public class MeterDataController {
 
     @PostMapping("/tache4")
     public ResponseEntity<?> updateQualite(@RequestParam("idcompany") String idcompany) {
-
         int idCompany = Integer.parseInt(idcompany);
         Map<String, String> map = new HashMap<String, String>();
 
         task4Service.executeTask4(idCompany);
 
-        map.put("msg", "update_ok");
+        // boolean insertionSuccess = false;
+        // try {
+        // task7Service.insertMDIntoWorkTable();
+        // insertionSuccess = true;
+        // } catch (Exception e) {
+        // insertionSuccess = false;
+        // }
+
+        // if (insertionSuccess) {
+        // map.put("msg", "update_ok");
+        // } else {
+        // map.put("msg", "update_failed");
+        // }
+
         return ResponseEntity.ok(map);
 
     }
@@ -155,14 +167,16 @@ public class MeterDataController {
         return ResponseEntity.ok().body(selectListData);
     }
 
-    @PostMapping("/tache7")
-    public ResponseEntity<String> insertMDIntoWorkTable() {
-        task7Service.insertMDIntoWorkTable();
-        return ResponseEntity.ok("Données insérées dans la table de travail.");
-    }
-
     @GetMapping("/clients")
     public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
         return meterDataService.getAllClientsWithSitesAndPoints();
+    }
+
+    @PostMapping("/tache7")
+    public ResponseEntity<?> executeTask7() {
+
+        task7Service.insertMDIntoWorkTable();
+
+        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
     }
 }

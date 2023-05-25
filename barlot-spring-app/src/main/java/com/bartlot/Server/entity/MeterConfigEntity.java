@@ -1,7 +1,5 @@
 package com.bartlot.Server.entity;
 
-import lombok.Getter;
-import lombok.Setter;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "meter_configuration")
-@Getter
-@Setter
+
 public class MeterConfigEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

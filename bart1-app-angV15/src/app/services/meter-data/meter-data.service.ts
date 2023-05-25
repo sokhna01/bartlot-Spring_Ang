@@ -28,18 +28,17 @@ export class MeterDataService {
     formData.append('file', file, fileName);
 
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
-    const url = baseUrl + 'insert_meter_data_externe';
+    const url = baseUrl + 'tache5';
   
     return this.http.post<any>(url, formData, { headers, responseType: 'json' });
   }
 
   getCreatedXLSX(idClient: string, idCompany : number ,token: string, baseUrl: string) {    
-    const formData = new FormData();
     const params = new HttpParams()
     .set('idClient', idClient)
     .set('idCompany', idCompany);
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
-    const url = baseUrl + 'get_xlsx_file';
+    const url = baseUrl + 'tache6';
   
     return this.http.get(url, { 
       headers, 

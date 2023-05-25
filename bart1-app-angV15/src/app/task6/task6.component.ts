@@ -47,7 +47,10 @@ export class Task6Component implements OnInit {
 
 
   ngOnInit() {
+    //window.location.reload();
+    if (this.token) {
       this.getXLSXFile();
+    }
   }
   
 
@@ -56,7 +59,7 @@ export class Task6Component implements OnInit {
   getXLSXFile() {
     const idClient = localStorage.getItem('idClient');
     const idCompany = parseInt(localStorage.getItem('company_id')!, 10);
-    
+   
     if (idClient !== null && !isNaN(idCompany)) {
       this.meterDataService.getCreatedXLSX(idClient, idCompany, this.token, this.baseUrl)
         .subscribe((blob: Blob) => {
@@ -69,7 +72,7 @@ export class Task6Component implements OnInit {
   
             let meterDataExterne: Array<Array<string>> = [];
             meterDataExterne = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as Array<Array<string>>;
-  
+        
             for (let i = 0; i < meterDataExterne.length; i++) {
               if (meterDataExterne[i].length < 8) {
                 meterDataExterne[i].push('');
@@ -120,10 +123,10 @@ export class Task6Component implements OnInit {
           };
   
           fileReader.readAsBinaryString(blob);
+
         });
     } else {
       console.log("Client ID is null");
-      $("#failedModal").modal({ backdrop: "static" });
     }
   }
   
@@ -160,10 +163,10 @@ export class Task6Component implements OnInit {
         window.location.href = url;
       }
     }
-    window.location.href = '/home';
+    this.router.navigate(['/home']);
   }  
   
   onCancel() {
-    window.location.href = '/home';
+    this.router.navigate(['/home']);
   }
 }

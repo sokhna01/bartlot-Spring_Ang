@@ -44,6 +44,11 @@
     background-color: red;
   }
   
+  .invalid-header {
+    background-color: red;
+  }
+  
+  
   .null-cell{
     background-color: yellow;
   }

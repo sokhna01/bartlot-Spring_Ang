@@ -26,7 +26,8 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
                         + "AND md.horodatage BETWEEN :startDate AND :endDate")
         List<MeterDataEntity> findMeterDataBybetweenDate(int idCompany, Date startDate, Date endDate);
 
-        List<MeterDataEntity> findByIdCompanyAndHorodatageBetween(int idCompany, Date startDate, Date endDate);
+        List<MeterDataEntity> findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(int idCompany, Date startDate,
+                        Date endDate);
 
         List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAsc(Date startDate, Date endDate);
 
@@ -45,7 +46,7 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Query("update MeterDataEntity md set md.qualite = :qualite where md.id = :id")
         void updateQualite(String qualite, int id);
 
-        @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM MeterDataEntity md")
+        @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM MeterDataEntity md WHERE md.idClient IS NOT NULL AND md.idSite IS NOT NULL AND md.pointComptageId IS NOT NULL")
         List<Object[]> findAllSiteClientAndPointDeComptage();
 
         Long countByIdCompany(int idCompany);
@@ -58,5 +59,7 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
 
         @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompteur = 'CPT-P'")
         List<MeterDataEntity> findAllByIdCompteur();
+
+        List<MeterDataEntity> findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
 
 }

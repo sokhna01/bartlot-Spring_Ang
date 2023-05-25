@@ -59,7 +59,8 @@ public class Task7Service {
                         idCompteur);
 
                 for (WorkTableEntity existingEntry : existingEntries) {
-                    if ("2".equals(meterData.getPresence())
+                    if (existingEntry.getHorodatage().equals(meterData.getHorodatage())
+                            && "2".equals(meterData.getPresence())
                             && ("1".equals(meterData.getQualite()) || "2".equals(meterData.getQualite()))) {
                         existingEntry.setCommentaire("Données disponibles sur compteur principal");
                         existingEntry.setAttenteAction("Oui");
