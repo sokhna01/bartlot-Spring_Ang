@@ -139,7 +139,7 @@ public class LoginWeb {
     public CompanyUsersEntity getUserByUsername(String username) {
         Optional<CompanyUsersEntity> userOptional = companyUsersRepository.findByUsername(username);
         if (userOptional.isPresent()) {
-            CompanyUsersEntity user = userOptional.get();
+            // CompanyUsersEntity user = userOptional.get();
         } else {
             throw new UsernameNotFoundException("User with username " + username + " not found");
         }

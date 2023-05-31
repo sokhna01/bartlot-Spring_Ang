@@ -3,10 +3,6 @@ package com.bartlot.Server.service;
 import com.bartlot.Server.entity.MeterDataEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 
-import com.bartlot.Server.service.MeterDataExterneService;
-import com.bartlot.Server.service.MeterDataService;
-import com.bartlot.Server.service.Task3Service;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -21,9 +17,6 @@ import java.util.List;
 
 @Service
 public class Task6Service {
-
-    private MeterDataExterneEntity meterDataExterne;
-    private MeterDataEntity meterData;
 
     @Autowired
     private MeterDataExterneService meterDataExterneService;
@@ -50,7 +43,7 @@ public class Task6Service {
                     meterData.getDataAMoins(), listCompteurMD);
 
             meterData.setPresence(presence);
-            meterDataService.insertRow(meterData, idCompany);
+            meterDataService.insertRow(meterData);
         }
 
         for (MeterDataExterneEntity meterDataExterne : listCompteur) {

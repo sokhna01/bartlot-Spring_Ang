@@ -1,0 +1,33 @@
+.horodatage {
+  min-width: 160px;
+  background-color: rgba(22, 154, 206, 0.527) !important;
+}
+
+.interpolation {
+  background-color: rgba(22, 66, 160, 0.527) !important;
+}
+
+.compteur-principal {
+  background-color: rgba(224, 49, 157, 0.37) !important;
+}
+
+.compteur-redondant {
+  background-color: rgba(167, 207, 91, 0.349) !important;
+}
+
+.source-externe {
+  background-color: rgba(78, 187, 35, 0.692) !important;
+}
+
+.autre {
+  background-color: rgba(224, 24, 107, 0.596) !important;
+}
+
+.anterieure {
+  background-color: rgba(181, 224, 24, 0.596) !important;
+}
+
+.soumettre {
+  display: flex;
+  justify-content: center;
+}

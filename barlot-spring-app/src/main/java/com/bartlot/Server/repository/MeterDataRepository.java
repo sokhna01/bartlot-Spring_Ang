@@ -18,16 +18,17 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Query("SELECT md.horodatage FROM MeterDataEntity md ORDER BY md.horodatage DESC LIMIT 1")
         Timestamp findLastRecentRowDate();
 
-        @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompany = :idCompany "
-                        + "AND (md.dataAPlus IS NULL OR md.dataAPlus = '' "
-                        + "OR md.dataAMoins IS NULL OR md.dataAMoins = '' "
-                        + "OR md.dataRPlus IS NULL OR md.dataRPlus = '' "
-                        + "OR md.dataRMoins IS NULL OR md.dataRMoins = '') "
+        @Query("SELECT md FROM MeterDataEntity md WHERE "
+                        + "(md.dataAPlus IS NULL OR md.dataAPlus = 0.0 "
+                        + "OR md.dataAMoins IS NULL OR md.dataAMoins = 0.0 "
+                        + "OR md.dataRPlus IS NULL OR md.dataRPlus = 0.0 "
+                        + "OR md.dataRMoins IS NULL OR md.dataRMoins = 0.0) "
                         + "AND md.horodatage BETWEEN :startDate AND :endDate")
-        List<MeterDataEntity> findMeterDataBybetweenDate(int idCompany, Date startDate, Date endDate);
+        List<MeterDataEntity> findMeterDataBybetweenDate(Date startDate, Date endDate);
 
-        List<MeterDataEntity> findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(int idCompany, Date startDate,
-                        Date endDate);
+        // List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAsc(int
+        // idCompany, Date startDate,
+        // Date endDate);
 
         List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAsc(Date startDate, Date endDate);
 
@@ -46,10 +47,14 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         @Query("update MeterDataEntity md set md.qualite = :qualite where md.id = :id")
         void updateQualite(String qualite, int id);
 
-        @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM MeterDataEntity md WHERE md.idClient IS NOT NULL AND md.idSite IS NOT NULL AND md.pointComptageId IS NOT NULL")
+        @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM MeterDataEntity md")
         List<Object[]> findAllSiteClientAndPointDeComptage();
 
-        Long countByIdCompany(int idCompany);
+        // Long countByIdCompany(int idCompany);
+
+        MeterDataEntity findByIdCompteur(String idCompteur);
+
+        List<MeterDataEntity> findByHorodatage(Timestamp timestamp);
 
         @Query("SELECT md FROM MeterDataEntity md WHERE md.idCompteur = :idCompteur")
         MeterDataEntity findByCompteurId(@Param("idCompteur") String idCompteur);
@@ -61,5 +66,32 @@ public interface MeterDataRepository extends JpaRepository<MeterDataEntity, Inte
         List<MeterDataEntity> findAllByIdCompteur();
 
         List<MeterDataEntity> findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
+
+        /* **************************************************************** */
+        /* *******************METHODE avec try-catch********************** */
+        /* ************************************************************** */
+
+        default Timestamp findLastRecentRowDateWithException() {
+                try {
+                        return findLastRecentRowDate();
+                } catch (Exception e) {
+                        // Gestion de l'exception
+                        // Vous pouvez afficher un message d'erreur, enregistrer des journaux, ou
+                        // prendre toute autre action appropriée
+                        return null; // Ou lancez une nouvelle exception si nécessaire
+                }
+        }
+
+        default List<MeterDataEntity> findByHorodatageBetweenOrderByHorodatageAscWithException(Date startDate,
+                        Date endDate) {
+                try {
+                        return findByHorodatageBetweenOrderByHorodatageAsc(startDate, endDate);
+                } catch (Exception e) {
+                        // Gestion de l'exception
+                        // Vous pouvez afficher un message d'erreur, enregistrer des journaux, ou
+                        // prendre toute autre action appropriée
+                        return null; // Ou lancez une nouvelle exception si nécessaire
+                }
+        }
 
 }

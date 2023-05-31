@@ -63,25 +63,11 @@ export class AddDemoFileComponent implements OnInit {
   listernerUpload() {
     this.uploader.onAfterAddingFile = (file: any) => { file.withCredentials = true; };
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-
-      // console.log('Response: ', response);
-      // console.log('status: ', status);
       if (status == 200) {
-        // let splitted = response.split(",");
-        // let resp = splitted[0];
-        // this.pickupDate = splitted[1];
-        // this.line_number = splitted[1];
-        // let datePipe = new DatePipe('en-US');
-        // const item = datePipe.transform(this.pickupDate, 'MMM d, y');
-        // if (typeof item == "string") {
-        //   this.pickupDateBis = item;
-        // }
-        // resp = resp.trim();
         if (response == 'upload_ok') {
           this.loading = false;
           $("#successModal").modal({ backdrop: "static" });
           $("#confirmModalnow").modal("hide");
-          //this.doSelectTripsCare();
           setTimeout(() => {
             this.doUploadMeterData();
             // $("#successModal ").modal("hide");
@@ -102,12 +88,10 @@ export class AddDemoFileComponent implements OnInit {
   }
 
   uploadFile() {
-    let idCompany = localStorage.getItem('company_id');
     this.loading = true;
     this.uploader.onBeforeUploadItem = () => {
       this.uploader.options.additionalParameter = {
         option: 'committed',
-        idCompany: idCompany
       };
     };
     this.fileItem.upload();
@@ -189,9 +173,8 @@ export class AddDemoFileComponent implements OnInit {
   }
 
   uploadMeterData() {
-    let idcompany = localStorage.getItem('company_id');
     let headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    let dataform = "filename=" + this.fileName + "&idcompany=" + idcompany;
+    let dataform = "filename=" + this.fileName;
     const url = this.baseUrl + 'insert_meter_data';
     return this.http.post<any>(url, dataform, { headers, responseType: 'json' });
   }
@@ -202,12 +185,13 @@ export class AddDemoFileComponent implements OnInit {
     this.loading = true;
     this.uploadMeterData().subscribe(
       {
+
         next: (data) => {
           $("#successModal ").modal("hide");
           console.log(data);
           this.loading = false;
-          let strSubData = data.msg.trim();
-          if (strSubData == 'insert_ok') {
+
+          if (data.msg.trim() == 'insert_ok') {
             //console.log('if ok');
             this.navigateTripCare();
           }

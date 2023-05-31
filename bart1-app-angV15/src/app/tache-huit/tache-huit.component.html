@@ -1,0 +1,261 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="tab-content">
+
+  <div class="example-header">
+
+    <mat-form-field appearance="outline">
+      <input matInput (keyup)="applyFilter($event)" placeholder="{{'SEARCH'|translate}}" #input>
+    </mat-form-field>
+
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="radio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="background-color: rgb(224, 24, 108);"></th>
+        <td mat-cell *matCellDef="let row">
+          <mat-radio-group name="selected-{{row.horodatage}}">
+          </mat-radio-group>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="horodatage">
+        <th mat-header-cell *matHeaderCellDef [style.display]="'none'" mat-sort-header> Horodatage </th>
+        <td class="horodatage" mat-cell *matCellDef="let row">
+          {{row.horodatage| date:'medium' }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="dataAPlusPr">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-principal"> A+ Pr </th>
+        <td mat-cell class="compteur-principal" *matCellDef="let row">{{row.dataAPlusPr}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="dataAMoinsPr">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-principal"> A- Pr </th>
+        <td mat-cell class="compteur-principal" *matCellDef="let row">{{row.dataAMoinsPr}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRPlusPr">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-principal"> R+ Pr </th>
+        <td mat-cell class="compteur-principal" *matCellDef="let row">{{row.dataRPlusPr}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRMoinsPr">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-principal"> R+ Pr </th>
+        <td mat-cell class="compteur-principal" *matCellDef="let row">{{row.dataRMoinsPr}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="idCompteurPr">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-principal"> </th>
+        <td mat-cell class="compteur-principal" *matCellDef="let row">
+          <mat-radio-button (change)="onChange($event,row)" name="selected-{{row.horodatage}}" *ngIf="(row.dataAPlusPr!=null&&row.dataAMoinsPr!=null&&row.dataRPlusPr!=null&&row.dataRMoinsPr!=null &&
+            row.dataAPlusPr!=''&&row.dataAMoinsPr!=''&&row.dataRPlusPr!=''&&row.dataRMoinsPr!='')"
+            value="{{row.horodatage}}-Pr">
+            Pr
+          </mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataAPlusRe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-redondant"> A+ Re </th>
+        <td mat-cell class="compteur-redondant" *matCellDef="let row">{{row.dataAPlusRe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataAMoinsRe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-redondant"> A- Re </th>
+        <td mat-cell class="compteur-redondant" *matCellDef="let row">{{row.dataAMoinsRe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRPlusRe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-redondant"> R+ Re </th>
+        <td mat-cell class="compteur-redondant" *matCellDef="let row">{{row.dataRPlusRe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRMoinsRe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-redondant"> R- Re </th>
+        <td mat-cell class="compteur-redondant" *matCellDef="let row">{{row.dataRMoinsRe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idCompteurRe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="compteur-redondant"> </th>
+        <td mat-cell class="compteur-redondant" *matCellDef="let row">
+          <mat-radio-button *ngIf="(row.dataAPlusRe!=null&&row.dataAMoinsRe!=null&&row.dataRPlusRe!=null&&row.dataRMoinsRe!=null &&
+            row.dataAPlusRe!=''&&row.dataAMoinsRe!=''&&row.dataRPlusRe!=''&&row.dataRMoinsRe!='')"
+            (change)="onChange($event,row)" name="selected-{{row.horodatage}}"
+            value="{{row.horodatage}}-Re">Re</mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="interpolation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="interpolation"> </th>
+        <td mat-cell class="interpolation" *matCellDef="let row">
+          <mat-radio-button (change)="onChange($event,row)" name="selected-{{row.horodatage}}"
+            value="{{row.horodatage}}-In">inter</mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataAPlusSe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="source-externe"> A+ Se </th>
+        <td class="source-externe" mat-cell *matCellDef="let row">{{row.dataAPlusSe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataAMoinsSe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="source-externe"> A- Se </th>
+        <td class="source-externe" mat-cell *matCellDef="let row">{{row.dataAMoinsSe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRPlusSe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="source-externe"> R+ Se </th>
+        <td class="source-externe" mat-cell *matCellDef="let row">{{row.dataRPlusSe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataRMoinsSe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="source-externe"> R- Se </th>
+        <td class="source-externe" mat-cell *matCellDef="let row">{{row.dataRMoinsSe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idCompteurSe">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="source-externe"> </th>
+        <td class="source-externe" mat-cell *matCellDef="let row"> <mat-radio-button (change)="onChange($event,row)"
+            *ngIf="(row.dataAPlusSe!=null&&row.dataAMoinsSe!=null&&row.dataRPlusSe!=null&&row.dataRMoinsSe!=null &&
+            row.dataAPlusSe!=''&&row.dataAMoinsSe!=''&&row.dataRPlusSe!=''&&row.dataRMoinsSe!='')"
+            name="selected-{{row.horodatage}}" value="{{row.horodatage}}-Se">Se</mat-radio-button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="saisie">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="autre"></th>
+        <td class="autre" mat-cell *matCellDef="let row">
+          <div class="example-button-row" style="display: flex;">
+            <mat-radio-button (change)="onChange($event,row)" name="selected-{{row.horodatage}}"
+              value="{{row.horodatage}}-Ma">
+              Manu
+            </mat-radio-button>
+            <!-- <button mat-flat-button color="primary" (click)="openEditForm(row)">Editer</button> -->
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="anterieure">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="anterieure"></th>
+        <td class="anterieure" mat-cell *matCellDef="let row">
+          <div class="example-button-row" style="display: flex;">
+            <mat-radio-button (change)="onChange($event,row)" name="selected-{{row.horodatage}}"
+              value="{{row.horodatage}}-Au">
+              Ant
+            </mat-radio-button>
+            <!-- <button mat-flat-button color="primary" (click)="openHorodatageForm(row)">Editer</button> -->
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="1">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="horodatage">
+          {{'TIMESTAMP'|translate}}
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="2">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-principal"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="3">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-principal"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="4">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-principal">
+          {{'MAIN_METER'|translate}}
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="5">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-principal"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="6">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-principal"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="7">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-redondant"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="8">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-redondant"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="9">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-redondant">
+          {{'REDUNDANT_METER'|translate}}
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="10">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-redondant"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="11">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="compteur-redondant"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="12">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="source-externe"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="13">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="source-externe"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="14">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="source-externe">
+          {{'EX_SOURCE'|translate}}
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="15">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="source-externe">
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="16">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="source-externe"></th>
+      </ng-container>
+      <ng-container matColumnDef="17">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="interpolation">
+          interpolation
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="18">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="autre">
+          {{'TITLE_HEADER_SAISIE_MAN'|translate}}
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="19">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="1" class="anterieure">
+          {{'PREVIOUS_DATA'|translate}}
+        </th>
+      </ng-container>
+
+      <tr mat-header-row
+        *matHeaderRowDef="['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;">
+      </tr>
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[7, 50, 100]" aria-label="Select page of users"></mat-paginator>
+
+</div>
+<div class="soumettre">
+  <button type="button" [disabled]="!isValidated" (click)="doUpdateTask()" ngsty class="btn btn-primary btn-lg">
+    <span class="glyphicon glyphicon-download"></span>{{'SUBMIT_BUTTON'|translate}}
+  </button>
+</div>

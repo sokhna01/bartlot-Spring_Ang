@@ -1,0 +1,69 @@
+<div mat-dialog-title *ngIf="!success">
+  <h1>Modification</h1>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+
+    <div mat-dialog-content class="content" *ngIf="success">
+      <div class="row">
+        <mat-label class="centered-label">{{message|translate}}</mat-label>
+      </div>
+    </div>
+    <div class="row" *ngIf="!success">
+
+      <mat-form-field appearance="outline">
+        <mat-label>IdClient</mat-label>
+        <input matInput type="text" placeholder="IdClient" formControlName="idclient">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>IdCompteur</mat-label>
+        <input matInput type="text" placeholder="IdCompteur" formControlName="idcompteur">
+      </mat-form-field>
+
+    </div>
+
+    <div class="row" *ngIf="!success">
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{'BEGIN_DATE'|translate}}</mat-label>
+        <input matInput [ngxMatDatetimePicker]="picker" [min]="minDateDebut" placeholder="{{'BEGIN_DATE'|translate}}"
+          formControlName="startHorodatage" />
+        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="true" [stepHour]="1" [stepMinute]="10" [stepSecond]="0"
+          [touchUi]="true" [enableMeridian]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{'END_DATE'|translate}}</mat-label>
+        <input matInput [ngxMatDatetimePicker]="EndPicker" [min]="minDateFin" placeholder="{{'END_DATE'|translate}}"
+          formControlName="endHorodatage" />
+        <mat-datepicker-toggle matSuffix [for]="$any(EndPicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #EndPicker [showSpinners]="true" [stepHour]="1" [stepMinute]="10" [stepSecond]="0"
+          [touchUi]="true" [enableMeridian]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+    </div>
+
+    <div class="row" *ngIf="!success">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Idsite</mat-label>
+        <input matInput type="text" placeholder="idsite" formControlName="idsite">
+      </mat-form-field>
+
+    </div>
+
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" *ngIf="!success"
+      [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!success" [disabled]="isValid"
+      type="submit">{{'SUBMIT'|translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="success" (click)="dissmissPopUp()" type="submit">Ok</button>
+  </div>
+</form>

@@ -14,6 +14,7 @@ export class HomeComponent {
   baseUrl!: String;
   profilDemo!: string;
   listProfils: any;
+
   constructor(private baseApp: BaseApp, private router: Router, private data: DataService) {
 
     this.baseApp.loggedOut();

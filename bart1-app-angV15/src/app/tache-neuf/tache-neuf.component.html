@@ -1,0 +1,55 @@
+<mat-card class="card">
+  <mat-card-header>
+
+    <div class="row">
+      <mat-card-title>{{'TITLE_TASK9'|translate}}</mat-card-title>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+    <form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+
+      <div class="row">
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'BEGIN_DATE'|translate}}</mat-label>
+          <input matInput [ngxMatDatetimePicker]="picker" [min]="minDateDebut" placeholder="{{'BEGIN_DATE'|translate}}"
+            formControlName="start" />
+          <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker [showSpinners]="true" [stepHour]="1" [stepMinute]="10" [stepSecond]="0"
+            [touchUi]="true" [enableMeridian]="false">
+          </ngx-mat-datetime-picker>
+        </mat-form-field>
+
+      </div>
+
+      <div class="row">
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'END_DATE'|translate}}</mat-label>
+          <input matInput [ngxMatDatetimePicker]="EndPicker" [min]="minDateFin" placeholder="{{'END_DATE'|translate}}"
+            formControlName="end" />
+          <mat-datepicker-toggle matSuffix [for]="$any(EndPicker)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #EndPicker [showSpinners]="true" [stepHour]="1" [stepMinute]="10" [stepSecond]="0"
+            [touchUi]="true" [enableMeridian]="false">
+          </ngx-mat-datetime-picker>
+        </mat-form-field>
+      </div>
+      <mat-error *ngIf="editForm.hasError('invalidDates')">End date must be after or equal to start date</mat-error>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Id Compteur</mat-label>
+          <input matInput placeholder="idCompteur" formControlName="idCompteur">
+        </mat-form-field>
+      </div>
+
+      <!-- <div>{{editForm.value.start}}</div> -->
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit"
+          [disabled]="editForm.invalid">{{'SUBMIT'|translate}}</button>
+      </mat-card-actions>
+
+    </form>
+  </mat-card-content>
+
+</mat-card>

@@ -30,10 +30,9 @@ public class Task1Service {
     @Autowired
     private MeterDataService meterDataService;
 
-    public void readXLSXFile(String fileName, int idCompany) {
+    public void readXLSXFile(String fileName) {
         try {
-            File file = new File(Common.meterDataPath + "/" + idCompany + "/" +
-                    fileName);
+            File file = new File(Common.meterDataPath + fileName);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
@@ -118,7 +117,7 @@ public class Task1Service {
                     }
                     if (meterConfigMap.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = meterConfigMap.get(meterData.getIdCompteur());
-                        if (conf != null && conf.isInverse()) {
+                        if (conf != null && conf.getInverse()) {
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();
                             Double dataRmoinsBis = meterData.getDataRMoins();
@@ -130,7 +129,7 @@ public class Task1Service {
                             meterData.setDataRPlus(dataRmoinsBis);
                         }
                     }
-                    meterDataService.insertRow(meterData, idCompany);
+                    meterDataService.insertRow(meterData);
                 }
             }
         } catch (Exception e) {
@@ -139,17 +138,17 @@ public class Task1Service {
     }
 
     // Utiliser pour inserer les prochaines
-    public void readXLSXFileForNextTask1(String fileName, int idCompany) {
+    public void readXLSXFileForNextTask1(String fileName) {
         // taches 1
         try {
-            File file = new File(Common.meterDataPath + "/" + idCompany + "/" + fileName);
+            File file = new File(Common.meterDataPath + fileName);
             System.out.println("Filename" + file);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
                 boolean isHeader = true;
                 System.out.println("");
-                Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+                Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
                 String now = "";
                 if (tsp != null) {
                     String strTsp = "" + tsp;
@@ -157,7 +156,7 @@ public class Task1Service {
                 }
 
                 HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-                HashMap<String, MeterDataEntity> mapListCompteur = meterDataService.getListMeterDataForTask1(idCompany);
+                HashMap<String, MeterDataEntity> mapListCompteur = meterDataService.getListMeterDataForTask1();
 
                 while (itr.hasNext()) {
                     Row row = itr.next();
@@ -237,7 +236,7 @@ public class Task1Service {
 
                     if (map.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = map.get(meterData.getIdCompteur());
-                        if (conf != null && conf.isInverse()) {
+                        if (conf != null && conf.getInverse()) {
 
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();
@@ -271,7 +270,7 @@ public class Task1Service {
                                     meterMap.getDataRMoins(),
                                     meterData.getId());
                         } else if (dateMeter.after(nowDate)) {
-                            meterDataService.insertRow(meterData, idCompany);
+                            meterDataService.insertRow(meterData);
                         }
 
                     }

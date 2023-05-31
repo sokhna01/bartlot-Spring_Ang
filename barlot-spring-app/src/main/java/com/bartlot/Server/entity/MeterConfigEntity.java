@@ -7,9 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "meter_configuration")
+@Table(name = "configuration_points_de_comptage")
 
 public class MeterConfigEntity {
     @Id
@@ -31,47 +33,4 @@ public class MeterConfigEntity {
     @Column(name = "inverse", nullable = false, columnDefinition = "boolean default false")
     private Boolean inverse;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdCompteur() {
-        return idCompteur;
-    }
-
-    public void setIdCompteur(String idCompteur) {
-        this.idCompteur = idCompteur;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Boolean getInverse() {
-        return inverse;
-    }
-
-    public void setInverse(Boolean inverse) {
-        this.inverse = inverse;
-    }
-
-    public boolean isInverse() {
-        return this.inverse;
-    }
 }

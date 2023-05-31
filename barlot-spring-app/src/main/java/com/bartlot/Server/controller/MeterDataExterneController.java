@@ -2,7 +2,6 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.service.Task5Service;
 import com.bartlot.Server.service.Task6Service;
-import com.bartlot.Server.service.Task7Service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -20,9 +19,6 @@ import org.springframework.http.MediaType;
 
 @RestController
 public class MeterDataExterneController {
-
-    @Autowired
-    private Task7Service task7Service;
 
     @Autowired
     private Task6Service task6Service;

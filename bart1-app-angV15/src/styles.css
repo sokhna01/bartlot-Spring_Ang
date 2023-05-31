@@ -1,80 +1,168 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
-.pairColor {
-  background: #FFFFFF;
-  /* white */
-}
+* {
+  .impairColor {
+    background: #e6ecf2 !important;
+  }
 
-.impairColor {
-  background: #E6ECF2;
-  /* blue */
-  /*color: #FFFFFF;*/
-}
+  .pairColor {
+    background: #fff !important;
+  }
 
-.modal-dialog {
-  position: absolute;
-  top: 50px;
-  right: 100px;
-  bottom: 0;
-  left: 0;
-  z-index: 10040;
-  overflow: auto;
-  overflow-y: auto;
-}
+  .mat-header-row {
+    background: #cceffe !important;
+    min-height: 15px !important;
+    height: 30px !important;
+    color: #fff !important;
+  }
 
-.mat-header-row {
-  background: rgb(204, 239, 254);
-  min-height: 15px;
-  height: 30px;
-  color: white;
-}
+  #center {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-#errorMessage {
-  color: red;
-}
+  .example-header {
+    min-height: 56px;
+    max-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px 0;
+    font-size: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+  }
 
-.star {
-  font-size: 1.3em;
-  color: red;
-}
+  .mat-input-container {
+    font-size: 14px;
+    flex-grow: 1;
+    margin-left: 32px;
+    margin-top: 8px;
+  }
 
-.fontColor {
-  color: black;
-}
+  .example-no-results {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    font-size: 12px;
+    font-style: italic;
+  }
 
-th {
-  background: rgb(102, 142, 178);
-  color: white;
-  height: 20px;
-}
+  /** Selection styles */
+  .example-selection-header {
+    font-size: 18px;
+    background: rgba(255, 64, 129, 0.3);
+    border-bottom: 1px solid #d696ac;
+  }
 
-th,
-td {
-  padding-left: 15px;
-}
+  .mat-column-select {
+    max-width: 54px;
+  }
 
-tr {
-  height: 20px;
-}
+  .mat-row {
+    font-size: 8px !important;
+    min-height: 15px;
+    height: 25px;
+    word-wrap: break-word;
+  }
 
-h1 {
-  font-size: 36px !important;
-}
+  .mat-row:active,
+  .mat-row.example-selected-row,
+  .mat-row:hover {
+    background: #eaeaea;
+  }
 
-h2 {
-  font-size: 30px !important;
-}
+  .mat-table {
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+  }
 
-h1,
-h2,
-h3 {
-  margin-top: 20px !important;
-  margin-bottom: 10px !important;
-}
+  .mat-column-idPointComptage {
+    max-width: 100px;
+  }
 
 
-body {
-  margin: 0 !important;
-  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+
+  .mat-input-container {
+    font-size: 14px;
+    flex-grow: 1;
+    margin-left: 32px;
+    margin-top: 8px;
+  }
+
+  .example-no-results {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  /** Selection styles */
+  .example-selection-header {
+    font-size: 18px;
+    background: rgba(255, 64, 129, 0.3);
+    border-bottom: 1px solid #d696ac;
+  }
+
+  .mat-column-select {
+    max-width: 54px;
+  }
+
+
+  .mat-column-idClient {
+    max-width: 120px;
+  }
+
+  .mat-column-idSite {
+    max-width: 100px;
+  }
+
+  .mat-column-idPointComptage {
+    max-width: 100px;
+  }
+
+  .mat-column-idCompteur {
+    max-width: 100px;
+  }
+
+
+  .content {
+    padding-top: 10px;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+
+  }
+
+
+
+  .action {
+    padding: 0px 25px 20px;
+
+  }
+
+
+  .content {
+    padding-top: 10px;
+  }
+
+
+  .row mat-label {
+    text-align: center;
+  }
+
+
+
+
 }

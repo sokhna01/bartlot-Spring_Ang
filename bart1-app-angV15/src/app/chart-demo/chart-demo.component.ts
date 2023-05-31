@@ -31,7 +31,7 @@ export class ChartDemoComponent implements OnInit {
 
   map: Map<string, string[]> = new Map<string, string[]>();
 
-  idcompany !: string;
+
 
   constructor(public http: HttpClient, public baseApp: BaseApp, private router: Router, private route: ActivatedRoute,
     private data: DataService, private listMeterservice: ListMeterServiceService,
@@ -44,11 +44,9 @@ export class ChartDemoComponent implements OnInit {
     this.getBaseUrl();
     const item = localStorage.getItem("token");
     const itemProfil = localStorage.getItem('listProfils');
-    const itemCompany = localStorage.getItem("company_id");
-    if (typeof item == "string" && typeof itemProfil == "string" && typeof itemCompany == "string") {
+    if (typeof item == "string" && typeof itemProfil == "string") {
       this.token = item;
       this.listProfilsTmp = JSON.parse(itemProfil);
-      this.idcompany = itemCompany;
     }
 
     for (let i = 0; i < this.listProfilsTmp.length; i++) {
@@ -63,7 +61,7 @@ export class ChartDemoComponent implements OnInit {
 
   doGetDataMeter() {
     this.loading = true;
-    this.listMeterservice.getDataMeterReporting(this.idcompany, this.baseUrl, this.token).subscribe({
+    this.listMeterservice.getDataMeterReporting(this.baseUrl, this.token).subscribe({
       next: (data) => {
 
         this.loading = false;
@@ -79,16 +77,16 @@ export class ChartDemoComponent implements OnInit {
         for (let i = 0; i < this.listCompteurPr.length; i++) {
           objPresencePr['x'] = i + 1;
           objPresencePr['y'] = Number(this.listCompteurPr[i].presence);
-          objPresencePr['datetime'] = this.listCompteurPr[i].horodatage;
+          objPresencePr['datetime'] = this.listCompteurPr[i].horodotage;
           this.listPresencePr.push(objPresencePr);
           objPuissancePr['x'] = i + 1;
           objPuissancePr['y'] = Number(this.listCompteurPr[i].dataAPlus) - Number(this.listCompteurPr[i].dataAMoins);
-          objPuissancePr['datetime'] = this.listCompteurPr[i].horodatage;
+          objPuissancePr['datetime'] = this.listCompteurPr[i].horodotage;
           this.listPuissancePr.push(objPuissancePr);
 
           objQualitePr['x'] = i + 1;
           objQualitePr['y'] = Number(this.listCompteurPr[i].qualite);
-          objQualitePr['datetime'] = this.listCompteurPr[i].horodatage;
+          objQualitePr['datetime'] = this.listCompteurPr[i].horodotage;
           this.listQualitePr.push(objQualitePr);
 
           objPresencePr = {};
@@ -99,18 +97,18 @@ export class ChartDemoComponent implements OnInit {
         for (let i = 0; i < this.listCompteurRe.length; i++) {
           objPresenceRe['x'] = i + 1;
           objPresenceRe['y'] = Number(this.listCompteurRe[i].presence);
-          objPresenceRe['datetime'] = this.listCompteurRe[i].horodatage;
+          objPresenceRe['datetime'] = this.listCompteurRe[i].horodotage;
           this.listPresenceRe.push(objPresenceRe);
           // this.listPresenceRe.push(Number(this.listCompteurRe[i].presence));
 
           objPuissanceRe['x'] = i + 1;
           objPuissanceRe['y'] = Number(this.listCompteurRe[i].dataAPlus) - Number(this.listCompteurRe[i].dataAMoins);
-          objPuissanceRe['datetime'] = this.listCompteurRe[i].horodatage;
+          objPuissanceRe['datetime'] = this.listCompteurRe[i].horodotage;
           this.listPuissanceRe.push(objPuissanceRe);
 
           objQualiteRe['x'] = i + 1;
           objQualiteRe['y'] = Number(this.listCompteurRe[i].qualite);
-          objQualiteRe['datetime'] = this.listCompteurRe[i].horodatage;
+          objQualiteRe['datetime'] = this.listCompteurRe[i].horodotage;
           this.listQualiteRe.push(objQualiteRe);
 
           objPresenceRe = {};

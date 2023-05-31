@@ -1,17 +1,15 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { BaseApp } from '../services/base-app/base_app';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from "@angular/router";
 
-// import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-// import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { DataService } from "../services/data-service/data_service";
 import { ListMeterServiceService } from '../services/service/list-meter-service.service';
-// import * as FileSaver from 'file-saver';
+
 
 @Component({
   selector: 'app-result-upload-file-demo',
@@ -21,19 +19,13 @@ import { ListMeterServiceService } from '../services/service/list-meter-service.
 export class ResultUploadFileDemoComponent implements OnInit {
   baseUrl: string;
   token!: string;
-  pickupDate!: Date;
-  pickupDate_string!: string;
   headerString: string = 'Resultat BD avant execution Tâche 1';
-  fileName!: string;
   listProfilsTmp: Array<any> = [];
   listProfils: { [key: string]: string } = {};
   idcompany !: string;
-  trips: any;
   sub: any;
   public loading = false;
-
   displayedColumns: string[] = ['idClient', 'idSite', 'idPointComptage', 'idCompteur', 'horodatage', 'dataAPlus', 'dataAMoins', 'dataRPlus', 'dataRMoins', 'source', 'presence', 'qualite'];
-
   dataSource: any;
 
 
@@ -66,9 +58,7 @@ export class ResultUploadFileDemoComponent implements OnInit {
   ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
-      this.pickupDate_string = params['pickup_date'];
-      this.fileName = params['filename'];
-      this.pickupDate = params['pickup_date'];
+
       this.doGetListMeter();
     });
   }
@@ -76,20 +66,13 @@ export class ResultUploadFileDemoComponent implements OnInit {
   doGetListMeter() {
     this.loading = true;
 
-    this.listMeterService.getListMeter(this.idcompany, this.fileName, this.pickupDate, this.listProfils, this.token, this.baseUrl).subscribe({
+    this.listMeterService.getListMeter(this.token, this.baseUrl).subscribe({
       next: (data) => {
         this.headerString = 'Resultat BD après exécution Tâche 1';
 
         this.loading = false;
-        this.trips = data;
-        this.dataSource = new MatTableDataSource(this.trips);
+        this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sortingDataAccessor = (item: { [x: string]: any; drivernum: any; }, property: string | number) => {
-          switch (property) {
-            case 'drivernum': return Number(item.drivernum);
-            default: return item[property];
-          }
-        };
         this.dataSource.sort = this.sort;
       },
       error: (error) => {

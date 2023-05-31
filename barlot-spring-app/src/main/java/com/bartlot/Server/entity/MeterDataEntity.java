@@ -7,9 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "meter_data")
+@Table(name = "brute_acquisition")
 
 public class MeterDataEntity {
     @Id
@@ -34,164 +36,30 @@ public class MeterDataEntity {
     @Column(name = "horodatage", columnDefinition = "timestamp without time zone")
     private Timestamp horodatage;
 
-    @Column(name = "dataaplus")
+    @Column(name = "dataaplus", columnDefinition = "REAL")
     private Double dataAPlus;
 
-    @Column(name = "dataamoins")
+    @Column(name = "dataamoins", columnDefinition = "REAL")
     private Double dataAMoins;
 
-    @Column(name = "datarplus")
+    @Column(name = "datarplus", columnDefinition = "REAL")
     private Double dataRPlus;
 
-    @Column(name = "datarmoins")
+    @Column(name = "datarmoins", columnDefinition = "REAL")
     private Double dataRMoins;
-
-    @Column(name = "created_date", columnDefinition = "timestamp without time zone default now()")
-    private Timestamp createdDate;
 
     @Column(name = "idcompany")
     private Integer idCompany;
 
-    @Column(name = "source")
+    @Column(name = "source", length = 2, columnDefinition = "character(2)")
     private String source;
 
-    @Column(name = "presence")
+    @Column(name = "presence", length = 1, columnDefinition = "character(1)")
     private String presence;
 
-    @Column(name = "qualite")
+    @Column(columnDefinition = "character(1) DEFAULT '5'::bpchar")
     private String qualite;
 
-    @Column(name = "puissance_reactive_qualite", length = 2, columnDefinition = "varchar(2) default '5'")
+    @Column(name = "puissance_reactive_qualite", length = 2, columnDefinition = "character(2) default '5'")
     private String puissanceReactiveQualite = "5";
-
-    // public MeterDataModel() {
-
-    // }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdClient() {
-        return idClient;
-    }
-
-    public void setIdClient(String idClient) {
-        this.idClient = idClient;
-    }
-
-    public Integer getIdCompany() {
-        return idCompany;
-    }
-
-    public void setIdCompany(Integer idCompany) {
-        this.idCompany = idCompany;
-    }
-
-    public String getIdSite() {
-        return idSite;
-    }
-
-    public void setIdSite(String idSite) {
-        this.idSite = idSite;
-    }
-
-    public String getPointComptageId() {
-        return pointComptageId;
-    }
-
-    public void setPointComptageId(String pointComptageId) {
-        this.pointComptageId = pointComptageId;
-    }
-
-    public String getIdCompteur() {
-        return idCompteur;
-    }
-
-    public void setIdCompteur(String idCompteur) {
-        this.idCompteur = idCompteur;
-    }
-
-    public Timestamp getHorodatage() {
-        return horodatage;
-    }
-
-    public void setHorodatage(Timestamp horodatage) {
-        this.horodatage = horodatage;
-    }
-
-    public Double getDataAPlus() {
-        return dataAPlus;
-    }
-
-    public void setDataAPlus(Double dataAPlus) {
-        this.dataAPlus = dataAPlus;
-    }
-
-    public Double getDataAMoins() {
-        return dataAMoins;
-    }
-
-    public void setDataAMoins(Double dataAMoins) {
-        this.dataAMoins = dataAMoins;
-    }
-
-    public Double getDataRPlus() {
-        return dataRPlus;
-    }
-
-    public void setDataRPlus(Double dataRPlus) {
-        this.dataRPlus = dataRPlus;
-    }
-
-    public Double getDataRMoins() {
-        return dataRMoins;
-    }
-
-    public void setDataRMoins(Double dataRMoins) {
-        this.dataRMoins = dataRMoins;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getPresence() {
-        return presence;
-    }
-
-    public void setPresence(String presence) {
-        this.presence = presence;
-    }
-
-    public String getQualite() {
-        return qualite;
-    }
-
-    public void setQualite(String qualite) {
-        this.qualite = qualite;
-    }
-
-    public String getPuissanceReactiveQualite() {
-        return puissanceReactiveQualite;
-    }
-
-    public void setPuissanceReactiveQualite(String puissanceReactiveQualite) {
-        this.puissanceReactiveQualite = puissanceReactiveQualite;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 }

@@ -1,0 +1,27 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div mat-dialog-title>
+  <h1>{{'HEADER_FORM_UPDATE_WORK_TABLE'|translate}}</h1>
+</div>
+<form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+
+    <div class="row" *ngIf="success==true">
+      <mat-label>{{message|translate}}</mat-label>
+    </div>
+
+    <div class="row" *ngIf="success==false">
+      <mat-form-field appearance="outline" id="area">
+        <mat-label>{{'COMMENT'|translate}}</mat-label>
+        <textarea matInput type="text" placeholder="{{'COMMENT'|translate}}" formControlName="commentaire"></textarea>
+      </mat-form-field>
+
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button *ngIf="success==false" type="button"
+      [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button>
+    <button mat-raised-button *ngIf="success==false" color="primary" [disabled]="editForm.invalid"
+      type="submit">{{'SUBMIT'|translate}}</button>
+    <button mat-raised-button *ngIf="success==true" type="button" color="primary" (click)="home()">OK</button>
+  </div>
+</form>

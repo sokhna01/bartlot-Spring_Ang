@@ -10,6 +10,10 @@ import { ResultUpdateSourceDemoComponent } from './result-update-source-demo/res
 import { ResultUploadFileDemoComponent } from './result-upload-file-demo/result-upload-file-demo.component';
 import { ResultUploadMissedDataDemoComponent } from './result-upload-missed-data-demo/result-upload-missed-data-demo.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
+import { TacheHuitComponent } from './tache-huit/tache-huit.component';
+import { TacheNeufComponent } from './tache-neuf/tache-neuf.component';
+import { TableauInterventionComponent } from './tableau-intervention/tableau-intervention.component';
+import { LandingPageInterventionComponent } from './landing-page-intervention/landing-page-intervention.component';
 import { Task6Component } from './task6/task6.component';
 import { Task5Component } from './task5/task5.component';
 const routes: Routes = [
@@ -22,9 +26,13 @@ const routes: Routes = [
   { path: 'chart_demo_line', component: ChartDemoLineComponent },
   { path: 'result_update_source_demo', component: ResultUpdateSourceDemoComponent },
   { path: 'result_update_qualite_demo', component: ResultUpdateQualiteDemoComponent },
-  { path: 'add_profil', component: AddProfilComponent},
-  { path: 'task5', component: Task5Component},
-  { path: 'task6', component: Task6Component},
+  { path: 'add_profil', component: AddProfilComponent },
+  { path: 'tache_huit', component: TacheHuitComponent },
+  { path: 'tache_neuf', component: TacheNeufComponent },
+  { path: 'task5', component: Task5Component },
+  { path: 'task6', component: Task6Component },
+  { path: 'landing_page_intervention', component: LandingPageInterventionComponent },
+  { path: 'intervention', component: TableauInterventionComponent },
   { path: 'result_upload_missed_data_demo', component: ResultUploadMissedDataDemoComponent }];
 
 @NgModule({

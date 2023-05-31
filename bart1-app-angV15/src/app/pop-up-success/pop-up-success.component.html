@@ -1,0 +1,14 @@
+<div mat-dialog-title>
+  <!-- <h1>Opération réussie avec succès</h1> -->
+</div>
+<form (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-label class="centered-label">{{data.message|translate}}</mat-label>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <!-- <button mat-raised-button type="button" [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button> -->
+    <button mat-raised-button color="primary" type="submit">{{'SUBMIT'|translate}}</button>
+  </div>
+</form>

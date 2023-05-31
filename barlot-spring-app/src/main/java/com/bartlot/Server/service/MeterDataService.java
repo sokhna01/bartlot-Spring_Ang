@@ -27,10 +27,10 @@ public class MeterDataService {
     @Autowired
     private MeterDataRepository meterDataRepository;
 
-    public List<MeterDataEntity> getListMeterData(int idCompany) {
+    public List<MeterDataEntity> getListMeterData() {
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -58,14 +58,12 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany, begin_date,
-                end_date);
+        return meterDataRepository.findByHorodatageBetweenOrderByHorodatageAscWithException(begin_date, end_date);
     }
 
-    public String insertRow(MeterDataEntity meterData, int idCompany) {
+    public String insertRow(MeterDataEntity meterData) {
         String response = "notOk";
         try {
-            meterData.setIdCompany(idCompany);
             meterDataRepository.save(meterData);
             response = "ok";
         } catch (Exception e) {
@@ -87,13 +85,13 @@ public class MeterDataService {
         return response;
     }
 
-    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType(int idCompany) {
+    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType() {
 
         HashMap<String, List<MeterDataEntity>> map = new HashMap<String, List<MeterDataEntity>>();
         List<MeterDataEntity> listCompteurPrincipal = new ArrayList<MeterDataEntity>();
         List<MeterDataEntity> listCompteurRedondant = new ArrayList<MeterDataEntity>();
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
         // System.out.println("babs "+tsp);
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -122,9 +120,7 @@ public class MeterDataService {
         Date end_date = new Date(c.getTimeInMillis());
 
         List<MeterDataEntity> meterDataList = meterDataRepository
-                .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
-                        begin_date,
-                        end_date);
+                .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
         for (MeterDataEntity meterData : meterDataList) {
 
@@ -146,12 +142,12 @@ public class MeterDataService {
      * compteurs pour la tache 1
      * lors des 35 derniers jours de la bd
      */
-    public HashMap<String, MeterDataEntity> getListMeterDataForTask1(int idCompany) {
+    public HashMap<String, MeterDataEntity> getListMeterDataForTask1() {
 
         HashMap<String, MeterDataEntity> list = new HashMap<String, MeterDataEntity>();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
         if (tsp != null) {
             String strTsp = "" + tsp;
             String date = strTsp.split(" ")[0];
@@ -181,8 +177,7 @@ public class MeterDataService {
             Date end_date = new Date(c.getTimeInMillis());
 
             List<MeterDataEntity> meterDataList = meterDataRepository
-                    .findByIdCompanyAndHorodatageBetweenOrderByHorodatageAsc(idCompany,
-                            begin_date, end_date);
+                    .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
             for (MeterDataEntity meterData : meterDataList) {
 
@@ -202,13 +197,13 @@ public class MeterDataService {
      * lors des 35 derniers jours de la
      * BD
      */
-    public HashMap<String, MeterDataEntity> getListAbsenceMeterData(int idCompany) {
+    public HashMap<String, MeterDataEntity> getListAbsenceMeterData() {
 
         HashMap<String, MeterDataEntity> list = new HashMap<String, MeterDataEntity>();
         // DataBase db = new DataBase();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -240,8 +235,7 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository.findMeterDataBybetweenDate(idCompany, begin_date,
-                    end_date);
+            List<MeterDataEntity> meterDataList = meterDataRepository.findMeterDataBybetweenDate(begin_date, end_date);
 
             for (MeterDataEntity meterData : meterDataList) {
 

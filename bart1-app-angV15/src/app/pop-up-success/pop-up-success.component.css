@@ -1,0 +1,11 @@
+h1 {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+
+button {
+  flex: 1;
+}

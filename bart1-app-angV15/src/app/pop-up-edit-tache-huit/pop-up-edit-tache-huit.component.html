@@ -1,0 +1,44 @@
+<div mat-dialog-title>
+  <h1>{{'TITLE_HEADER_SAISIE_MAN'| translate}}e</h1>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+
+
+    <div class="row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>A+ Ma</mat-label>
+        <input matInput type="number" placeholder="A+ Ma" formControlName="dataAPlus">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>A- Ma</mat-label>
+        <input matInput type="number" placeholder="A- Ma" formControlName="dataAMoins">
+      </mat-form-field>
+
+    </div>
+
+    <div class="row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>R+ Ma</mat-label>
+        <input matInput type="number" placeholder="R+ Ma" formControlName="dataRPlus">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>R- Ma</mat-label>
+        <input matInput type="number" placeholder="R- Pr" formControlName="dataRMoins">
+      </mat-form-field>
+
+    </div>
+
+
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button>
+    <button mat-raised-button color="primary" [disabled]="editForm.invalid"
+      type="submit">{{'SUBMIT'|translate}}</button>
+  </div>
+</form>

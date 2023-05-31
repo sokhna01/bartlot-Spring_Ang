@@ -1,11 +1,13 @@
 package com.bartlot.Server.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 
+@Data
 @Entity
-@Table(name = "work_table")
+@Table(name = "travail")
 
 public class WorkTableEntity {
     @Id
@@ -28,28 +30,25 @@ public class WorkTableEntity {
     @Column(name = "horodatage", columnDefinition = "timestamp without time zone")
     private Timestamp horodatage;
 
-    @Column(name = "dataaplus")
+    @Column(name = "dataaplus", columnDefinition = "REAL")
     private Double dataAPlus;
 
-    @Column(name = "dataamoins")
+    @Column(name = "dataamoins", columnDefinition = "REAL")
     private Double dataAMoins;
 
-    @Column(name = "datarplus")
+    @Column(name = "datarplus", columnDefinition = "REAL")
     private Double dataRPlus;
 
-    @Column(name = "datarmoins")
+    @Column(name = "datarmoins", columnDefinition = "REAL")
     private Double dataRMoins;
 
-    @Column(name = "created_date", columnDefinition = "timestamp without time zone default now()")
-    private Timestamp createdDate;
-
-    @Column(name = "source")
+    @Column(name = "source", length = 2, columnDefinition = "character(2)")
     private String source;
 
-    @Column(name = "presence")
+    @Column(name = "presence", columnDefinition = "character(1)")
     private String presence;
 
-    @Column(name = "qualite")
+    @Column(columnDefinition = "character(1) DEFAULT '5'::bpchar")
     private String qualite;
 
     @Column(name = "validation")
@@ -61,141 +60,6 @@ public class WorkTableEntity {
     @Column(name = "attente_action")
     private String attenteAction;
 
-    // Getters and Setters
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdClient() {
-        return idClient;
-    }
-
-    public void setIdClient(String idClient) {
-        this.idClient = idClient;
-    }
-
-    public String getIdSite() {
-        return idSite;
-    }
-
-    public void setIdSite(String idSite) {
-        this.idSite = idSite;
-    }
-
-    public String getPointComptageId() {
-        return pointComptageId;
-    }
-
-    public void setPointComptageId(String pointComptageId) {
-        this.pointComptageId = pointComptageId;
-    }
-
-    public String getIdCompteur() {
-        return idCompteur;
-    }
-
-    public void setIdCompteur(String idCompteur) {
-        this.idCompteur = idCompteur;
-    }
-
-    public Timestamp getHorodatage() {
-        return horodatage;
-    }
-
-    public void setHorodatage(Timestamp horodatage) {
-        this.horodatage = horodatage;
-    }
-
-    public Double getDataAPlus() {
-        return dataAPlus;
-    }
-
-    public void setDataAPlus(Double dataAPlus) {
-        this.dataAPlus = dataAPlus;
-    }
-
-    public Double getDataAMoins() {
-        return dataAMoins;
-    }
-
-    public void setDataAMoins(Double dataAMoins) {
-        this.dataAMoins = dataAMoins;
-    }
-
-    public Double getDataRPlus() {
-        return dataRPlus;
-    }
-
-    public void setDataRPlus(Double dataRPlus) {
-        this.dataRPlus = dataRPlus;
-    }
-
-    public Double getDataRMoins() {
-        return dataRMoins;
-    }
-
-    public void setDataRMoins(Double dataRMoins) {
-        this.dataRMoins = dataRMoins;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getPresence() {
-        return presence;
-    }
-
-    public void setPresence(String presence) {
-        this.presence = presence;
-    }
-
-    public String getQualite() {
-        return qualite;
-    }
-
-    public void setQualite(String qualite) {
-        this.qualite = qualite;
-    }
-
-    public String getValidation() {
-        return validation;
-    }
-
-    public void setValidation(String validation) {
-        this.validation = validation;
-    }
-
-    public String getCommentaire() {
-        return commentaire;
-    }
-
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
-    }
-
-    public String getAttenteAction() {
-        return attenteAction;
-    }
-
-    public void setAttenteAction(String attenteAction) {
-        this.attenteAction = attenteAction;
-    }
+    @Column(columnDefinition = "character varying(2) DEFAULT '5'")
+    private String puissanceReactiveQualite;
 }

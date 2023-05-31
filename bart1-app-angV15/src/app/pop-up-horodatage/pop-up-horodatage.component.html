@@ -1,0 +1,40 @@
+<div mat-dialog-title>
+  <h1>{{'TITLE_HEADER_SAISIE_ANT'|translate}} {{data| date:'medium'}}</h1>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<form [formGroup]="editForm">
+  <div mat-dialog-content class="content">
+
+    <div class="row" *ngIf="success==2">
+      <mat-label>{{'TITLE_DATA_NOT_AVAILABLE'|translate}}</mat-label>
+    </div>
+
+    <div class="row" *ngIf="success==0">
+      <mat-form-field appearance="outline">
+        <mat-label>{{'DATE_CHOICE'|translate}}</mat-label>
+        <input matInput formControlName="horodatage" placeholder="date" [max]="maxDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="row" *ngIf="success==1">
+      <mat-label>A+ {{editForm.value.dataAPlus}}</mat-label>
+      <mat-label>A- {{editForm.value.dataAMoins}}</mat-label>
+    </div>
+
+    <div class="row" *ngIf="success==1">
+      <mat-label>R+ {{editForm.value.dataRPlus}}</mat-label>
+      <mat-label>R- {{editForm.value.dataRMoins}}</mat-label>
+    </div>
+
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button *ngIf="success==0" type="button"
+      [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button>
+    <button mat-raised-button *ngIf="success==0" color="primary" (click)="onFormSubmit()" [disabled]="editForm.invalid"
+      type="submit">{{'SUBMIT_RETRIEVE'|translate}}</button>
+    <button mat-raised-button *ngIf="success==1||success==2" color="primary" (click)="validated()"
+      type="submit">{{'SUBMIT_RETRIEVE'|translate}}</button>
+  </div>
+</form>

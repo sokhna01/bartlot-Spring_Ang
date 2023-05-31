@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataService } from "./services/data-service/data_service";
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './services/auth-service/authentication.service';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,6 @@ export class AppComponent implements OnInit {
   menuBar: Array<any> = [];
   isLogged: boolean = true;
   company_type!: string;
-  company_id!: string;
   profilDemo: string = "";
   selectedLanguage = sysOptions.systemLanguage;
   subscription!: Subscription;
@@ -52,6 +52,8 @@ export class AppComponent implements OnInit {
         this.translate.use(result);
       }
     }
+
+
     else {
       this.translate.use(sysOptions.systemLanguage);
     }
@@ -59,24 +61,19 @@ export class AppComponent implements OnInit {
   }
 
   manageMenuBar() {
-    
+
     let isLoggedStr;
     this.subscription = this.data.currentMessage.subscribe((message: any) => {
       isLoggedStr = message;
       this.isLogged = JSON.parse(isLoggedStr);
       if (this.isLogged) {
 
-        const resultCompanyId = localStorage.getItem('company_id');
         const resultCompanyType = localStorage.getItem('company_type');
         const resultProfile = localStorage.getItem('profilDemo');
         const resultList = localStorage.getItem('listActions');
 
-        if (typeof resultCompanyId == "string" && typeof resultCompanyType == "string" && typeof resultProfile == "string" && typeof resultList == "string") {
-          // console.log(resultCompanyId);
-          // console.log(resultCompanyType);
-          // console.log(resultList);
-          // console.log(resultProfile);
-          this.company_id = resultCompanyId;
+        if (typeof resultCompanyType == "string" && typeof resultProfile == "string" && typeof resultList == "string") {
+
           this.company_type = resultCompanyType;
           this.profilDemo = resultProfile;
           this.listActions = JSON.parse(resultList);
@@ -89,7 +86,7 @@ export class AppComponent implements OnInit {
               /*
               donc lui il retir le dernier element du tableau
                */
-              this.listActions.splice(i, 1); 
+              this.listActions.splice(i, 1);
             }
           }
         }
@@ -126,6 +123,12 @@ export class AppComponent implements OnInit {
         this.emptyArrays();
       }
     });
+
+    /*
+     *ce qu'on a sur le menu
+    */
+    // console.log(this.menuBar);
+
   }
 
   fillArrays() {
@@ -133,15 +136,15 @@ export class AppComponent implements OnInit {
       if (this.listActions[i].category && this.listActions[i].category.toLowerCase() == "adding") {
         let length = this.Adding.length;
         this.Adding[length] = this.listActions[i];
-      } 
+      }
       else if (this.listActions[i].category && this.listActions[i].category.toLowerCase() == "modifying") {
         let length = this.Modifying.length;
         this.Modifying[length] = this.listActions[i];
       }
-       else if (this.listActions[i].category && this.listActions[i].category.toLowerCase() == "manage") {
+      else if (this.listActions[i].category && this.listActions[i].category.toLowerCase() == "manage") {
         let length = this.Manage.length;
         this.Manage[length] = this.listActions[i];
-      } 
+      }
       else if (this.listActions[i].category && this.listActions[i].category.toLowerCase() == "reporting") {
         let length = this.Reporting.length;
         this.Reporting[length] = this.listActions[i];
@@ -149,7 +152,7 @@ export class AppComponent implements OnInit {
     };
   }
 
-  
+
   emptyArrays() {
     this.Adding = [];
     this.Modifying = [];

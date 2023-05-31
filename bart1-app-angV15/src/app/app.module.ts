@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -23,8 +23,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FileUploadModule } from 'ng2-file-upload';
+import * as fr from '@angular/common/locales/fr';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { registerLocaleData } from '@angular/common';
 
 /*
 service
@@ -52,8 +54,27 @@ import { ResultUpdateSourceDemoComponent } from './result-update-source-demo/res
 import { ChartDemoComponent } from './chart-demo/chart-demo.component';
 import { ChartDemoLineComponent } from './chart-demo-line/chart-demo-line.component';
 import { AddProfilComponent } from './add-profil/add-profil.component';
+import { TacheHuitComponent } from './tache-huit/tache-huit.component';
+import { PopUpEditTacheHuitComponent } from './pop-up-edit-tache-huit/pop-up-edit-tache-huit.component';
+import { PopUpUpdateTacheHuitComponent } from './pop-up-update-tache-huit/pop-up-update-tache-huit.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PopUpHorodatageComponent } from './pop-up-horodatage/pop-up-horodatage.component';
+import { PopUpSuccessComponent } from './pop-up-success/pop-up-success.component';
+import { TacheNeufComponent } from './tache-neuf/tache-neuf.component';
+
+
+// datepicker
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+import { TableauInterventionComponent } from './tableau-intervention/tableau-intervention.component';
+import { PopUpInterventionComponent } from './pop-up-intervention/pop-up-intervention.component';
+import { LandingPageInterventionComponent } from './landing-page-intervention/landing-page-intervention.component';
 import { Task6Component } from './task6/task6.component';
 import { Task5Component } from './task5/task5.component';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/translate/', '.json');
@@ -71,13 +92,29 @@ export function createTranslateLoader(http: HttpClient) {
     ChartDemoComponent,
     ChartDemoLineComponent,
     AddProfilComponent,
+    TacheHuitComponent,
+    PopUpEditTacheHuitComponent,
+    PopUpUpdateTacheHuitComponent,
+    PopUpHorodatageComponent,
+    PopUpSuccessComponent,
+    TacheNeufComponent,
+    TableauInterventionComponent,
+    PopUpInterventionComponent,
     Task6Component,
-    Task5Component
+    Task5Component,
+    LandingPageInterventionComponent,
+
   ],
   imports: [
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
     HttpClientModule,
     BrowserModule,
+    MatAutocompleteModule,
     AppRoutingModule,
+    MatSnackBarModule,
     BrowserAnimationsModule,
     MatTableModule,
     TranslateModule,
@@ -98,10 +135,8 @@ export function createTranslateLoader(http: HttpClient) {
     MatSortModule,
     MatRadioModule,
     MatNativeDateModule,
-    MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatAutocompleteModule,
 
     TranslateModule.forRoot({
       loader: {
@@ -112,7 +147,12 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     NgxLoadingModule.forRoot({}),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }, BaseApp, DataService,],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }, BaseApp, DataService,
+  { provide: LOCALE_ID, useValue: 'fr-FR' },],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(fr.default);
+  }
+}

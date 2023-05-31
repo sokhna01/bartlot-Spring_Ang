@@ -23,12 +23,12 @@ public class Task3Service {
     @Autowired
     private MeterDataRepository meterDataRepository;
 
-    public void updateSource(int idCompany) {
+    public void updateSource() {
         List<MeterDataEntity> list = new ArrayList<MeterDataEntity>();
-        list = meterDataService.getListMeterData(idCompany);
+        list = meterDataService.getListMeterData();
         String presence = "";
         HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-        HashMap<String, List<MeterDataEntity>> listAllCompteur = meterDataService.getListMeterDataByType(idCompany);
+        HashMap<String, List<MeterDataEntity>> listAllCompteur = meterDataService.getListMeterDataByType();
         for (int i = 0; i < list.size(); i++) {
             MeterDataEntity meter = list.get(i);
             List<MeterDataEntity> listCompteur = listAllCompteur.get(meter.getIdCompteur());

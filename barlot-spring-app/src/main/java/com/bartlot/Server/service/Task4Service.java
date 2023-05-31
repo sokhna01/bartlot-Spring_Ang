@@ -26,11 +26,11 @@ public class Task4Service {
     @Autowired
     private Task7Service task7Service;
 
-    public void executeTask4(int idCompany) {
+    public void executeTask4() {
         double borneSup = Common.puissanceNominale * 1.2;
         double borneInf = Common.puissanceNominale * 0.1;
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
 
         if (tsp != null) {
             String strTsp = "" + tsp;

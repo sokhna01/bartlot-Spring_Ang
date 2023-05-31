@@ -17,16 +17,9 @@ import { ListMeterServiceService } from '../services/service/list-meter-service.
 export class ResultUploadMissedDataDemoComponent implements OnInit {
   baseUrl: string;
   token!: string;
-  pickupDate!: Date;
-  pickupDate_string!: string;
   headerString: string = 'Resultat BD avant execution Tâche 2';
-  fileName!: string;
   listProfilsTmp: Array<any> = [];
   listProfils: { [key: string]: string } = {};
-  idcompany !: string;
-
-  trips: any;
-
   value: boolean = false;
   sub: any;
   public loading = false;
@@ -48,11 +41,9 @@ export class ResultUploadMissedDataDemoComponent implements OnInit {
     this.baseUrl = this.baseApp.getBaseUrl();
     const item = localStorage.getItem("token");
     const itemProfil = localStorage.getItem('listProfils');
-    const itemCompany = localStorage.getItem('company_id');
-    if (typeof item == "string" && typeof itemProfil == "string" && typeof itemCompany == "string") {
+    if (typeof item == "string" && typeof itemProfil == "string") {
       this.token = item;
       this.listProfilsTmp = JSON.parse(itemProfil);
-      this.idcompany = itemCompany;
     }
 
     for (let i = 0; i < this.listProfilsTmp.length; i++) {
@@ -61,11 +52,8 @@ export class ResultUploadMissedDataDemoComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Outside route');
+
     this.sub = this.route.params.subscribe(params => {
-      this.pickupDate_string = params['pickup_date'];
-      this.fileName = params['filename'];
-      this.pickupDate = params['pickup_date'];
       this.doGetListMeter();
       // this.pickupDateBis = datePipe.transform(this.pickupDate_string, 'MMM d, y');
     });
@@ -74,10 +62,10 @@ export class ResultUploadMissedDataDemoComponent implements OnInit {
 
   doUpdateTask2() {
     this.loading = true;
-    this.listMeterService.updateTask2(this.idcompany, this.listProfils, this.token, this.baseUrl).subscribe({
+    this.listMeterService.updateTask2(this.listProfils, this.token, this.baseUrl).subscribe({
       next: (data) => {
         this.headerString = 'Resultat BD après execution Tâche 2';
-        console.log(data);
+
         //setTimeout(()=>{
         this.loading = false;
         if (data.msg == 'update_ok') {
@@ -97,22 +85,13 @@ export class ResultUploadMissedDataDemoComponent implements OnInit {
 
   doGetListMeter() {
     this.loading = true;
-    this.listMeterService.getListMeter(this.idcompany, this.fileName, this.pickupDate, this.listProfils, this.token, this.baseUrl).subscribe({
+    this.listMeterService.getListMeter(this.token, this.baseUrl).subscribe({
       next: (data) => {
-        console.log('select ok');
+
         //setTimeout(()=>{
         this.loading = false;
-        this.trips = data;
-        this.dataSource = new MatTableDataSource(this.trips);
+        this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sortingDataAccessor = (item: any, property: any) => {
-          //console.log(item);
-          //console.log(property);
-          switch (property) {
-            case 'drivernum': return Number(item.drivernum);
-            default: return item[property];
-          }
-        };
         this.dataSource.sort = this.sort;
 
       },

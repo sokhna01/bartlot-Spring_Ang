@@ -26,18 +26,17 @@ public class Task2Service {
     private MeterDataRepository meterDataRepository;
 
     // Utiliser pour inserer les prochaines taches 1
-    public void readXLSXFileForTask2(int idCompany) {
+    public void readXLSXFileForTask2() {
         try {
             // creating a new file
-            File file = new File(Common.meterDataPath + idCompany + "/" +
-                    Common.filename);
+            File file = new File(Common.meterDataPath + Common.filename);
             // creating Workbook instance that refers to .xlsx file
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
                 // creating a Sheet object to retrieve object
                 XSSFSheet sheet = wb.getSheetAt(0);
                 // iterating over excel file
                 Iterator<Row> itr = sheet.iterator();
-                HashMap<String, MeterDataEntity> map = meterDataService.getListAbsenceMeterData(idCompany);
+                HashMap<String, MeterDataEntity> map = meterDataService.getListAbsenceMeterData();
                 boolean isHeader = true;
                 while (itr.hasNext()) {
                     Row row = itr.next();

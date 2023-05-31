@@ -39,10 +39,9 @@ export class LoginComponent {
     this.authservice.Login(this.username, this.password, this.companyCode).subscribe({
       next: (data) => {
         this.loading = false;
-        
+
         if (data.error = 'null') {
           localStorage.setItem('id', data.id);
-          localStorage.setItem('company_id', data.idcompany);
           localStorage.setItem('company_type', data.type);
           localStorage.setItem('company_name', data.companyname);
           localStorage.setItem('company_address', data.address1);
@@ -54,20 +53,20 @@ export class LoginComponent {
           localStorage.setItem('profilDemo', data.profiles[0].pfName);
           localStorage.setItem('listActions', data.actions);
           localStorage.setItem('token', data.token);
-  
+
           let listActions = data.actions;
           if (data.type == 'societe') {
             if (listActions.length > 0) {
               const actionsToKeep: any[] = listActions.filter((action: any) => {
                 return action.actCode !== 'act_110' &&
-                       action.actCode !== 'act_204' &&
-                       action.actCode !== 'act_203' &&
-                       action.actCode !== 'act_011' &&
-                       action.actCode !== 'act_108';
-              });              
+                  action.actCode !== 'act_204' &&
+                  action.actCode !== 'act_203' &&
+                  action.actCode !== 'act_011' &&
+                  action.actCode !== 'act_108';
+              });
               localStorage.setItem('listActions', JSON.stringify(actionsToKeep));
             }
-            
+
           }
 
           localStorage.setItem('language', data.language);
@@ -81,22 +80,21 @@ export class LoginComponent {
             }
 
           }
-          console.log(data);
 
           this.data.changeMessage("true");
           this.router.navigate(['/home']);
         }
       },
-        error: (err) => {
-          this.loading = false;
-          if (err.status === 401 && err.error.error === 'AuthenticationError') {
-            $('#failedModal').modal('show');
-          } else if (err.status === 500) {
-            $('#errorModal').modal('show');
-          }
+      error: (err) => {
+        this.loading = false;
+        if (err.status === 401 && err.error.error === 'AuthenticationError') {
+          $('#failedModal').modal('show');
+        } else if (err.status === 500) {
+          $('#errorModal').modal('show');
         }
-      });
-  }  
+      }
+    });
+  }
 
   getBaseUrl() {
     this.baseUrl = this.baseApp.getBaseUrl();

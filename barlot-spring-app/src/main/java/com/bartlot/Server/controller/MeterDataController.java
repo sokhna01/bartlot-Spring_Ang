@@ -1,8 +1,11 @@
 package com.bartlot.Server.controller;
 
+import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
+import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.service.MeterDataService;
@@ -10,8 +13,11 @@ import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
 import com.bartlot.Server.service.Task7Service;
+import com.bartlot.Server.service.Task8Service;
+import com.bartlot.Server.service.Task9Service;
 import com.bartlot.Server.service.Task3Service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,35 +56,36 @@ public class MeterDataController {
     @Autowired
     private MeterConfigRepository meterConfigRepository;
 
+    @Autowired
+    private Task9Service task9Service;
+
+    @Autowired
+    private Task8Service task8Service;
+
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         // Code pour gérer le téléchargement du fichier
         return ResponseEntity.ok("upload_ok");
     }
 
-    @PostMapping("/getlistmeterdata")
-    public List<MeterDataEntity> getListMeter(@RequestParam("idcompany") String idcompany) {
-
-        int idCompany = Integer.parseInt(idcompany);
-
-        return meterDataService.getListMeterData(idCompany);
+    @GetMapping("/getlistmeterdata")
+    public List<MeterDataEntity> getListMeter() {
+        return meterDataService.getListMeterData();
     }
 
     @PostMapping("/insert_meter_data")
-    public ResponseEntity<?> insertXlsxToBD(@RequestParam("idcompany") String idcompany,
+    public ResponseEntity<?> insertXlsxToBD(
             @RequestParam("filename") String filename) {
 
         Map<String, String> map = new HashMap<String, String>();
-        int idCompany = Integer.parseInt(idcompany);
 
-        Long count = meterDataRepository.countByIdCompany(idCompany);
+        Long count = meterDataRepository.count();
 
         if (count == 0) {
 
-            task1Service.readXLSXFile(filename, idCompany);
+            task1Service.readXLSXFile(filename);
         } else {
-            System.out.println("testtt");
-            task1Service.readXLSXFileForNextTask1(filename, idCompany);
+            task1Service.readXLSXFileForNextTask1(filename);
         }
 
         map.put("msg", "insert_ok");
@@ -86,22 +93,20 @@ public class MeterDataController {
     }
 
     @PostMapping("/tache2")
-    public ResponseEntity<?> updateMissingField(@RequestParam("idcompany") String idcompany) {
+    public ResponseEntity<?> updateMissingField() {
 
         Map<String, String> map = new HashMap<String, String>();
-        int idCompany = Integer.parseInt(idcompany);
-        task2Service.readXLSXFileForTask2(idCompany);
+        task2Service.readXLSXFileForTask2();
         map.put("msg", "update_ok");
         return ResponseEntity.ok(map);
     }
 
     @PostMapping("/tache3")
-    public ResponseEntity<?> updateSourceandPresence(@RequestParam("idcompany") String idcompany) {
+    public ResponseEntity<?> updateSourceandPresence() {
 
-        int idCompany = Integer.parseInt(idcompany);
         Map<String, String> map = new HashMap<String, String>();
 
-        task3Service.updateSource(idCompany);
+        task3Service.updateSource();
 
         map.put("msg", "update_ok");
 
@@ -109,12 +114,16 @@ public class MeterDataController {
 
     }
 
-    @PostMapping("/tache4")
-    public ResponseEntity<?> updateQualite(@RequestParam("idcompany") String idcompany) {
-        int idCompany = Integer.parseInt(idcompany);
+    @GetMapping("/tache4")
+    public ResponseEntity<?> updateQualite() {
+
         Map<String, String> map = new HashMap<String, String>();
 
-        task4Service.executeTask4(idCompany);
+        task4Service.executeTask4();
+
+        map.put("msg", "update_ok");
+
+        return ResponseEntity.ok(map);
 
         // boolean insertionSuccess = false;
         // try {
@@ -130,17 +139,14 @@ public class MeterDataController {
         // map.put("msg", "update_failed");
         // }
 
-        return ResponseEntity.ok(map);
-
     }
 
-    @PostMapping("/getlistmeterdatareporting")
-    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType(@RequestParam("idcompany") String idcompany) {
+    @GetMapping("/getlistmeterdatareporting")
+    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType() {
 
-        int idCompany = Integer.parseInt(idcompany);
         HashMap<String, List<MeterDataEntity>> list = new HashMap<String, List<MeterDataEntity>>();
 
-        list = meterDataService.getListMeterDataByType(idCompany);
+        list = meterDataService.getListMeterDataByType();
 
         return list;
 
@@ -178,5 +184,96 @@ public class MeterDataController {
         task7Service.insertMDIntoWorkTable();
 
         return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+    }
+
+    @PostMapping("/tache9")
+    public ResponseEntity<?> addIntervention(
+            @RequestParam("idCompteur") String idCompteur,
+            @RequestParam("beginDate") String beginDate,
+            @RequestParam("endDate") String endDate) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        String resp = task9Service.intervention(idCompteur, beginDate, endDate);
+        map.put("msg", resp);
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/update_intervention")
+    public ResponseEntity<?> updateIntervention(
+            @RequestParam("id") int id,
+            @RequestParam("beginDate") String beginDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("annuler") boolean annuler) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        String resp = task9Service.updateIntervention(id, beginDate, endDate,
+                annuler);
+        map.put("msg", resp);
+        return ResponseEntity.ok(map);
+    }
+
+    // @PostMapping("/getlist_intervention")
+    // public List<InterventionEntity>
+    // getListIntervention(@RequestParam("idcompany") String idcompany) {
+
+    // int idCompany = Integer.parseInt(idcompany);
+
+    // return task9Service.getListIntervention(idCompany);
+    // }
+
+    @PostMapping("/search_by_date")
+    public List<InterventionEntity> searchListByDate(
+            @RequestParam("begin_horodatage") String beginHorodatage,
+            @RequestParam("end_horodatage") String endHorodatage) {
+
+        return task9Service.getListIntervention(beginHorodatage, endHorodatage);
+    }
+
+    @GetMapping("/tache8_get_table")
+    public List<PropositionModel> tache8GetTable() {
+
+        return task8Service.workTableData();
+    }
+
+    @PostMapping("/tache8_update_table")
+    public ResponseEntity<?> updateWorkTable(
+            @RequestParam("horodatage") String horodatage,
+            @RequestParam("dataAPlus") String dataAPlus,
+            @RequestParam("dataAMoins") String dataAMoins,
+            @RequestParam("dataRPlus") String dataRPlus,
+            @RequestParam("dataRMoins") String dataRMoins,
+            @RequestParam("source") String source,
+            @RequestParam("idCompteur") String idCompteur,
+            @RequestParam("commentaire") String commentaire) {
+
+        String msg = "";
+
+        Timestamp timestamp = Timestamp.valueOf(horodatage.replace("T", " ").replace("00:00", ""));
+
+        if (!dataAPlus.equals("null") && !dataAMoins.equals("null") && !dataRPlus.equals("null") &&
+                !dataRMoins.equals("null")) {
+
+            msg = task8Service.updateWorkTable(timestamp, dataAPlus, dataAMoins, dataRPlus,
+                    dataRMoins, source, idCompteur, commentaire);
+
+        } else if (dataAPlus.equals("null") && dataAMoins.equals("null") && dataRPlus.equals("null") &&
+                dataRMoins.equals("null")) {
+
+            msg = task8Service.interpolationLineaire(timestamp, source, idCompteur, commentaire);
+
+        }
+
+        // Afficher l'objet Timestamp sans le décalage horaire
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("msg", msg);
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/getlist_data_anterieur")
+    public List<WorkTableEntity> getListDataAnterieur(@RequestParam("horodatage") String horodatage) {
+
+        return task8Service.getListWorkTableDataAnterieur(horodatage);
     }
 }

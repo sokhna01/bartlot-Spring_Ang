@@ -100,9 +100,8 @@ public class Task5Service {
 
                 Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
                 String formattedTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentTimestamp);
-                meterData.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
                 meterData.setIdClient(idClient);
-                meterDataService.insertRow(meterData, idCompany);
+                meterDataService.insertRow(meterData);
 
                 meterDataExterne.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
                 meterDataExterne.setIdClient(idClient);
