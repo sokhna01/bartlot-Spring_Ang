@@ -1,7 +1,7 @@
 package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.MeterDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class Task4Service {
         double borneSup = Common.puissanceNominale * 1.2;
         double borneInf = Common.puissanceNominale * 0.1;
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -53,11 +53,11 @@ public class Task4Service {
         // System.out.println("Date ancienne:" + oldDate);
         for (LocalDate dateTime = oldDate; dateTime.isBefore(nowtsp)
                 || dateTime.isEqual(nowtsp); dateTime = dateTime.plusDays(1)) {
-            HashMap<String, List<MeterDataEntity>> map = getListMeterDataByDate(dateTime,
+            HashMap<String, List<BruteAcquisitionEntity>> map = getListMeterDataByDate(dateTime,
                     dateTime);
-            List<MeterDataEntity> listCompteursOkQualite = new ArrayList<MeterDataEntity>();
-            List<MeterDataEntity> listCompteursPrincipal = new ArrayList<MeterDataEntity>();
-            List<MeterDataEntity> listCompteursRedondant = new ArrayList<MeterDataEntity>();
+            List<BruteAcquisitionEntity> listCompteursOkQualite = new ArrayList<BruteAcquisitionEntity>();
+            List<BruteAcquisitionEntity> listCompteursPrincipal = new ArrayList<BruteAcquisitionEntity>();
+            List<BruteAcquisitionEntity> listCompteursRedondant = new ArrayList<BruteAcquisitionEntity>();
             List<Double> listRedResult = new ArrayList<Double>();
             listCompteursPrincipal = map.get("compteurPrincipal");
             listCompteursRedondant = map.get("compteurRedondant");
@@ -134,11 +134,12 @@ public class Task4Service {
         task7Service.insertMDIntoWorkTable();
     }
 
-    public HashMap<String, List<MeterDataEntity>> getListMeterDataByDate(LocalDate beginDate, LocalDate endDate) {
+    public HashMap<String, List<BruteAcquisitionEntity>> getListMeterDataByDate(LocalDate beginDate,
+            LocalDate endDate) {
 
-        HashMap<String, List<MeterDataEntity>> map = new HashMap<String, List<MeterDataEntity>>();
-        List<MeterDataEntity> listCompteurPrincipal = new ArrayList<MeterDataEntity>();
-        List<MeterDataEntity> listCompteurSecondaire = new ArrayList<MeterDataEntity>();
+        HashMap<String, List<BruteAcquisitionEntity>> map = new HashMap<String, List<BruteAcquisitionEntity>>();
+        List<BruteAcquisitionEntity> listCompteurPrincipal = new ArrayList<BruteAcquisitionEntity>();
+        List<BruteAcquisitionEntity> listCompteurSecondaire = new ArrayList<BruteAcquisitionEntity>();
         java.util.Date onbeginDate = Date.from(beginDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         java.util.Date onEndDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date begin_date = new Date(onbeginDate.getTime());
@@ -147,10 +148,10 @@ public class Task4Service {
         c.add(Calendar.DAY_OF_MONTH, 1);
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<MeterDataEntity> meterDataList = meterDataRepository
+        List<BruteAcquisitionEntity> meterDataList = meterDataRepository
                 .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
-        for (MeterDataEntity meterData : meterDataList) {
+        for (BruteAcquisitionEntity meterData : meterDataList) {
 
             if (meterData.getSource().equals("Pr")) {
                 listCompteurPrincipal.add(meterData);

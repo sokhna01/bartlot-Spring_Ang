@@ -3,7 +3,7 @@ package com.bartlot.Server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.repository.MeterDataRepository;
 
@@ -27,10 +27,10 @@ public class MeterDataService {
     @Autowired
     private MeterDataRepository meterDataRepository;
 
-    public List<MeterDataEntity> getListMeterData() {
+    public List<BruteAcquisitionEntity> getListMeterData() {
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -58,10 +58,10 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByHorodatageBetweenOrderByHorodatageAscWithException(begin_date, end_date);
+        return meterDataRepository.findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
     }
 
-    public String insertRow(MeterDataEntity meterData) {
+    public String insertRow(BruteAcquisitionEntity meterData) {
         String response = "notOk";
         try {
             meterDataRepository.save(meterData);
@@ -72,7 +72,7 @@ public class MeterDataService {
         return response;
     }
 
-    public String insertRow(MeterDataEntity meterData, int idCompany, String idClient) {
+    public String insertRow(BruteAcquisitionEntity meterData, int idCompany, String idClient) {
         String response = "notOk";
         try {
             meterData.setIdCompany(idCompany);
@@ -85,13 +85,13 @@ public class MeterDataService {
         return response;
     }
 
-    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType() {
+    public HashMap<String, List<BruteAcquisitionEntity>> getListMeterDataByType() {
 
-        HashMap<String, List<MeterDataEntity>> map = new HashMap<String, List<MeterDataEntity>>();
-        List<MeterDataEntity> listCompteurPrincipal = new ArrayList<MeterDataEntity>();
-        List<MeterDataEntity> listCompteurRedondant = new ArrayList<MeterDataEntity>();
+        HashMap<String, List<BruteAcquisitionEntity>> map = new HashMap<String, List<BruteAcquisitionEntity>>();
+        List<BruteAcquisitionEntity> listCompteurPrincipal = new ArrayList<BruteAcquisitionEntity>();
+        List<BruteAcquisitionEntity> listCompteurRedondant = new ArrayList<BruteAcquisitionEntity>();
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
         // System.out.println("babs "+tsp);
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -119,10 +119,10 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<MeterDataEntity> meterDataList = meterDataRepository
+        List<BruteAcquisitionEntity> meterDataList = meterDataRepository
                 .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
-        for (MeterDataEntity meterData : meterDataList) {
+        for (BruteAcquisitionEntity meterData : meterDataList) {
 
             if (meterData.getIdCompteur().equals("CPT-P")) {
                 listCompteurPrincipal.add(meterData);
@@ -142,12 +142,12 @@ public class MeterDataService {
      * compteurs pour la tache 1
      * lors des 35 derniers jours de la bd
      */
-    public HashMap<String, MeterDataEntity> getListMeterDataForTask1() {
+    public HashMap<String, BruteAcquisitionEntity> getListMeterDataForTask1() {
 
-        HashMap<String, MeterDataEntity> list = new HashMap<String, MeterDataEntity>();
+        HashMap<String, BruteAcquisitionEntity> list = new HashMap<String, BruteAcquisitionEntity>();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
         if (tsp != null) {
             String strTsp = "" + tsp;
             String date = strTsp.split(" ")[0];
@@ -176,10 +176,10 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository
+            List<BruteAcquisitionEntity> meterDataList = meterDataRepository
                     .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
-            for (MeterDataEntity meterData : meterDataList) {
+            for (BruteAcquisitionEntity meterData : meterDataList) {
 
                 String strTsp = "" + meterData.getHorodatage();
                 list.put(meterData.getIdCompteur() + "-" + strTsp.substring(0, 10),
@@ -197,13 +197,13 @@ public class MeterDataService {
      * lors des 35 derniers jours de la
      * BD
      */
-    public HashMap<String, MeterDataEntity> getListAbsenceMeterData() {
+    public HashMap<String, BruteAcquisitionEntity> getListAbsenceMeterData() {
 
-        HashMap<String, MeterDataEntity> list = new HashMap<String, MeterDataEntity>();
+        HashMap<String, BruteAcquisitionEntity> list = new HashMap<String, BruteAcquisitionEntity>();
         // DataBase db = new DataBase();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -235,9 +235,10 @@ public class MeterDataService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<MeterDataEntity> meterDataList = meterDataRepository.findMeterDataBybetweenDate(begin_date, end_date);
+            List<BruteAcquisitionEntity> meterDataList = meterDataRepository.findMeterDataBybetweenDate(begin_date,
+                    end_date);
 
-            for (MeterDataEntity meterData : meterDataList) {
+            for (BruteAcquisitionEntity meterData : meterDataList) {
 
                 String strTsp = "" + meterData.getHorodatage();
 
@@ -307,7 +308,7 @@ public class MeterDataService {
         return new ArrayList<>(clientAssociationMap.values());
     }
 
-    public List<MeterDataEntity> getListCompteurMD() {
+    public List<BruteAcquisitionEntity> getListCompteurMD() {
         return meterDataRepository.findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
     }
 

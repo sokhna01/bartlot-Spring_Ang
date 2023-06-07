@@ -9,44 +9,48 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+// import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "users_profiles")
 public class UserProfilesEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "upf_id", nullable = false)
-    private Integer idUpf;
-
-    @Column(name = "iduser", nullable = false)
-    private Integer idUser;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pf_code", referencedColumnName = "pf_code", foreignKey = @ForeignKey(name = "pf_code_fkey"), nullable = false)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id_fkey"))
+    private UsersEntity users;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pf_code", referencedColumnName = "pf_code", foreignKey = @ForeignKey(name = "pf_code_fkey"))
     private ProfilesEntity profilesmodel;
 
-    public Integer getIdUpf() {
-        return idUpf;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdUpf(Integer idUpf) {
-        this.idUpf = idUpf;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getUserId() {
-        return idUser;
+    public UsersEntity getUsers() {
+        return users;
     }
 
-    public void setUserId(Integer idUser) {
-        this.idUser = idUser;
+    public void setUsers(UsersEntity users) {
+        this.users = users;
     }
 
-    public ProfilesEntity getProfiles() {
+    public ProfilesEntity getProfilesModel() {
         return profilesmodel;
     }
 
-    public void setProfiles(ProfilesEntity profilesmodel) {
+    public void setProfilesModel(ProfilesEntity profilesmodel) {
         this.profilesmodel = profilesmodel;
     }
 

@@ -19,7 +19,8 @@ public class MeterConfigService {
         HashMap<String, MeterConfigEntity> list = new HashMap<String, MeterConfigEntity>();
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
-            list.put(meterConfig.getIdCompteur(), meterConfig);
+            list.put(meterConfig.getIdCompteurPr(), meterConfig);
+            list.put(meterConfig.getIdCompteurRe(), meterConfig);
         }
         return list;
     }

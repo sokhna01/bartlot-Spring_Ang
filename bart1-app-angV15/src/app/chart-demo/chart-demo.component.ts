@@ -123,7 +123,6 @@ export class ChartDemoComponent implements OnInit {
           this.listPresenceRe,
           this.listQualitePr,
           this.listQualiteRe);
-        console.log(this.listQualiteRe);
 
       },
       error: (error) => {

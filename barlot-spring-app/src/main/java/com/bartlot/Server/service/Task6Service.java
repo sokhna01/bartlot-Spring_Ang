@@ -1,6 +1,6 @@
 package com.bartlot.Server.service;
 
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,10 +31,11 @@ public class Task6Service {
         List<MeterDataExterneEntity> listCompteur = meterDataExterneService.getListCompteur(); // Récupérer les données
                                                                                                // de la table
                                                                                                // meterDataExterne
-        List<MeterDataEntity> listCompteurMD = meterDataService.getListCompteurMD(); // Récupérer les données de la
-                                                                                     // table meterData
+        List<BruteAcquisitionEntity> listCompteurMD = meterDataService.getListCompteurMD(); // Récupérer les données de
+                                                                                            // la
+        // table meterData
 
-        for (MeterDataEntity meterData : listCompteurMD) {
+        for (BruteAcquisitionEntity meterData : listCompteurMD) {
             meterData.setSource("Se");
             meterData.setQualite("5");
 

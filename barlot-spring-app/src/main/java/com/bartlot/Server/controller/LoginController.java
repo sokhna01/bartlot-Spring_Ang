@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class LoginController {
 
     @Autowired
@@ -40,16 +39,14 @@ public class LoginController {
     @PostMapping("/web")
     public ResponseEntity<Map<String, Object>> login(HttpServletRequest request,
             @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("companyCode") String companyCode) {
+            @RequestParam("password") String password) {
 
         try {
-            Map<String, Object> response = loginCompanyWeb.login(username, password, companyCode);
+            Map<String, Object> response = loginCompanyWeb.login(username, password);
             HttpStatus status = HttpStatus.OK;
             return new ResponseEntity<>(response, status);
         } catch (AuthenticationException e) {
-            logger.error("Authentication error: Invalid credentials for username {} and company code {}", username,
-                    companyCode);
+            logger.error("Authentication error: Invalid credentials for username {}", username);
             Map<String, Object> response = new HashMap<>();
             response.put("error", "AuthenticationError");
             HttpStatus status = HttpStatus.UNAUTHORIZED;

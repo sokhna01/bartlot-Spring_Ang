@@ -1,6 +1,5 @@
 package com.bartlot.Server.entity;
 
-import java.sql.Timestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,19 +17,53 @@ public class MeterConfigEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-    // JPA maps to the SERIAL data type in PostgreSQL automatically, so we don't
-    // need to specify it explicitly.
 
-    @Column(name = "idcompteur", nullable = false)
-    private String idCompteur;
+    @Column(name = "idclient", columnDefinition = "character varying")
+    private String idClient;
 
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "idsite", columnDefinition = "character varying")
+    private String idSite;
 
-    @Column(name = "created_date", nullable = false, columnDefinition = "timestamp without time zone default now()")
-    private Timestamp createdDate;
+    @Column(name = "idpointcomptage", columnDefinition = "character varying")
+    private String pointComptageId;
 
-    @Column(name = "inverse", nullable = false, columnDefinition = "boolean default false")
-    private Boolean inverse;
+    @Column(name = " puissance_nominale_pn_du_point_de_comptage", columnDefinition = "real")
+    private Double puissanceNominal;
+
+    @Column(name = " courant_nominal_in_primaire", columnDefinition = "real")
+    private Double courantNominalInPr;
+
+    @Column(name = " tension_nominale_vn_primaire_tt", columnDefinition = "real")
+    private Double tensionNominalVnPrT;
+
+    @Column(name = "modifier_la_convention_de_signe", columnDefinition = "boolean default false")
+    private Boolean modifierLaConventionDeSigne;
+
+    @Column(name = "id_compteur_principal", columnDefinition = "character varying")
+    private String idCompteurPr;
+
+    @Column(name = "id_compteur_redondant", columnDefinition = "character varying")
+    private String idCompteurRe;
+
+    @Column(name = " phi_injection", columnDefinition = "real")
+    private Double phiInjection;
+
+    @Column(name = " phi_soutirage", columnDefinition = "real")
+    private Double phiSoutirage;
+
+    @Column(name = " alarme_seuil_a_plus", columnDefinition = "real")
+    private Double alarmeSeuilAPlus;
+
+    @Column(name = " alarme_seuil_a_moins", columnDefinition = "real")
+    private Double alarmeSeuilAMoins;
+
+    @Column(name = " alarme_seuil_r_plus", columnDefinition = "real")
+    private Double alarmeSeuilRPlus;
+
+    @Column(name = " alarme_seuil_r_moins", columnDefinition = "real")
+    private Double alarmeSeuilRMoins;
+
+    @Column(name = " alarme_seuil_tg_phi", columnDefinition = "real")
+    private Double alarmeSeuiTgPhi;
 
 }

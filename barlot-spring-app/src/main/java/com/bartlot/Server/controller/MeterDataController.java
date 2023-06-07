@@ -2,7 +2,7 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.MeterConfigEntity;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.model.PropositionModel;
@@ -69,7 +69,7 @@ public class MeterDataController {
     }
 
     @GetMapping("/getlistmeterdata")
-    public List<MeterDataEntity> getListMeter() {
+    public List<BruteAcquisitionEntity> getListMeter() {
         return meterDataService.getListMeterData();
     }
 
@@ -142,9 +142,9 @@ public class MeterDataController {
     }
 
     @GetMapping("/getlistmeterdatareporting")
-    public HashMap<String, List<MeterDataEntity>> getListMeterDataByType() {
+    public HashMap<String, List<BruteAcquisitionEntity>> getListMeterDataByType() {
 
-        HashMap<String, List<MeterDataEntity>> list = new HashMap<String, List<MeterDataEntity>>();
+        HashMap<String, List<BruteAcquisitionEntity>> list = new HashMap<String, List<BruteAcquisitionEntity>>();
 
         list = meterDataService.getListMeterDataByType();
 
@@ -157,7 +157,8 @@ public class MeterDataController {
         HashMap<String, MeterConfigEntity> list = new HashMap<String, MeterConfigEntity>();
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
-            list.put(meterConfig.getIdCompteur(), meterConfig);
+            list.put(meterConfig.getIdCompteurPr(), meterConfig);
+            list.put(meterConfig.getIdCompteurRe(), meterConfig);
         }
         return list;
     }
@@ -192,11 +193,10 @@ public class MeterDataController {
             @RequestParam("beginDate") String beginDate,
             @RequestParam("endDate") String endDate) {
 
-        Map<String, String> map = new HashMap<String, String>();
-
         String resp = task9Service.intervention(idCompteur, beginDate, endDate);
-        map.put("msg", resp);
-        return ResponseEntity.ok(map);
+
+        return ResponseEntity.ok(resp);
+
     }
 
     @PostMapping("/update_intervention")

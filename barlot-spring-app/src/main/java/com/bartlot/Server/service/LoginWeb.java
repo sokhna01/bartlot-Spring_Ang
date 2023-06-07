@@ -37,22 +37,21 @@ public class LoginWeb {
     int idCompany = 0;
     int idUser = 0;
 
-    public Map<String, Object> login(String username, String password, String companyCode) {
+    public Map<String, Object> login(String username, String password) {
         Map<String, Object> response = new HashMap<>();
 
         // Vérifier les informations d'authentification
-        CompanyUsersEntity user = companyUsersRepository.findByUsernameAndCompanyCode(username, companyCode);
+        CompanyUsersEntity user = companyUsersRepository.findByUsernameAndPassword(username, password);
 
         System.out.println("User: " + user);
         System.out.println("Username: " + username);
-        System.out.println("Company Code: " + companyCode);
         System.out.println("Password: " + password);
 
         if (user == null || !user.getPassword().equals(password)) {
-            throw new AuthenticationException("Authentication failed. Invalid username,password, or company code.");
+            throw new AuthenticationException("Authentication failed. Invalid username or password.");
         }
 
-        List<Object[]> users = companyUsersRepository.findCompanyUsers(username, password, companyCode);
+        List<Object[]> users = companyUsersRepository.findCompanyUsers(username, password);
 
         if (!users.isEmpty()) {
 
@@ -61,21 +60,14 @@ public class LoginWeb {
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", userFields[0]);
             userMap.put("firstname", userFields[1]);
-            System.out.println("UserField1: " + userFields[1]);
             userMap.put("lastname", userFields[2]);
-            userMap.put("address1", userFields[3]);
-            userMap.put("address2", userFields[4]);
-            userMap.put("city", userFields[5]);
-            userMap.put("phone", userFields[6]);
-            userMap.put("idcompany", userFields[7]);
-            userMap.put("companyname", userFields[8]);
-            userMap.put("reset_password", userFields[9]);
-            userMap.put("created_date", userFields[10]);
-            userMap.put("language", userFields[11]);
-            userMap.put("code", userFields[12]);
-            userMap.put("type", userFields[13]);
-            userMap.put("dispatchtype", userFields[14]);
-            userMap.put("useautocompletion", userFields[15]);
+            userMap.put("address", userFields[3]);
+            userMap.put("city", userFields[4]);
+            userMap.put("phone", userFields[5]);
+            userMap.put("reset_password", userFields[6]);
+            userMap.put("created_date", userFields[7]);
+            userMap.put("language", userFields[8]);
+            userMap.put("useautocompletion", userFields[9]);
 
             // Générer un token d'authentification
             String token = tokenService.generateToken((Integer) userFields[0]);
@@ -97,8 +89,8 @@ public class LoginWeb {
     }
 
     // Liste des profiles en fonction de l'id de la compagnie
-    public List<ProfilesEntity> getListProfiles(Integer idCompanyUsers) {
-        List<Object[]> profiles = profilesRepository.getProfiles(idCompanyUsers);
+    public List<ProfilesEntity> getListProfiles(Integer idUsers) {
+        List<Object[]> profiles = profilesRepository.getProfiles(idUsers);
         List<ProfilesEntity> list = new ArrayList<>();
         for (Object[] profile : profiles) {
             ProfilesEntity p = new ProfilesEntity();
@@ -139,7 +131,7 @@ public class LoginWeb {
     public CompanyUsersEntity getUserByUsername(String username) {
         Optional<CompanyUsersEntity> userOptional = companyUsersRepository.findByUsername(username);
         if (userOptional.isPresent()) {
-            // CompanyUsersEntity user = userOptional.get();
+            user = userOptional.get();
         } else {
             throw new UsernameNotFoundException("User with username " + username + " not found");
         }

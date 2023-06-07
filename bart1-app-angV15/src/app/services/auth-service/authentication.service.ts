@@ -12,12 +12,20 @@ export class AuthenticationService {
   public loading = false;
   constructor(private router: Router, private data: DataService, private http: HttpClient) { }
 
-  Login(username: string, password: string, companyCode: string): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    let dataform = "username=" + username + "&password=" + password + "&companyCode=" + companyCode;
-    const url = 'http://localhost:8080/login/web';
+//   Login(username: string, password: string, companyCode: string): Observable<any> {
+//     let headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+//     let dataform = "username=" + username + "&password=" + password + "&companyCode=" + companyCode;
+//     const url = 'http://localhost:8080/login/web';
     
-    return this.http.post<any>(url, dataform, { headers, responseType: 'json' });
+//     return this.http.post<any>(url, dataform, { headers, responseType: 'json' });
+// }
+
+Login(username: string, password: string): Observable<any> {
+  let headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+  let dataform = "username=" + username + "&password=" + password;
+  const url = 'http://localhost:8080/login/web';
+  
+  return this.http.post<any>(url, dataform, { headers, responseType: 'json' });
 }
 
 
