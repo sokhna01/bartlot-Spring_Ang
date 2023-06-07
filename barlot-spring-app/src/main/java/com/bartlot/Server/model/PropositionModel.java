@@ -1,9 +1,7 @@
 package com.bartlot.Server.model;
 
 import java.sql.Timestamp;
-import lombok.Data;
 
-@Data
 public class PropositionModel {
 
     private Timestamp horodatage;

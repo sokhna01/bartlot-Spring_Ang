@@ -24,9 +24,9 @@ public class Task5Service {
     private MeterDataExterneService meterDataExterneService;
 
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService bruteAcquisitionService;
 
-    public void readXLSXFile(MultipartFile file, String idClient, Integer idCompany) {
+    public void readXLSXFile(MultipartFile file, String idClient) {
         try {
             XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
@@ -101,7 +101,7 @@ public class Task5Service {
                 Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
                 String formattedTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentTimestamp);
                 meterData.setIdClient(idClient);
-                meterDataService.insertRow(meterData);
+                bruteAcquisitionService.insertRow(meterData, idClient);
 
                 meterDataExterne.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
                 meterDataExterne.setIdClient(idClient);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.AuthenticationException;
 import com.bartlot.Server.entity.ActionEntity;
-import com.bartlot.Server.entity.CompanyUsersEntity;
+import com.bartlot.Server.entity.UsersEntity;
 import com.bartlot.Server.entity.ProfilesEntity;
 import com.bartlot.Server.repository.ProfilesRepository;
 import com.bartlot.Server.repository.CompanyUsersRepository;
@@ -33,7 +33,7 @@ public class LoginWeb {
     @Autowired
     private ProfileActionRepository ProfilActionRepository;
 
-    CompanyUsersEntity user = null;
+    UsersEntity user = null;
     int idCompany = 0;
     int idUser = 0;
 
@@ -41,7 +41,7 @@ public class LoginWeb {
         Map<String, Object> response = new HashMap<>();
 
         // Vérifier les informations d'authentification
-        CompanyUsersEntity user = companyUsersRepository.findByUsernameAndPassword(username, password);
+        UsersEntity user = companyUsersRepository.findByUsernameAndPassword(username, password);
 
         System.out.println("User: " + user);
         System.out.println("Username: " + username);
@@ -128,10 +128,10 @@ public class LoginWeb {
         return actions;
     }
 
-    public CompanyUsersEntity getUserByUsername(String username) {
-        Optional<CompanyUsersEntity> userOptional = companyUsersRepository.findByUsername(username);
+    public UsersEntity getUserByUsername(String username) {
+        Optional<UsersEntity> userOptional = companyUsersRepository.findByUsername(username);
         if (userOptional.isPresent()) {
-            user = userOptional.get();
+            UsersEntity user = userOptional.get();
         } else {
             throw new UsernameNotFoundException("User with username " + username + " not found");
         }

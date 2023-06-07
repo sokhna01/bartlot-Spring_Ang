@@ -2,7 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.repository.MeterDataRepository;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class Task4Service {
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     @Autowired
     private Task7Service task7Service;
@@ -30,7 +30,7 @@ public class Task4Service {
         double borneSup = Common.puissanceNominale * 1.2;
         double borneInf = Common.puissanceNominale * 0.1;
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+        Timestamp tsp = bruteAcquisitionRepository.findLastRecentRowDateWithException();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -80,12 +80,12 @@ public class Task4Service {
                         if (Pi > borneInf && Pi < borneSup) {
                             statusPi = true;
                         } else {
-                            meterDataRepository.updateQualite("0",
+                            bruteAcquisitionRepository.updateQualite("0",
                                     listCompteursPrincipal.get(i).getId());
 
                         }
                     } else {
-                        meterDataRepository.updateQualite("0",
+                        bruteAcquisitionRepository.updateQualite("0",
                                 listCompteursPrincipal.get(i).getId());
                     }
 
@@ -98,11 +98,11 @@ public class Task4Service {
                         if (Pj > borneInf && Pj < borneSup) {
                             statusPj = true;
                         } else {
-                            meterDataRepository.updateQualite("0",
+                            bruteAcquisitionRepository.updateQualite("0",
                                     listCompteursRedondant.get(i).getId());
                         }
                     } else {
-                        meterDataRepository.updateQualite("0",
+                        bruteAcquisitionRepository.updateQualite("0",
                                 listCompteursRedondant.get(i).getId());
                     }
 
@@ -111,9 +111,9 @@ public class Task4Service {
                         listCompteursOkQualite.add(listCompteursRedondant.get(i));
                         listRedResult.add(Math.abs(calculRedQualite(Pi, Pj)));
                     } else {
-                        meterDataRepository.updateQualite("0",
+                        bruteAcquisitionRepository.updateQualite("0",
                                 listCompteursPrincipal.get(i).getId());
-                        meterDataRepository.updateQualite("0",
+                        bruteAcquisitionRepository.updateQualite("0",
                                 listCompteursRedondant.get(i).getId());
                     }
 
@@ -126,7 +126,7 @@ public class Task4Service {
             double moyenneRed = calculMoyenneRed(listRedResult); // Calcul de la moyenne journaliere
 
             for (int i = 0; i < listCompteursOkQualite.size(); i++) {
-                meterDataRepository.updateQualite(calculQualiteValue(moyenneRed),
+                bruteAcquisitionRepository.updateQualite(calculQualiteValue(moyenneRed),
                         listCompteursOkQualite.get(i).getId());
             }
 
@@ -148,7 +148,7 @@ public class Task4Service {
         c.add(Calendar.DAY_OF_MONTH, 1);
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<BruteAcquisitionEntity> meterDataList = meterDataRepository
+        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository
                 .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
         for (BruteAcquisitionEntity meterData : meterDataList) {

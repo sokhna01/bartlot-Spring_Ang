@@ -2,7 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.repository.MeterDataRepository;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,21 @@ import java.util.List;
 public class Task3Service {
 
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService bruteAcquisitionService;
 
     @Autowired
     private MeterConfigService meterConfigService;
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     public void updateSource() {
         List<BruteAcquisitionEntity> list = new ArrayList<BruteAcquisitionEntity>();
-        list = meterDataService.getListMeterData();
+        list = bruteAcquisitionService.getListMeterData();
         String presence = "";
         HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-        HashMap<String, List<BruteAcquisitionEntity>> listAllCompteur = meterDataService.getListMeterDataByType();
+        HashMap<String, List<BruteAcquisitionEntity>> listAllCompteur = bruteAcquisitionService
+                .getListMeterDataByType();
         for (int i = 0; i < list.size(); i++) {
             BruteAcquisitionEntity meter = list.get(i);
             List<BruteAcquisitionEntity> listCompteur = listAllCompteur.get(meter.getIdCompteur());
@@ -40,12 +41,12 @@ public class Task3Service {
                 e.printStackTrace();
             }
             MeterConfigEntity config = map.get(meter.getIdCompteur());
-            // if (config.getType() != null) {
-            // meterDataRepository.updateSource(config.getType(), presence,
-            // list.get(i).getId());
-            // } else {
-            // System.out.println("aze");
-            // }
+            if (config.getType() != null) {
+                bruteAcquisitionRepository.updateSource(config.getType(), presence,
+                        list.get(i).getId());
+            } else {
+                System.out.println("aze");
+            }
         }
     }
 
