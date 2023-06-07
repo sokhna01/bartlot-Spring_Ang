@@ -148,7 +148,7 @@ public class Task1Service {
                 Iterator<Row> itr = sheet.iterator();
                 boolean isHeader = true;
                 System.out.println("");
-                Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+                Timestamp tsp = meterDataRepository.findLastRecentRowDate();
                 String now = "";
                 if (tsp != null) {
                     String strTsp = "" + tsp;

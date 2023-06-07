@@ -19,7 +19,6 @@ export class LoginComponent {
   baseUrl!: string;
   username!: string;
   password!: string;
-  companyCode!: string;
   listProfils: any;
   version: string = '2.2.1';
   public loading = false;
@@ -36,37 +35,27 @@ export class LoginComponent {
 
   doLogin() {
     this.loading = true;
-    this.authservice.Login(this.username, this.password, this.companyCode).subscribe({
+    this.authservice.Login(this.username, this.password).subscribe({
       next: (data) => {
         this.loading = false;
 
         if (data.error = 'null') {
           localStorage.setItem('id', data.id);
-          localStorage.setItem('company_type', data.type);
-          localStorage.setItem('company_name', data.companyname);
-          localStorage.setItem('company_address', data.address1);
-          localStorage.setItem('dispatch_type', data.dispatchtype);
-          localStorage.setItem('country_code', data.country_code);
+          localStorage.setItem('address', data.address1);
+          localStorage.setItem('phone', '' + data.phone)
           localStorage.setItem('useautocompletion', '' + data.useautocompletion);
           localStorage.setItem('reset_password', data.reset_password);
           localStorage.setItem('listProfils', JSON.stringify(data.profiles));
-          localStorage.setItem('profilDemo', data.profiles[0].pfName);
+          localStorage.setItem('profilDemo', data.profiles[0].pf_name);
           localStorage.setItem('listActions', data.actions);
           localStorage.setItem('token', data.token);
 
-          let listActions = data.actions;
-          if (data.type == 'societe') {
-            if (listActions.length > 0) {
-              const actionsToKeep: any[] = listActions.filter((action: any) => {
-                return action.actCode !== 'act_110' &&
-                  action.actCode !== 'act_204' &&
-                  action.actCode !== 'act_203' &&
-                  action.actCode !== 'act_011' &&
-                  action.actCode !== 'act_108';
-              });
-              localStorage.setItem('listActions', JSON.stringify(actionsToKeep));
-            }
 
+          let listActions = data.actions;
+
+          if (listActions.length > 0) {
+
+            localStorage.setItem('listActions', JSON.stringify(listActions));
           }
 
           localStorage.setItem('language', data.language);
@@ -80,6 +69,7 @@ export class LoginComponent {
             }
 
           }
+          console.log(data);
 
           this.data.changeMessage("true");
           this.router.navigate(['/home']);

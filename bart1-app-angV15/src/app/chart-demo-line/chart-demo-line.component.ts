@@ -68,8 +68,7 @@ export class ChartDemoLineComponent implements OnInit {
             this.loading = false;
             this.listCompteurPr = data['CPT-P'];
             this.listCompteurRe = data['CPT-R'];
-            console.log(this.listCompteurPr);
-            console.log(this.listCompteurRe);
+
             let objPresencePr: any = {};
             let objPresenceRe: any = {};
             let objPuissancePr: any = {};
@@ -80,9 +79,8 @@ export class ChartDemoLineComponent implements OnInit {
               objPresencePr['x'] = i + 1;
               objPresencePr['y'] = Number(this.listCompteurPr[i].presence);
               objPresencePr['datetime'] = this.listCompteurPr[i].horodotage;
-              // console.log(obj)
+
               this.listPresencePr.push(objPresencePr);
-              // this.listPresencePr.push(Number(this.listCompteurPr[i].presence));
 
               objPuissancePr['x'] = i + 1;
               objPuissancePr['y'] = Number(this.listCompteurPr[i].dataAPlus) - Number(this.listCompteurPr[i].dataAMoins);
@@ -120,7 +118,6 @@ export class ChartDemoLineComponent implements OnInit {
               objPuissanceRe = {};
               objQualiteRe = {};
             }
-            // console.log(this.listPresence);
             this.highChartService.plotChart("line",
               this.listPuissancePr,
               this.listPresencePr,

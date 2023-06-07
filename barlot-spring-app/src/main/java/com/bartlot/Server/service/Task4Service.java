@@ -30,7 +30,7 @@ public class Task4Service {
         double borneSup = Common.puissanceNominale * 1.2;
         double borneInf = Common.puissanceNominale * 0.1;
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;

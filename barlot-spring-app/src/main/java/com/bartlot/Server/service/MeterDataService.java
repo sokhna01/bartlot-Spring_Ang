@@ -30,7 +30,7 @@ public class MeterDataService {
     public List<MeterDataEntity> getListMeterData() {
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -58,7 +58,7 @@ public class MeterDataService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return meterDataRepository.findByHorodatageBetweenOrderByHorodatageAscWithException(begin_date, end_date);
+        return meterDataRepository.findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
     }
 
     public String insertRow(MeterDataEntity meterData) {
@@ -91,7 +91,7 @@ public class MeterDataService {
         List<MeterDataEntity> listCompteurPrincipal = new ArrayList<MeterDataEntity>();
         List<MeterDataEntity> listCompteurRedondant = new ArrayList<MeterDataEntity>();
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
         // System.out.println("babs "+tsp);
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -147,7 +147,7 @@ public class MeterDataService {
         HashMap<String, MeterDataEntity> list = new HashMap<String, MeterDataEntity>();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
         if (tsp != null) {
             String strTsp = "" + tsp;
             String date = strTsp.split(" ")[0];
@@ -203,7 +203,7 @@ public class MeterDataService {
         // DataBase db = new DataBase();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = meterDataRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = meterDataRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;

@@ -20,9 +20,6 @@ public class InterventionEntity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "idcompany")
-    private Integer idCompany;
-
     @Column(name = "idclient")
     private String idclient;
 

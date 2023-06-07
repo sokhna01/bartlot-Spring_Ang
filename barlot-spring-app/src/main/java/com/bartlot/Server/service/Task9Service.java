@@ -1,13 +1,17 @@
 package com.bartlot.Server.service;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.repository.IntereventionRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
 
@@ -20,39 +24,58 @@ public class Task9Service {
     @Autowired
     private IntereventionRepository intereventionRepository;
 
-    public String updateIntervention(int id,
-            String beginDate, String endDate, boolean annuler) {
+    public String updateIntervention(int id, String beginDate, String endDate, boolean annuler) {
 
-        Timestamp beginDateTimestamp = Timestamp.valueOf(beginDate.replace("T", " ").replace(".000 00:00", ".000"));
-        Timestamp endDateTimestamp = Timestamp.valueOf(endDate.replace("T", " ").replace(".000 00:00", ".000"));
-        InterventionEntity interventionEntity = intereventionRepository.findById(id).orElse(null);
-        interventionEntity.setStartHorodatage(beginDateTimestamp);
-        interventionEntity.setEndHorodatage(endDateTimestamp);
-        interventionEntity.setAnnuler(annuler);
-        intereventionRepository.save(interventionEntity);
+        try {
 
-        return "insert_ok";
+            Timestamp beginDateTimestamp = Timestamp.valueOf(beginDate.replace("T", " ").replace(".000 00:00", ".000"));
+            Timestamp endDateTimestamp = Timestamp.valueOf(endDate.replace("T", " ").replace(".000 00:00", ".000"));
+
+            InterventionEntity interventionEntity = intereventionRepository.findById(id).orElse(null);
+
+            interventionEntity.setStartHorodatage(beginDateTimestamp);
+            interventionEntity.setEndHorodatage(endDateTimestamp);
+            interventionEntity.setAnnuler(annuler);
+
+            intereventionRepository.save(interventionEntity);
+
+            return "insert_ok";
+
+        } catch (Exception e) {
+
+            return e.getMessage();
+        }
+
     }
 
     public String intervention(String idCompteur, String beginDate, String endDate) {
 
         String msg = "not_ok";
 
-        MeterDataEntity meterData = meterDataRepository.findByIdCompteur(idCompteur);
+        ReturnObject returnObject = meterDataRepository.findByIdCompteurWithException(idCompteur);
 
-        if (meterData != null) {
+        if (!returnObject.getStatus().equals("ok")) {
 
-            Timestamp beginDateTimestamp = Timestamp.valueOf(beginDate.replace("T", " ").replace(".000 00:00", ".000"));
+            return returnObject.getStatus();
+        }
+        MeterDataEntity meterDataEntity = (MeterDataEntity) returnObject.getObject();
+
+        if (meterDataEntity != null) {
+
+            Timestamp beginDateTimestamp = Timestamp
+                    .valueOf(beginDate.replace("T", " ").replace(".000 00:00", ".000"));
             Timestamp endDateTimestamp = Timestamp.valueOf(endDate.replace("T", " ").replace(".000 00:00", ".000"));
+
             InterventionEntity interventionEntity = new InterventionEntity();
-            interventionEntity.setIdclient(meterData.getIdClient());
-            interventionEntity.setIdsite(meterData.getIdSite());
+            interventionEntity.setIdclient(meterDataEntity.getIdClient());
+            interventionEntity.setIdsite(meterDataEntity.getIdSite());
             interventionEntity.setIdcompteur(idCompteur);
             interventionEntity.setStartHorodatage(beginDateTimestamp);
             interventionEntity.setEndHorodatage(endDateTimestamp);
 
-            InterventionEntity interventionEntityTable = intereventionRepository.findByStartHorodatageAndEndHorodatage(
-                    interventionEntity.getStartHorodatage(), interventionEntity.getEndHorodatage());
+            InterventionEntity interventionEntityTable = intereventionRepository
+                    .findByStartHorodatageAndEndHorodatage(
+                            interventionEntity.getStartHorodatage(), interventionEntity.getEndHorodatage());
 
             if (interventionEntityTable != null) {
 
@@ -66,6 +89,7 @@ public class Task9Service {
         }
 
         return msg;
+
     }
 
     public List<InterventionEntity> getListIntervention(String beginHorodatage, String endHorodatage) {

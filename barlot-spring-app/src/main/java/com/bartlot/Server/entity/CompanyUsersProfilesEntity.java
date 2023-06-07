@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "company_users_profiles")
+@Table(name = "users_profiles")
 public class CompanyUsersProfilesEntity {
 
     @Id
@@ -23,8 +23,8 @@ public class CompanyUsersProfilesEntity {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_company_users", foreignKey = @ForeignKey(name = "idcompany_users_fkey"))
-    private CompanyUsersEntity companyusers;
+    @JoinColumn(name = "id_users", foreignKey = @ForeignKey(name = "id_users_fkey"))
+    private CompanyUsersEntity users;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pf_code", referencedColumnName = "pf_code", foreignKey = @ForeignKey(name = "pf_code_fkey"))
@@ -39,11 +39,11 @@ public class CompanyUsersProfilesEntity {
     }
 
     public CompanyUsersEntity getCompanyUsers() {
-        return companyusers;
+        return users;
     }
 
     public void setCompanyUsers(CompanyUsersEntity companyusers) {
-        this.companyusers = companyusers;
+        this.users = users;
     }
 
     public ProfilesEntity getProfilesModel() {

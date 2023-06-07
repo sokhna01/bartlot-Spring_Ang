@@ -1,6 +1,5 @@
 package com.bartlot.Server.entity;
 
-import jakarta.persistence.ForeignKey;
 import java.sql.Date;
 import java.util.List;
 
@@ -10,15 +9,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "company_users")
+@Table(name = "users")
 public class CompanyUsersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,11 +67,16 @@ public class CompanyUsersEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idcompany", foreignKey = @ForeignKey(name = "idcompanycomusers_fkey"))
-    private CompaniesInfoEntity companiesInfo;
+    @Column(name = "prefered_language", length = 10)
+    private String preferredLanguage;
 
-    @OneToMany(mappedBy = "companyusers", fetch = FetchType.EAGER)
+    @Column(name = "email", length = 100)
+    private String email;
+
+    @Column(name = "useautocompletion")
+    private Boolean useautocompletion;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
     // obtenir les instances de CompanyUsersProfilesModel liées à une instance de
     // CompanyUsers.
     private List<CompanyUsersProfilesEntity> companyUsersProfilesModels;
@@ -144,14 +146,6 @@ public class CompanyUsersEntity {
         return active;
     }
 
-    public CompaniesInfoEntity getCompaniesInfo() {
-        return companiesInfo;
-    }
-
-    public Integer getIdCompany() {
-        return companiesInfo != null ? companiesInfo.getIdCompany() : null;
-    }
-
     // setters
     public void setId(Integer id) {
         this.id = id;
@@ -216,8 +210,5 @@ public class CompanyUsersEntity {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    // public void setCompaniesInfo(CompaniesInfoEntity companiesInfo) {
-    // this.companiesInfo = companiesInfo;
-    // }
 
 }

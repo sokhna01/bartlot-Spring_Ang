@@ -192,11 +192,10 @@ public class MeterDataController {
             @RequestParam("beginDate") String beginDate,
             @RequestParam("endDate") String endDate) {
 
-        Map<String, String> map = new HashMap<String, String>();
-
         String resp = task9Service.intervention(idCompteur, beginDate, endDate);
-        map.put("msg", resp);
-        return ResponseEntity.ok(map);
+
+        return ResponseEntity.ok(resp);
+
     }
 
     @PostMapping("/update_intervention")
