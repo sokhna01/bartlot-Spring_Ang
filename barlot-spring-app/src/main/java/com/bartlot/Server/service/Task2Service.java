@@ -1,7 +1,7 @@
 package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.MeterDataRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -36,11 +36,11 @@ public class Task2Service {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 // iterating over excel file
                 Iterator<Row> itr = sheet.iterator();
-                HashMap<String, MeterDataEntity> map = meterDataService.getListAbsenceMeterData();
+                HashMap<String, BruteAcquisitionEntity> map = meterDataService.getListAbsenceMeterData();
                 boolean isHeader = true;
                 while (itr.hasNext()) {
                     Row row = itr.next();
-                    MeterDataEntity meterData = new MeterDataEntity();
+                    BruteAcquisitionEntity meterData = new BruteAcquisitionEntity();
                     if (isHeader) {
                         isHeader = false;
                         continue;
@@ -128,7 +128,7 @@ public class Task2Service {
                     String strHorodatage = meterData.getHorodatage() + "";
                     String idRow = meterData.getIdCompteur() + "-" + strHorodatage.substring(0,
                             16);
-                    MeterDataEntity meterMap = map.get(idRow);
+                    BruteAcquisitionEntity meterMap = map.get(idRow);
                     if (meterMap != null) {
 
                         meterMap.setDataAPlus(meterData.getDataAPlus());

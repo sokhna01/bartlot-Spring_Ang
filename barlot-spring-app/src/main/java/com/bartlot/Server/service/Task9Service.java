@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.InterventionEntity;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.repository.IntereventionRepository;
 import com.bartlot.Server.repository.MeterDataRepository;
@@ -58,7 +58,7 @@ public class Task9Service {
 
             return returnObject.getStatus();
         }
-        MeterDataEntity meterDataEntity = (MeterDataEntity) returnObject.getObject();
+        BruteAcquisitionEntity meterDataEntity = (BruteAcquisitionEntity) returnObject.getObject();
 
         if (meterDataEntity != null) {
 

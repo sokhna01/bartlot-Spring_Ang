@@ -13,7 +13,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 
 @Entity
-@Table(name = "profil_action", uniqueConstraints = @UniqueConstraint(columnNames = { "pf_code", "act_code" }))
+@Table(name = "profil_action", uniqueConstraints = {
+        @UniqueConstraint(name = "UK_profileAction_act_code", columnNames = "act_code")
+})
 public class ProfilActionEntity {
 
     @Id

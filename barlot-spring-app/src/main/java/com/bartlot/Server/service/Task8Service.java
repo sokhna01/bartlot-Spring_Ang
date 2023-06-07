@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.bartlot.Server.config.Common;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterDataRepository;
@@ -90,12 +90,12 @@ public class Task8Service {
         List<WorkTableEntity> workTableList = workTableRepository
                 .findByHorodatageBetweenOrderByHoradotageAsc(begin_date, end_date);
 
-        List<MeterDataEntity> meterdataListFull = meterDataService.getListMeterData();
+        List<BruteAcquisitionEntity> meterdataListFull = meterDataService.getListMeterData();
 
         System.out.println("meter lis" + meterdataListFull);
-        List<MeterDataEntity> meterdataListFilter = new ArrayList<MeterDataEntity>();
+        List<BruteAcquisitionEntity> meterdataListFilter = new ArrayList<BruteAcquisitionEntity>();
 
-        for (MeterDataEntity meterData : meterdataListFull) {
+        for (BruteAcquisitionEntity meterData : meterdataListFull) {
             if (workTableList.stream()
                     .anyMatch(workEntity -> (workEntity.getIdClient().equals(meterData.getIdClient())
                             && workEntity.getPointComptageId().equals(meterData.getPointComptageId())
@@ -121,7 +121,7 @@ public class Task8Service {
         int length = meterdataListFilter.size();
         int i = 0;
         System.out.println("meter filter" + meterdataListFilter);
-        for (MeterDataEntity meterData : meterdataListFilter) {
+        for (BruteAcquisitionEntity meterData : meterdataListFilter) {
 
             /*
              * intialisation j'ajoute des donnees dans l'objet
@@ -319,10 +319,11 @@ public class Task8Service {
         double iPeriode = 0;
         String msg = "wrong";
 
-        List<MeterDataEntity> listOfMeterData = meterDataRepository.findAll(Sort.by(Sort.Direction.ASC, "horodatage"));
+        List<BruteAcquisitionEntity> listOfMeterData = meterDataRepository
+                .findAll(Sort.by(Sort.Direction.ASC, "horodatage"));
 
         int index = -1;
-        for (MeterDataEntity meterData : listOfMeterData) {
+        for (BruteAcquisitionEntity meterData : listOfMeterData) {
             if (meterData.getHorodatage().equals(timestamp)) {
                 index = listOfMeterData.indexOf(meterData);
                 break;

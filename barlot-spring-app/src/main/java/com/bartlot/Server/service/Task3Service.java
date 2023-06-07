@@ -1,7 +1,7 @@
 package com.bartlot.Server.service;
 
 import com.bartlot.Server.entity.MeterConfigEntity;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.MeterDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +24,14 @@ public class Task3Service {
     private MeterDataRepository meterDataRepository;
 
     public void updateSource() {
-        List<MeterDataEntity> list = new ArrayList<MeterDataEntity>();
+        List<BruteAcquisitionEntity> list = new ArrayList<BruteAcquisitionEntity>();
         list = meterDataService.getListMeterData();
         String presence = "";
         HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-        HashMap<String, List<MeterDataEntity>> listAllCompteur = meterDataService.getListMeterDataByType();
+        HashMap<String, List<BruteAcquisitionEntity>> listAllCompteur = meterDataService.getListMeterDataByType();
         for (int i = 0; i < list.size(); i++) {
-            MeterDataEntity meter = list.get(i);
-            List<MeterDataEntity> listCompteur = listAllCompteur.get(meter.getIdCompteur());
+            BruteAcquisitionEntity meter = list.get(i);
+            List<BruteAcquisitionEntity> listCompteur = listAllCompteur.get(meter.getIdCompteur());
             try {
                 Double dataAPlus = Double.parseDouble("" + meter.getDataAPlus());
                 Double dataAMoins = Double.parseDouble("" + meter.getDataAMoins());
@@ -40,17 +40,17 @@ public class Task3Service {
                 e.printStackTrace();
             }
             MeterConfigEntity config = map.get(meter.getIdCompteur());
-            if (config.getType() != null) {
-                meterDataRepository.updateSource(config.getType(), presence,
-                        list.get(i).getId());
-            } else {
-                System.out.println("aze");
-            }
+            // if (config.getType() != null) {
+            // meterDataRepository.updateSource(config.getType(), presence,
+            // list.get(i).getId());
+            // } else {
+            // System.out.println("aze");
+            // }
         }
     }
 
-    public String getPresenceValue(MeterDataEntity compteurCourant, Double dataAPlus, Double dataAMoins,
-            List<MeterDataEntity> listCompteur) throws SQLException {
+    public String getPresenceValue(BruteAcquisitionEntity compteurCourant, Double dataAPlus, Double dataAMoins,
+            List<BruteAcquisitionEntity> listCompteur) throws SQLException {
         String presence = null;
 
         int index = -1;

@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.MeterDataRepository;
 import com.bartlot.Server.repository.WorkTableRepository;
 
@@ -24,9 +24,9 @@ public class Task7Service {
     private static final String idCompteur = "CPT-P";
 
     public void insertMDIntoWorkTable() {
-        List<MeterDataEntity> meterDataList = meterDataRepository.findAllByIdCompteur();
+        List<BruteAcquisitionEntity> meterDataList = meterDataRepository.findAllByIdCompteur();
 
-        for (MeterDataEntity meterData : meterDataList) {
+        for (BruteAcquisitionEntity meterData : meterDataList) {
             Timestamp horodatage = meterData.getHorodatage();
 
             if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {

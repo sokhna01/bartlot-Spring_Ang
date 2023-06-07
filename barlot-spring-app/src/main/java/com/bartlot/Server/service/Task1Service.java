@@ -2,7 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.MeterConfigEntity;
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.MeterDataRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -42,7 +42,7 @@ public class Task1Service {
 
                 while (itr.hasNext()) {
                     Row row = itr.next();
-                    MeterDataEntity meterData = new MeterDataEntity();
+                    BruteAcquisitionEntity meterData = new BruteAcquisitionEntity();
                     if (isHeader) {
                         isHeader = false;
                         continue;
@@ -117,7 +117,7 @@ public class Task1Service {
                     }
                     if (meterConfigMap.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = meterConfigMap.get(meterData.getIdCompteur());
-                        if (conf != null && conf.getInverse()) {
+                        if (conf != null && conf.getModifierLaConventionDeSigne()) {
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();
                             Double dataRmoinsBis = meterData.getDataRMoins();
@@ -156,11 +156,11 @@ public class Task1Service {
                 }
 
                 HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-                HashMap<String, MeterDataEntity> mapListCompteur = meterDataService.getListMeterDataForTask1();
+                HashMap<String, BruteAcquisitionEntity> mapListCompteur = meterDataService.getListMeterDataForTask1();
 
                 while (itr.hasNext()) {
                     Row row = itr.next();
-                    MeterDataEntity meterData = new MeterDataEntity();
+                    BruteAcquisitionEntity meterData = new BruteAcquisitionEntity();
                     if (isHeader) {
                         isHeader = false;
                         continue;
@@ -236,7 +236,7 @@ public class Task1Service {
 
                     if (map.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = map.get(meterData.getIdCompteur());
-                        if (conf != null && conf.getInverse()) {
+                        if (conf != null && conf.getModifierLaConventionDeSigne()) {
 
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();
@@ -261,7 +261,7 @@ public class Task1Service {
                         Date nowDate = new Date(tsp.getTime());
                         if (dateTsp.equalsIgnoreCase(now)) {
                             String idRow = meterData.getIdCompteur() + "-" + dateTsp;
-                            MeterDataEntity meterMap = mapListCompteur.get(idRow);
+                            BruteAcquisitionEntity meterMap = mapListCompteur.get(idRow);
                             meterData.setId(meterMap.getId());
                             meterDataRepository.updateMissingData(
                                     meterMap.getDataAPlus(),

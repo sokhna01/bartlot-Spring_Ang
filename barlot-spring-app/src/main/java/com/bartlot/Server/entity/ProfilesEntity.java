@@ -1,5 +1,6 @@
 package com.bartlot.Server.entity;
 
+import jakarta.persistence.UniqueConstraint;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -13,7 +14,10 @@ import jakarta.persistence.Table;
 // import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "profiles")
+@Table(name = "profiles", uniqueConstraints = {
+        @UniqueConstraint(name = "UK_profiles_pf_code", columnNames = "pf_code"),
+        @UniqueConstraint(name = "UK_profiles_pf_name", columnNames = "pf_name")
+})
 public class ProfilesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +45,7 @@ public class ProfilesEntity {
 
     @OneToMany(mappedBy = "profilesmodel", fetch = FetchType.EAGER)
     // obtenir les instances de UserProfiles liées à une instance de Profiles.
-    private List<CompanyUsersProfilesEntity> companyUsersProfilesModel;
+    private List<UserProfilesEntity> usersProfilesModel;
 
     public Integer getId() {
         return id;

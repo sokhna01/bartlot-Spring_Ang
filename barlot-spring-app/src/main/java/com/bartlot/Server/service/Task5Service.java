@@ -1,6 +1,6 @@
 package com.bartlot.Server.service;
 
-import com.bartlot.Server.entity.MeterDataEntity;
+import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -44,7 +44,7 @@ public class Task5Service {
 
                 Iterator<Cell> cellIterator = row.cellIterator();
 
-                MeterDataEntity meterData = new MeterDataEntity();
+                BruteAcquisitionEntity meterData = new BruteAcquisitionEntity();
                 MeterDataExterneEntity meterDataExterne = new MeterDataExterneEntity();
 
                 while (cellIterator.hasNext()) {
