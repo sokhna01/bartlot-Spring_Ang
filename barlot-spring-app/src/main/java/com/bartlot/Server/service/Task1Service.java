@@ -3,7 +3,7 @@ package com.bartlot.Server.service;
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.repository.MeterDataRepository;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -22,13 +22,13 @@ import java.util.Iterator;
 public class Task1Service {
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     @Autowired
     private MeterConfigService meterConfigService;
 
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService bruteAcquisitionService;
 
     public void readXLSXFile(String fileName) {
         try {
@@ -129,7 +129,7 @@ public class Task1Service {
                             meterData.setDataRPlus(dataRmoinsBis);
                         }
                     }
-                    meterDataService.insertRow(meterData);
+                    bruteAcquisitionService.insertRow(meterData);
                 }
             }
         } catch (Exception e) {
@@ -148,7 +148,7 @@ public class Task1Service {
                 Iterator<Row> itr = sheet.iterator();
                 boolean isHeader = true;
                 System.out.println("");
-                Timestamp tsp = meterDataRepository.findLastRecentRowDate();
+                Timestamp tsp = bruteAcquisitionRepository.findLastRecentRowDateWithException();
                 String now = "";
                 if (tsp != null) {
                     String strTsp = "" + tsp;
@@ -156,7 +156,8 @@ public class Task1Service {
                 }
 
                 HashMap<String, MeterConfigEntity> map = meterConfigService.getListMeterConfig();
-                HashMap<String, BruteAcquisitionEntity> mapListCompteur = meterDataService.getListMeterDataForTask1();
+                HashMap<String, BruteAcquisitionEntity> mapListCompteur = bruteAcquisitionService
+                        .getListMeterDataForTask1();
 
                 while (itr.hasNext()) {
                     Row row = itr.next();
@@ -263,14 +264,14 @@ public class Task1Service {
                             String idRow = meterData.getIdCompteur() + "-" + dateTsp;
                             BruteAcquisitionEntity meterMap = mapListCompteur.get(idRow);
                             meterData.setId(meterMap.getId());
-                            meterDataRepository.updateMissingData(
+                            bruteAcquisitionRepository.updateMissingData(
                                     meterMap.getDataAPlus(),
                                     meterMap.getDataAMoins(),
                                     meterMap.getDataRPlus(),
                                     meterMap.getDataRMoins(),
                                     meterData.getId());
                         } else if (dateMeter.after(nowDate)) {
-                            meterDataService.insertRow(meterData);
+                            bruteAcquisitionService.insertRow(meterData);
                         }
 
                     }

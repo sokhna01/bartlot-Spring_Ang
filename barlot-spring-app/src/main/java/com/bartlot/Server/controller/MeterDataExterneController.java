@@ -2,6 +2,7 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.service.Task5Service;
 import com.bartlot.Server.service.Task6Service;
+// import com.bartlot.Server.service.Task7Service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -20,6 +21,9 @@ import org.springframework.http.MediaType;
 @RestController
 public class MeterDataExterneController {
 
+    // @Autowired
+    // private Task7Service task7Service;
+
     @Autowired
     private Task6Service task6Service;
 
@@ -28,13 +32,12 @@ public class MeterDataExterneController {
 
     @PostMapping("/tache5")
     public ResponseEntity<?> insertXlsxToBD(@RequestParam("idClient") String strIdClient,
-            @RequestParam("idCompany") Integer intIdCompany,
             @RequestParam("file") MultipartFile file) {
 
         Map<String, String> map = new HashMap<String, String>();
         String idClient = strIdClient;
 
-        task5Service.readXLSXFile(file, idClient, intIdCompany);
+        task5Service.readXLSXFile(file, idClient);
 
         map.put("msg", "insert_ok");
         return ResponseEntity.ok(map);
@@ -45,7 +48,7 @@ public class MeterDataExterneController {
             throws SQLException {
         System.out.println("Id du client" + idClient);
 
-        task6Service.executeTask6(idClient, idCompany);
+        task6Service.executeTask6(idClient);
 
         // boolean insertionSuccess = false;
         // try {
@@ -58,7 +61,8 @@ public class MeterDataExterneController {
         byte[] fileContent = task6Service.generateXLSXFile(idClient);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=donnees_externes.xlsx");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment;filename=donnees_externes.xlsx");
 
         // if (insertionSuccess) {
         // headers.add("update-status", "update_ok");

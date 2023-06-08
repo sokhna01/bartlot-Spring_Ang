@@ -28,12 +28,7 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5", "/tache6", "/tache7",
-                        "/selectListData", "/upload", "/getlistmeterdata", "/insert_meter_data",
-                        "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients", "/tache8_get_table",
-                        "/tache8_update_table", "/getlist_data_anterieur", "/tache9", "/getlist_intervention",
-                        "/getlistmeterdatareporting",
-                        "/update_intervention", "/search_by_date")
+                .requestMatchers("/login/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -110,3 +105,13 @@ public class SecurityConfig {
 // .withUser("user").password("{noop}password").roles("USER");
 // }
 // }
+
+// .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5",
+// "/tache6", "/tache7",
+// "/selectListData", "/upload", "/getlistmeterdata", "/insert_meter_data",
+// "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients",
+// "/tache8_get_table",
+// "/tache8_update_table", "/getlist_data_anterieur", "/tache9",
+// "/getlist_intervention",
+// "/getlistmeterdatareporting",
+// "/update_intervention", "/search_by_date")

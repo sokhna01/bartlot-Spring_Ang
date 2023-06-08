@@ -20,7 +20,7 @@ public class MeterConfigService {
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
             list.put(meterConfig.getIdCompteurPr(), meterConfig);
-            list.put(meterConfig.getIdCompteurRe(), meterConfig);
+            list.put(meterConfig.getIdCompteurRed(), meterConfig);
         }
         return list;
     }

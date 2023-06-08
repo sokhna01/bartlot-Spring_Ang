@@ -2,7 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.repository.MeterDataRepository;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,10 +20,10 @@ import java.util.Iterator;
 public class Task2Service {
 
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService bruteAcquisitionService;
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     // Utiliser pour inserer les prochaines taches 1
     public void readXLSXFileForTask2() {
@@ -36,7 +36,7 @@ public class Task2Service {
                 XSSFSheet sheet = wb.getSheetAt(0);
                 // iterating over excel file
                 Iterator<Row> itr = sheet.iterator();
-                HashMap<String, BruteAcquisitionEntity> map = meterDataService.getListAbsenceMeterData();
+                HashMap<String, BruteAcquisitionEntity> map = bruteAcquisitionService.getListAbsenceMeterData();
                 boolean isHeader = true;
                 while (itr.hasNext()) {
                     Row row = itr.next();
@@ -135,7 +135,7 @@ public class Task2Service {
                         meterMap.setDataAMoins(meterData.getDataAMoins());
                         meterMap.setDataRPlus(meterData.getDataRPlus());
                         meterMap.setDataRMoins(meterData.getDataRMoins());
-                        meterDataRepository.updateMissingData(
+                        bruteAcquisitionRepository.updateMissingData(
                                 meterMap.getDataAPlus(),
                                 meterMap.getDataAMoins(),
                                 meterMap.getDataRPlus(),

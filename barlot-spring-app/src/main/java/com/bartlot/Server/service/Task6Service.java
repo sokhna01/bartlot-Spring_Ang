@@ -3,6 +3,10 @@ package com.bartlot.Server.service;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 
+import com.bartlot.Server.service.MeterDataExterneService;
+import com.bartlot.Server.service.BruteAcquisitionService;
+import com.bartlot.Server.service.Task3Service;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -18,21 +22,24 @@ import java.util.List;
 @Service
 public class Task6Service {
 
+    private MeterDataExterneEntity meterDataExterne;
+    private BruteAcquisitionEntity meterData;
+
     @Autowired
     private MeterDataExterneService meterDataExterneService;
 
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService bruteAcquisitionService;
 
     @Autowired
     private Task3Service task3Service;
 
-    public void executeTask6(String idClient, int idCompany) throws SQLException {
+    public void executeTask6(String idClient) throws SQLException {
         List<MeterDataExterneEntity> listCompteur = meterDataExterneService.getListCompteur(); // Récupérer les données
-                                                                                               // de la table
-                                                                                               // meterDataExterne
-        List<BruteAcquisitionEntity> listCompteurMD = meterDataService.getListCompteurMD(); // Récupérer les données de
-                                                                                            // la
+        // de la table
+        // meterDataExterne
+        List<BruteAcquisitionEntity> listCompteurMD = bruteAcquisitionService.getListCompteurMD();
+        // Récupérer les données de la
         // table meterData
 
         for (BruteAcquisitionEntity meterData : listCompteurMD) {
@@ -44,7 +51,7 @@ public class Task6Service {
                     meterData.getDataAMoins(), listCompteurMD);
 
             meterData.setPresence(presence);
-            meterDataService.insertRow(meterData);
+            bruteAcquisitionService.insertRow(meterData, idClient);
         }
 
         for (MeterDataExterneEntity meterDataExterne : listCompteur) {
@@ -287,7 +294,7 @@ public class Task6Service {
 
 // int version = 1;
 // String newFileName = "data_1_" + today + "." + fileExtension;
-// File xlsxFile = new File(Common.meterDataPath + "/" + idClient, newFileName);
+// File xlsxFile = new File(Common.meterDataPath + "/" + idClient,newFileName);
 
 // while (xlsxFile.exists()) {
 // version++;

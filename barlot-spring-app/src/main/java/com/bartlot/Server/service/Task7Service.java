@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.repository.MeterDataRepository;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import com.bartlot.Server.repository.WorkTableRepository;
 
 @Service
@@ -19,17 +19,18 @@ public class Task7Service {
     private WorkTableRepository workTableRepository;
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     private static final String idCompteur = "CPT-P";
 
     public void insertMDIntoWorkTable() {
-        List<BruteAcquisitionEntity> meterDataList = meterDataRepository.findAllByIdCompteur();
+        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository.findAllByIdCompteur();
 
         for (BruteAcquisitionEntity meterData : meterDataList) {
             Timestamp horodatage = meterData.getHorodatage();
 
-            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {
+            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
+                    idCompteur).size() == 0) {
                 System.out.println("Il n'y a rien! Mettons nos données. ");
                 WorkTableEntity workTableEntry = new WorkTableEntity();
 
@@ -39,7 +40,8 @@ public class Task7Service {
                 workTableEntry.setPointComptageId(meterData.getPointComptageId());
 
                 if ("2".equals(meterData.getPresence())
-                        && ("1".equals(meterData.getQualite()) || "2".equals(meterData.getQualite()))) {
+                        && ("1".equals(meterData.getQualite()) ||
+                                "2".equals(meterData.getQualite()))) {
                     workTableEntry.setDataAMoins(meterData.getDataAMoins());
                     workTableEntry.setDataAPlus(meterData.getDataAPlus());
                     workTableEntry.setDataRMoins(meterData.getDataRMoins());
@@ -53,7 +55,11 @@ public class Task7Service {
                     workTableEntry.setCommentaire("Analyse attendue");
                     workTableEntry.setAttenteAction("Oui");
                 }
-                workTableRepository.save(workTableEntry);
+                try{
+                workTableRepository.save(workTableEntry);}
+                catch(Exception e){
+                    
+                }
             } else {
                 List<WorkTableEntity> existingEntries = workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
                         idCompteur);
@@ -61,7 +67,8 @@ public class Task7Service {
                 for (WorkTableEntity existingEntry : existingEntries) {
                     if (existingEntry.getHorodatage().equals(meterData.getHorodatage())
                             && "2".equals(meterData.getPresence())
-                            && ("1".equals(meterData.getQualite()) || "2".equals(meterData.getQualite()))) {
+                            && ("1".equals(meterData.getQualite()) ||
+                                    "2".equals(meterData.getQualite()))) {
                         existingEntry.setCommentaire("Données disponibles sur compteur principal");
                         existingEntry.setAttenteAction("Oui");
                     }

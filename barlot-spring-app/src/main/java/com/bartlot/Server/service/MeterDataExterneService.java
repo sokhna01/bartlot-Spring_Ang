@@ -17,13 +17,14 @@ public class MeterDataExterneService {
     private MeterDataExterneRepository meterDataExterneRepository;
 
     public String insertRow(MeterDataExterneEntity meterDataExterne, String idClient) {
-        String response = "notOk";
+        String response = "ok";
         try {
             meterDataExterne.setIdClient(idClient);
             meterDataExterneRepository.save(meterDataExterne);
             response = "ok";
         } catch (Exception e) {
             e.printStackTrace();
+            response = "";
         }
         return response;
     }

@@ -7,14 +7,17 @@ import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
-import com.bartlot.Server.repository.MeterDataRepository;
-import com.bartlot.Server.service.MeterDataService;
+import com.bartlot.Server.repository.BruteAcquisitionRepository;
+import com.bartlot.Server.service.BruteAcquisitionService;
 import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
 import com.bartlot.Server.service.Task7Service;
-import com.bartlot.Server.service.Task8Service;
-import com.bartlot.Server.service.Task9Service;
+import com.bartlot.Server.service.TokenService;
+import jakarta.servlet.http.HttpServletRequest;
+
+// import com.bartlot.Server.service.Task8Service;
+// import com.bartlot.Server.service.Task9Service;
 import com.bartlot.Server.service.Task3Service;
 
 import java.sql.Timestamp;
@@ -33,10 +36,10 @@ import org.springframework.web.multipart.MultipartFile;
 // @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class MeterDataController {
     @Autowired
-    private MeterDataService meterDataService;
+    private BruteAcquisitionService meterDataService;
 
     @Autowired
-    private MeterDataRepository meterDataRepository;
+    private BruteAcquisitionRepository meterDataRepository;
 
     @Autowired
     private Task1Service task1Service;
@@ -54,13 +57,16 @@ public class MeterDataController {
     private Task7Service task7Service;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private MeterConfigRepository meterConfigRepository;
 
-    @Autowired
-    private Task9Service task9Service;
+    // @Autowired
+    // private Task9Service task9Service;
 
-    @Autowired
-    private Task8Service task8Service;
+    // @Autowired
+    // private Task8Service task8Service;
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -68,9 +74,19 @@ public class MeterDataController {
         return ResponseEntity.ok("upload_ok");
     }
 
+    // @GetMapping("/getlistmeterdata")
+    // public List<BruteAcquisitionEntity> getListMeter() {
+    // return meterDataService.getListMeterData();
+    // }
+
     @GetMapping("/getlistmeterdata")
-    public List<BruteAcquisitionEntity> getListMeter() {
-        return meterDataService.getListMeterData();
+    public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
+        List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
+        return ResponseEntity.ok()
+                .header("Access-Control-Allow-Origin", "http://localhost:4200")
+                .header("Access-Control-Allow-Methods", "GET, OPTIONS")
+                .header("Access-Control-Allow-Headers", "*")
+                .body(meterData);
     }
 
     @PostMapping("/insert_meter_data")
@@ -158,61 +174,105 @@ public class MeterDataController {
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
             list.put(meterConfig.getIdCompteurPr(), meterConfig);
-            list.put(meterConfig.getIdCompteurRe(), meterConfig);
+            list.put(meterConfig.getIdCompteurRed(), meterConfig);
         }
         return list;
     }
 
     @GetMapping("/getid")
-    public List<Map<String, Object>> findAllClientSitePointComptage() {
-        return meterDataService.findAllClientSitePointComptage();
+    public List<Map<String, Object>> findAllClientSitePointComptage(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            if (tokenService.isTokenValid(token)) {
+
+                return meterDataService.findAllClientSitePointComptage();
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @GetMapping("/selectListData")
-    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
-        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
-        return ResponseEntity.ok().body(selectListData);
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+                return ResponseEntity.ok().body(selectListData);
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @GetMapping("/clients")
-    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
-        return meterDataService.getAllClientsWithSitesAndPoints();
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                return meterDataService.getAllClientsWithSitesAndPoints();
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @PostMapping("/tache7")
-    public ResponseEntity<?> executeTask7() {
+    public ResponseEntity<?> executeTask7(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
 
-        task7Service.insertMDIntoWorkTable();
-
-        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            if (tokenService.isTokenValid(token)) {
+                task7Service.insertMDIntoWorkTable();
+                return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
-    @PostMapping("/tache9")
-    public ResponseEntity<?> addIntervention(
-            @RequestParam("idCompteur") String idCompteur,
-            @RequestParam("beginDate") String beginDate,
-            @RequestParam("endDate") String endDate) {
+    // @PostMapping("/tache9")
+    // public ResponseEntity<?> addIntervention(
+    // @RequestParam("idCompteur") String idCompteur,
+    // @RequestParam("beginDate") String beginDate,
+    // @RequestParam("endDate") String endDate) {
 
-        String resp = task9Service.intervention(idCompteur, beginDate, endDate);
+    // Map<String, String> map = new HashMap<String, String>();
 
-        return ResponseEntity.ok(resp);
+    // String resp = task9Service.intervention(idCompteur, beginDate, endDate);
+    // map.put("msg", resp);
+    // return ResponseEntity.ok(map);
+    // }
 
-    }
+    // @PostMapping("/update_intervention")
+    // public ResponseEntity<?> updateIntervention(
+    // @RequestParam("id") int id,
+    // @RequestParam("beginDate") String beginDate,
+    // @RequestParam("endDate") String endDate,
+    // @RequestParam("annuler") boolean annuler) {
 
-    @PostMapping("/update_intervention")
-    public ResponseEntity<?> updateIntervention(
-            @RequestParam("id") int id,
-            @RequestParam("beginDate") String beginDate,
-            @RequestParam("endDate") String endDate,
-            @RequestParam("annuler") boolean annuler) {
+    // Map<String, String> map = new HashMap<String, String>();
 
-        Map<String, String> map = new HashMap<String, String>();
-
-        String resp = task9Service.updateIntervention(id, beginDate, endDate,
-                annuler);
-        map.put("msg", resp);
-        return ResponseEntity.ok(map);
-    }
+    // String resp = task9Service.updateIntervention(id, beginDate, endDate,
+    // annuler);
+    // map.put("msg", resp);
+    // return ResponseEntity.ok(map);
+    // }
 
     // @PostMapping("/getlist_intervention")
     // public List<InterventionEntity>
@@ -223,57 +283,63 @@ public class MeterDataController {
     // return task9Service.getListIntervention(idCompany);
     // }
 
-    @PostMapping("/search_by_date")
-    public List<InterventionEntity> searchListByDate(
-            @RequestParam("begin_horodatage") String beginHorodatage,
-            @RequestParam("end_horodatage") String endHorodatage) {
+    // @PostMapping("/search_by_date")
+    // public List<InterventionEntity> searchListByDate(
+    // @RequestParam("begin_horodatage") String beginHorodatage,
+    // @RequestParam("end_horodatage") String endHorodatage) {
 
-        return task9Service.getListIntervention(beginHorodatage, endHorodatage);
-    }
+    // return task9Service.getListIntervention(beginHorodatage, endHorodatage);
+    // }
 
-    @GetMapping("/tache8_get_table")
-    public List<PropositionModel> tache8GetTable() {
+    // @GetMapping("/tache8_get_table")
+    // public List<PropositionModel> tache8GetTable() {
 
-        return task8Service.workTableData();
-    }
+    // return task8Service.workTableData();
+    // }
 
-    @PostMapping("/tache8_update_table")
-    public ResponseEntity<?> updateWorkTable(
-            @RequestParam("horodatage") String horodatage,
-            @RequestParam("dataAPlus") String dataAPlus,
-            @RequestParam("dataAMoins") String dataAMoins,
-            @RequestParam("dataRPlus") String dataRPlus,
-            @RequestParam("dataRMoins") String dataRMoins,
-            @RequestParam("source") String source,
-            @RequestParam("idCompteur") String idCompteur,
-            @RequestParam("commentaire") String commentaire) {
+    // @PostMapping("/tache8_update_table")
+    // public ResponseEntity<?> updateWorkTable(
+    // @RequestParam("horodatage") String horodatage,
+    // @RequestParam("dataAPlus") String dataAPlus,
+    // @RequestParam("dataAMoins") String dataAMoins,
+    // @RequestParam("dataRPlus") String dataRPlus,
+    // @RequestParam("dataRMoins") String dataRMoins,
+    // @RequestParam("source") String source,
+    // @RequestParam("idCompteur") String idCompteur,
+    // @RequestParam("commentaire") String commentaire) {
 
-        String msg = "";
+    // String msg = "";
 
-        Timestamp timestamp = Timestamp.valueOf(horodatage.replace("T", " ").replace("00:00", ""));
+    // Timestamp timestamp = Timestamp.valueOf(horodatage.replace("T", "
+    // ").replace("00:00", ""));
 
-        if (!dataAPlus.equals("null") && !dataAMoins.equals("null") && !dataRPlus.equals("null") &&
-                !dataRMoins.equals("null")) {
+    // if (!dataAPlus.equals("null") && !dataAMoins.equals("null") &&
+    // !dataRPlus.equals("null") &&
+    // !dataRMoins.equals("null")) {
 
-            msg = task8Service.updateWorkTable(timestamp, dataAPlus, dataAMoins, dataRPlus,
-                    dataRMoins, source, idCompteur, commentaire);
+    // msg = task8Service.updateWorkTable(timestamp, dataAPlus, dataAMoins,
+    // dataRPlus,
+    // dataRMoins, source, idCompteur, commentaire);
 
-        } else if (dataAPlus.equals("null") && dataAMoins.equals("null") && dataRPlus.equals("null") &&
-                dataRMoins.equals("null")) {
+    // } else if (dataAPlus.equals("null") && dataAMoins.equals("null") &&
+    // dataRPlus.equals("null") &&
+    // dataRMoins.equals("null")) {
 
-            msg = task8Service.interpolationLineaire(timestamp, source, idCompteur, commentaire);
+    // msg = task8Service.interpolationLineaire(timestamp, source, idCompteur,
+    // commentaire);
 
-        }
+    // }
 
-        // Afficher l'objet Timestamp sans le décalage horaire
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("msg", msg);
-        return ResponseEntity.ok(map);
-    }
+    // // Afficher l'objet Timestamp sans le décalage horaire
+    // Map<String, String> map = new HashMap<String, String>();
+    // map.put("msg", msg);
+    // return ResponseEntity.ok(map);
+    // }
 
-    @PostMapping("/getlist_data_anterieur")
-    public List<WorkTableEntity> getListDataAnterieur(@RequestParam("horodatage") String horodatage) {
+    // @PostMapping("/getlist_data_anterieur")
+    // public List<WorkTableEntity> getListDataAnterieur(@RequestParam("horodatage")
+    // String horodatage) {
 
-        return task8Service.getListWorkTableDataAnterieur(horodatage);
-    }
+    // return task8Service.getListWorkTableDataAnterieur(horodatage);
+    // }
 }
