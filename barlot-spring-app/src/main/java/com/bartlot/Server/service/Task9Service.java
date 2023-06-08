@@ -9,7 +9,7 @@ import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
-import com.bartlot.Server.repository.IntereventionRepository;
+import com.bartlot.Server.repository.InterventionRepository;
 
 @Service
 public class Task9Service {
@@ -18,7 +18,7 @@ public class Task9Service {
     private BruteAcquisitionRepository meterDataRepository;
 
     @Autowired
-    private IntereventionRepository intereventionRepository;
+    private InterventionRepository intereventionRepository;
 
     public String updateIntervention(int id, String beginDate, String endDate, boolean annuler) {
 

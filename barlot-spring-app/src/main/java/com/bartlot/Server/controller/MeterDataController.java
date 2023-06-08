@@ -173,6 +173,7 @@ public class MeterDataController {
 
     @GetMapping("/getlistmeterdata")
     public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
+
         List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
         return ResponseEntity.ok()
                 .header("Access-Control-Allow-Origin", "http://localhost:4200")
