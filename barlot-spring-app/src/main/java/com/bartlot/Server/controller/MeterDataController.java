@@ -166,21 +166,21 @@ public class MeterDataController {
         return ResponseEntity.ok("upload_ok");
     }
 
-    // @GetMapping("/getlistmeterdata")
-    // public List<BruteAcquisitionEntity> getListMeter() {
-    // return meterDataService.getListMeterData();
-    // }
+    @GetMapping("/getlistmeterdata")
+    public List<BruteAcquisitionEntity> getListMeter() {
+        return meterDataService.getListMeterData();
+    }
 
     @GetMapping("/getlistmeterdata")
     public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
 
-        List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
-        return ResponseEntity.ok()
-                .header("Access-Control-Allow-Origin", "http://localhost:4200")
-                .header("Access-Control-Allow-Methods", "GET, OPTIONS")
-                .header("Access-Control-Allow-Headers", "*")
-                .body(meterData);
-    }
+    // List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
+    // return ResponseEntity.ok()
+    // .header("Access-Control-Allow-Origin", "http://localhost:4200")
+    // .header("Access-Control-Allow-Methods", "GET, OPTIONS")
+    // .header("Access-Control-Allow-Headers", "*")
+    // .body(meterData);
+    // }
 
     @PostMapping("/insert_meter_data")
     public ResponseEntity<?> insertXlsxToBD(
