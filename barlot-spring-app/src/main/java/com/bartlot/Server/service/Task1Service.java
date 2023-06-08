@@ -117,7 +117,7 @@ public class Task1Service {
                     }
                     if (meterConfigMap.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = meterConfigMap.get(meterData.getIdCompteur());
-                        if (conf != null && conf.getModifierLaConventionDeSigne()) {
+                        if (conf != null && conf.getModifierLaConventionPointDeSigne()) {
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();
                             Double dataRmoinsBis = meterData.getDataRMoins();
@@ -237,7 +237,7 @@ public class Task1Service {
 
                     if (map.get(meterData.getIdCompteur()) != null) {
                         MeterConfigEntity conf = map.get(meterData.getIdCompteur());
-                        if (conf != null && conf.getModifierLaConventionDeSigne()) {
+                        if (conf != null && conf.getModifierLaConventionPointDeSigne()) {
 
                             Double dataAmoinsBis = meterData.getDataAMoins();
                             Double dataAplusBis = meterData.getDataAPlus();

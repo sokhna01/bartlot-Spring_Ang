@@ -265,8 +265,8 @@ public class MeterDataController {
         HashMap<String, MeterConfigEntity> list = new HashMap<String, MeterConfigEntity>();
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
-            list.put(meterConfig.getIdCompteurPr(), meterConfig);
-            list.put(meterConfig.getIdCompteurRed(), meterConfig);
+            list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
+            list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
         }
         return list;
     }
