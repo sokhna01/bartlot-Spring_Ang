@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.bartlot.Server.AuthenticationException;
 import com.bartlot.Server.entity.UsersEntity;
-import com.bartlot.Server.repository.CompanyUsersRepository;
+import com.bartlot.Server.repository.UsersRepository;
 import com.bartlot.Server.service.LoginWeb;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class LoginController {
     private LoginWeb loginCompanyWeb;
 
     @Autowired
-    private CompanyUsersRepository companyUsersRepository;
+    private UsersRepository companyUsersRepository;
 
     private static final Logger logger = LogManager.getLogger(LoginController.class);
 

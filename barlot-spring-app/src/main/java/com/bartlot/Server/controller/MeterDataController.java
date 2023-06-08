@@ -13,6 +13,9 @@ import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
 import com.bartlot.Server.service.Task7Service;
+import com.bartlot.Server.service.TokenService;
+import jakarta.servlet.http.HttpServletRequest;
+
 // import com.bartlot.Server.service.Task8Service;
 // import com.bartlot.Server.service.Task9Service;
 import com.bartlot.Server.service.Task3Service;
@@ -54,6 +57,9 @@ public class MeterDataController {
     private Task7Service task7Service;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private MeterConfigRepository meterConfigRepository;
 
     // @Autowired
@@ -68,9 +74,19 @@ public class MeterDataController {
         return ResponseEntity.ok("upload_ok");
     }
 
+    // @GetMapping("/getlistmeterdata")
+    // public List<BruteAcquisitionEntity> getListMeter() {
+    // return meterDataService.getListMeterData();
+    // }
+
     @GetMapping("/getlistmeterdata")
-    public List<BruteAcquisitionEntity> getListMeter() {
-        return meterDataService.getListMeterData();
+    public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
+        List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
+        return ResponseEntity.ok()
+                .header("Access-Control-Allow-Origin", "http://localhost:4200")
+                .header("Access-Control-Allow-Methods", "GET, OPTIONS")
+                .header("Access-Control-Allow-Headers", "*")
+                .body(meterData);
     }
 
     @PostMapping("/insert_meter_data")
@@ -164,27 +180,70 @@ public class MeterDataController {
     }
 
     @GetMapping("/getid")
-    public List<Map<String, Object>> findAllClientSitePointComptage() {
-        return meterDataService.findAllClientSitePointComptage();
+    public List<Map<String, Object>> findAllClientSitePointComptage(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            if (tokenService.isTokenValid(token)) {
+
+                return meterDataService.findAllClientSitePointComptage();
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @GetMapping("/selectListData")
-    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
-        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
-        return ResponseEntity.ok().body(selectListData);
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+                return ResponseEntity.ok().body(selectListData);
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @GetMapping("/clients")
-    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
-        return meterDataService.getAllClientsWithSitesAndPoints();
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                return meterDataService.getAllClientsWithSitesAndPoints();
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     @PostMapping("/tache7")
-    public ResponseEntity<?> executeTask7() {
+    public ResponseEntity<?> executeTask7(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
 
-        task7Service.insertMDIntoWorkTable();
-
-        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            if (tokenService.isTokenValid(token)) {
+                task7Service.insertMDIntoWorkTable();
+                return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
     }
 
     // @PostMapping("/tache9")

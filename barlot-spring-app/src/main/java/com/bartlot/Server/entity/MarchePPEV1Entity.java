@@ -3,10 +3,14 @@ package com.bartlot.Server.entity;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "marche_ppe_variante_1")
 public class MarchePPEV1Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

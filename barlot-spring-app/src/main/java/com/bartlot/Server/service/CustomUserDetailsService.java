@@ -12,28 +12,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.UsersEntity;
-import com.bartlot.Server.repository.CompanyUsersRepository;
+import com.bartlot.Server.repository.UsersRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final CompanyUsersRepository companyUsersRepository;
+    private final UsersRepository usersRepository;
 
-    public CustomUserDetailsService(CompanyUsersRepository companyUsersRepository) {
-        this.companyUsersRepository = companyUsersRepository;
+    public CustomUserDetailsService(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsersEntity companyUser = companyUsersRepository.findByUsername(username)
+        UsersEntity user = usersRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        // if (companyUser.isAdmin()) {
+        // if (user.isAdmin()) {
         // authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         // }
 
-        return new User(companyUser.getUsername(), companyUser.getPassword(), authorities);
+        return new User(user.getUsername(), user.getPassword(), authorities);
     }
 }

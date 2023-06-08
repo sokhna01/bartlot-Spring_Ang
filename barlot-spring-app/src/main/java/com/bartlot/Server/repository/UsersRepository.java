@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CompanyUsersRepository extends JpaRepository<UsersEntity, Integer> {
+public interface UsersRepository extends JpaRepository<UsersEntity, Integer> {
 
     @Query(value = "SELECT c_users.id, c_users.firstname, c_users.lastname, c_users.address, c_users.city, c_users.phone, c_users.reset_password, c_users.created_date, c_users.prefered_language, c_users.useautocompletion "
             + "FROM users c_users "

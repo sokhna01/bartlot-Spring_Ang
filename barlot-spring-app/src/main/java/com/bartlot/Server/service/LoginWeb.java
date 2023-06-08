@@ -16,13 +16,13 @@ import com.bartlot.Server.entity.ActionEntity;
 import com.bartlot.Server.entity.UsersEntity;
 import com.bartlot.Server.entity.ProfilesEntity;
 import com.bartlot.Server.repository.ProfilesRepository;
-import com.bartlot.Server.repository.CompanyUsersRepository;
+import com.bartlot.Server.repository.UsersRepository;
 import com.bartlot.Server.repository.ProfileActionRepository;
 
 @Service
 public class LoginWeb {
     @Autowired
-    private CompanyUsersRepository companyUsersRepository;
+    private UsersRepository companyUsersRepository;
 
     @Autowired
     private ProfilesRepository profilesRepository;
