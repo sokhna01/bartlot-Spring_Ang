@@ -140,7 +140,7 @@ public class Task2Service {
                                 meterMap.getDataAMoins(),
                                 meterMap.getDataRPlus(),
                                 meterMap.getDataRMoins(),
-                                meterData.getId());
+                                meterMap.getId());
                     }
                 }
             }

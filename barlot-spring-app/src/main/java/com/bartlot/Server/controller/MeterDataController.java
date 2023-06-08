@@ -171,8 +171,8 @@ public class MeterDataController {
         return meterDataService.getListMeterData();
     }
 
-    @GetMapping("/getlistmeterdata")
-    public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
+    // @GetMapping("/getlistmeterdata")
+    // public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
 
     // List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
     // return ResponseEntity.ok()
