@@ -13,6 +13,8 @@ import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
 import com.bartlot.Server.service.Task7Service;
+import com.bartlot.Server.service.Task8Service;
+import com.bartlot.Server.service.Task9Service;
 import com.bartlot.Server.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -62,11 +64,125 @@ public class MeterDataController {
     @Autowired
     private MeterConfigRepository meterConfigRepository;
 
-    // @Autowired
-    // private Task9Service task9Service;
+    @Autowired
+    private Task9Service task9Service;
 
-    // @Autowired
-    // private Task8Service task8Service;
+    @Autowired
+    private Task8Service task8Service;
+
+    @GetMapping("/getid")
+    public List<Map<String, Object>> findAllClientSitePointComptage() {
+        return meterDataService.findAllClientSitePointComptage();
+    }
+
+    @GetMapping("/selectListData")
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
+        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+        return ResponseEntity.ok().body(selectListData);
+    }
+
+    @GetMapping("/clients")
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
+        return meterDataService.getAllClientsWithSitesAndPoints();
+    }
+
+    @PostMapping("/tache7")
+    public ResponseEntity<?> executeTask7() {
+
+        task7Service.insertMDIntoWorkTable();
+
+        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
+    }
+
+    @PostMapping("/tache9")
+    public ResponseEntity<?> addIntervention(
+            @RequestParam("idCompteur") String idCompteur,
+            @RequestParam("beginDate") String beginDate,
+            @RequestParam("endDate") String endDate) {
+
+        String resp = task9Service.intervention(idCompteur, beginDate, endDate);
+
+        return ResponseEntity.ok(resp);
+
+    }
+
+    @PostMapping("/update_intervention")
+    public ResponseEntity<?> updateIntervention(
+            @RequestParam("id") int id,
+            @RequestParam("beginDate") String beginDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("annuler") boolean annuler) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        String resp = task9Service.updateIntervention(id, beginDate, endDate,
+                annuler);
+        map.put("msg", resp);
+        return ResponseEntity.ok(map);
+    }
+
+    // @PostMapping("/getlist_intervention")
+    // public List<InterventionEntity>
+    // getListIntervention(@RequestParam("idcompany") String idcompany) {
+
+    // int idCompany = Integer.parseInt(idcompany);
+
+    // return task9Service.getListIntervention(idCompany);
+    // }
+
+    @PostMapping("/search_by_date")
+    public List<InterventionEntity> searchListByDate(
+            @RequestParam("begin_horodatage") String beginHorodatage,
+            @RequestParam("end_horodatage") String endHorodatage) {
+
+        return task9Service.getListIntervention(beginHorodatage, endHorodatage);
+    }
+
+    @GetMapping("/tache8_get_table")
+    public List<PropositionModel> tache8GetTable() {
+
+        return task8Service.workTableData();
+    }
+
+    @PostMapping("/tache8_update_table")
+    public ResponseEntity<?> updateWorkTable(
+            @RequestParam("horodatage") String horodatage,
+            @RequestParam("dataAPlus") String dataAPlus,
+            @RequestParam("dataAMoins") String dataAMoins,
+            @RequestParam("dataRPlus") String dataRPlus,
+            @RequestParam("dataRMoins") String dataRMoins,
+            @RequestParam("source") String source,
+            @RequestParam("idCompteur") String idCompteur,
+            @RequestParam("commentaire") String commentaire) {
+
+        String msg = "";
+
+        Timestamp timestamp = Timestamp.valueOf(horodatage.replace("T", " ").replace("00:00", ""));
+
+        if (!dataAPlus.equals("null") && !dataAMoins.equals("null") && !dataRPlus.equals("null") &&
+                !dataRMoins.equals("null")) {
+
+            msg = task8Service.updateWorkTable(timestamp, dataAPlus, dataAMoins, dataRPlus,
+                    dataRMoins, source, idCompteur, commentaire);
+
+        } else if (dataAPlus.equals("null") && dataAMoins.equals("null") && dataRPlus.equals("null") &&
+                dataRMoins.equals("null")) {
+
+            msg = task8Service.interpolationLineaire(timestamp, source, idCompteur, commentaire);
+
+        }
+
+        // Afficher l'objet Timestamp sans le décalage horaire
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("msg", msg);
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/getlist_data_anterieur")
+    public List<WorkTableEntity> getListDataAnterieur(@RequestParam("horodatage") String horodatage) {
+
+        return task8Service.getListWorkTableDataAnterieur(horodatage);
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
