@@ -70,30 +70,6 @@ public class MeterDataController {
     @Autowired
     private Task8Service task8Service;
 
-    @GetMapping("/getid")
-    public List<Map<String, Object>> findAllClientSitePointComptage() {
-        return meterDataService.findAllClientSitePointComptage();
-    }
-
-    @GetMapping("/selectListData")
-    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
-        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
-        return ResponseEntity.ok().body(selectListData);
-    }
-
-    @GetMapping("/clients")
-    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
-        return meterDataService.getAllClientsWithSitesAndPoints();
-    }
-
-    @PostMapping("/tache7")
-    public ResponseEntity<?> executeTask7() {
-
-        task7Service.insertMDIntoWorkTable();
-
-        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
-    }
-
     @PostMapping("/tache9")
     public ResponseEntity<?> addIntervention(
             @RequestParam("idCompteur") String idCompteur,

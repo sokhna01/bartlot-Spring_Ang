@@ -70,65 +70,60 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
         }
     }
 
-    // default List<BruteAcquisitionEntity>
-    // findMeterDataBybetweenDateWithException(Date
-    // startDate, Date endDate) {
-    // try {
-    // return findMeterDataBybetweenDate(startDate, endDate);
-    // } catch (Exception e) {
-    // return null;
-    // }
-    // }
+    default List<BruteAcquisitionEntity> findMeterDataBybetweenDateWithException(Date startDate, Date endDate) {
+        try {
+            return findMeterDataBybetweenDate(startDate, endDate);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    // default List<BruteAcquisitionEntity>
-    // findByHorodatageBetweenOrderByHorodatageAscWithException(Date startDate,
-    // Date endDate) {
-    // try {
-    // return findByHorodatageBetweenOrderByHorodatageAsc(startDate, endDate);
-    // } catch (Exception e) {
-    // // Gestion de l'exception
-    // // Vous pouvez afficher un message d'erreur, enregistrer des journaux, ou
-    // // prendre toute autre action appropriée
-    // return null; // Ou lancez une nouvelle exception si nécessaire
-    // }
-    // }
+    default List<BruteAcquisitionEntity> findByHorodatageBetweenOrderByHorodatageAscWithException(Date startDate,
+            Date endDate) {
+        try {
+            return findByHorodatageBetweenOrderByHorodatageAsc(startDate, endDate);
+        } catch (Exception e) {
+            // Gestion de l'exception
+            // Vous pouvez afficher un message d'erreur, enregistrer des journaux, ou
+            // prendre toute autre action appropriée
+            return null; // Ou lancez une nouvelle exception si nécessaire
+        }
+    }
 
-    // default void updateMissingDataWithException(Double dataAPlus, Double
-    // dataAMoins, Double dataRPlus,
-    // Double dataRMoins, int id) {
-    // try {
-    // updateMissingData(dataAPlus, dataAMoins, dataRPlus, dataRMoins, id);
-    // } catch (Exception e) {
+    default void updateMissingDataWithException(Double dataAPlus, Double dataAMoins, Double dataRPlus,
+            Double dataRMoins, int id) {
+        try {
+            updateMissingData(dataAPlus, dataAMoins, dataRPlus, dataRMoins, id);
+        } catch (Exception e) {
 
-    // }
-    // }
+        }
+    }
 
-    // default void updateSourceWithException(String source, String presence, int
-    // id) {
-    // try {
+    default void updateSourceWithException(String source, String presence, int id) {
+        try {
 
-    // updateSource(source, presence, id);
+            updateSource(source, presence, id);
 
-    // } catch (Exception e) {
+        } catch (Exception e) {
 
-    // }
-    // }
+        }
+    }
 
-    // default void updateQualiteWithException(String qualite, int id) {
-    // try {
-    // updateQualite(qualite, id);
-    // } catch (Exception e) {
+    default void updateQualiteWithException(String qualite, int id) {
+        try {
+            updateQualite(qualite, id);
+        } catch (Exception e) {
 
-    // }
-    // }
+        }
+    }
 
-    // default List<Object[]> findAllSiteClientAndPointDeComptageWithException() {
-    // try {
-    // return findAllSiteClientAndPointDeComptage();
-    // } catch (Exception e) {
-    // return null;
-    // }
-    // }
+    default List<Object[]> findAllSiteClientAndPointDeComptageWithException() {
+        try {
+            return findAllSiteClientAndPointDeComptage();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     default ReturnObject findByIdCompteurWithException(String idCompteur) {
         try {
@@ -146,23 +141,22 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
         }
     }
 
-    // default List<BruteAcquisitionEntity> findAllByIdCompteurWithException() {
-    // try {
-    // return findAllByIdCompteur();
-    // } catch (Exception e) {
-    // return null;
-    // }
-    // }
+    default List<BruteAcquisitionEntity> findAllByIdCompteurWithException() {
+        try {
+            return findAllByIdCompteur();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    // default List<BruteAcquisitionEntity>
-    // findBySourceIsNullAndPresenceIsNullAndQualiteIsNullWithException() {
-    // try {
+    default List<BruteAcquisitionEntity> findBySourceIsNullAndPresenceIsNullAndQualiteIsNullWithException() {
+        try {
 
-    // return findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
+            return findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
 
-    // } catch (Exception e) {
-    // return null;
-    // }
-    // }
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
