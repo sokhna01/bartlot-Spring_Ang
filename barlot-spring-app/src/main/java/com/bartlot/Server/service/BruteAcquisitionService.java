@@ -58,7 +58,7 @@ public class BruteAcquisitionService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return bruteAcquisitionEntity.findByHorodatageBetweenOrderByHorodatageAscWithException(begin_date, end_date);
+        return bruteAcquisitionEntity.findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
     }
 
     public String insertRow(BruteAcquisitionEntity meterData) {
