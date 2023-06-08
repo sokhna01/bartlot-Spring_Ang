@@ -40,11 +40,14 @@ public class Task3Service {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
             MeterConfigEntity config = map.get(meter.getIdCompteur());
-            if (config.getIdCompteurPrincipal() == null && config.getIdCompteurRedondant() != null) {
+            if (config.getIdCompteurPrincipal() == null &&
+                    config.getIdCompteurRedondant() != null) {
                 bruteAcquisitionRepository.updateSource("Re", presence,
                         list.get(i).getId());
-            } else if (config.getIdCompteurPrincipal() != null && config.getIdCompteurRedondant() == null) {
+            } else if (config.getIdCompteurPrincipal() != null &&
+                    config.getIdCompteurRedondant() == null) {
                 bruteAcquisitionRepository.updateSource("Pr", presence,
                         list.get(i).getId());
             }

@@ -39,10 +39,10 @@ public class MeterConfigEntity {
     @Column(name = "modifier_la_convention_de_signe", columnDefinition = "boolean default false")
     private Boolean modifierLaConventionPointDeSigne;
 
-    @Column(name = "id_comptuer_principal")
+    @Column(name = "id_compteur_principal")
     private String idCompteurPrincipal;
 
-    @Column(name = "id_comptuer_redondant")
+    @Column(name = "id_compteur_redondant")
     private String idCompteurRedondant;
 
     @Column(name = "phi_injection", columnDefinition = "REAL")
