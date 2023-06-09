@@ -3,10 +3,6 @@ package com.bartlot.Server.service;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 
-import com.bartlot.Server.service.MeterDataExterneService;
-import com.bartlot.Server.service.BruteAcquisitionService;
-import com.bartlot.Server.service.Task3Service;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -21,9 +17,6 @@ import java.util.List;
 
 @Service
 public class Task6Service {
-
-    private MeterDataExterneEntity meterDataExterne;
-    private BruteAcquisitionEntity meterData;
 
     @Autowired
     private MeterDataExterneService meterDataExterneService;
