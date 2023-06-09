@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic().disable()
                 .authorizeHttpRequests()
+<<<<<<< HEAD
                 .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5",
                         "/tache6", "/tache7",
                         "/selectListData", "/upload", "/getlistmeterdata", "/insert_meter_data",
@@ -35,6 +36,12 @@ public class SecurityConfig {
                         "/tache8_get_table",
                         "/tache8_update_table", "/getlist_data_anterieur", "/tache9",
                         "/getlist_intervention",
+=======
+                .requestMatchers("/login/*", "/tache2", "/tache3", "/tache4", "/tache5", "/tache6", "/tache7",
+                        "/selectListData", "/upload", "/getlistmeterdata", "/insert_meter_data",
+                        "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients", "/tache8_get_table",
+                        "/tache8_update_table", "/getlist_data_anterieur", "/tache9", "/getlist_intervention",
+>>>>>>> 2bc1e6b8ffb04029092b07da297aa581c06c5989
                         "/getlistmeterdatareporting",
                         "/update_intervention", "/search_by_date")
                 .permitAll()

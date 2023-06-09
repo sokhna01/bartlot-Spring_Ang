@@ -158,7 +158,7 @@ public class Task8Service {
 
                 }
 
-                else if (meterData.getSource().equals("Se")) {
+                else if (meterData.getSource().equals("Sr")) {
 
                     propositionModel.setDataAPlusSe(meterData.getDataAPlus());
                     propositionModel.setDataAMoinsSe(meterData.getDataAMoins());
@@ -202,7 +202,7 @@ public class Task8Service {
                         propositionModel.setDataRMoinsRe(meterData.getDataRMoins());
                         propositionModel.setIdCompteurRe(meterData.getIdCompteur());
 
-                    } else if (meterData.getSource().equals("Se")) {
+                    } else if (meterData.getSource().equals("Sr")) {
 
                         propositionModel.setDataAPlusSe(meterData.getDataAPlus());
                         propositionModel.setDataAMoinsSe(meterData.getDataAMoins());
@@ -244,12 +244,7 @@ public class Task8Service {
                             propositionModel.setIdCompteurPr(meterData.getIdCompteur());
 
                         }
-
-                        // propositionModel.setDataAPlusPr(meterData.getDataAPlus());
-                        // propositionModel.setDataAMoinsPr(meterData.getDataAMoins());
-                        // propositionModel.setDataRPlusPr(meterData.getDataRPlus());
-                        // propositionModel.setDataRMoinsPr(meterData.getDataRMoins());
-                        // propositionModel.setIdCompteurPr(meterData.getIdCompteur());
+                        
 
                     } else if (meterData.getSource().equals("Re")) {
 
@@ -259,7 +254,7 @@ public class Task8Service {
                         propositionModel.setDataRMoinsRe(meterData.getDataRMoins());
                         propositionModel.setIdCompteurRe(meterData.getIdCompteur());
 
-                    } else if (meterData.getSource().equals("Se")) {
+                    } else if (meterData.getSource().equals("Sr")) {
 
                         propositionModel.setDataAPlusSe(meterData.getDataAPlus());
                         propositionModel.setDataAMoinsSe(meterData.getDataAMoins());
