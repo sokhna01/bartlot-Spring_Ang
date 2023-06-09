@@ -1,7 +1,6 @@
 package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.InterventionEntity;
-import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
@@ -27,7 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -175,9 +176,6 @@ public class MeterDataController {
     public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
         List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
         return ResponseEntity.ok()
-                .header("Access-Control-Allow-Origin", "http://localhost:4200")
-                .header("Access-Control-Allow-Methods", "GET, OPTIONS")
-                .header("Access-Control-Allow-Headers", "*")
                 .body(meterData);
     }
 
@@ -260,16 +258,17 @@ public class MeterDataController {
 
     }
 
-    @GetMapping("/getlistmeterconfig")
-    public HashMap<String, MeterConfigEntity> getListMeterConfig() {
-        HashMap<String, MeterConfigEntity> list = new HashMap<String, MeterConfigEntity>();
-        List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
-        for (MeterConfigEntity meterConfig : meterConfigs) {
-            list.put(meterConfig.getIdCompteurPr(), meterConfig);
-            list.put(meterConfig.getIdCompteurRed(), meterConfig);
-        }
-        return list;
-    }
+    // @GetMapping("/getlistmeterconfig")
+    // public HashMap<String, MeterConfigEntity> getListMeterConfig() {
+    // HashMap<String, MeterConfigEntity> list = new HashMap<String,
+    // MeterConfigEntity>();
+    // List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
+    // for (MeterConfigEntity meterConfig : meterConfigs) {
+    // list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
+    // list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
+    // }
+    // return list;
+    // }
 
     @GetMapping("/getid")
     public List<Map<String, Object>> findAllClientSitePointComptage(HttpServletRequest request) {
@@ -297,27 +296,31 @@ public class MeterDataController {
                 List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
                 return ResponseEntity.ok().body(selectListData);
             } else {
-                throw new RuntimeException("Token invalide");
+                System.out.println("TOKEN IVAIDE");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
+            System.out.println("Pas de token renvoyé");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @GetMapping("/clients")
-    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints(HttpServletRequest request) {
+    public ResponseEntity<List<ClientSitePointAssociation>> getAllClientsWithSitesAndPoints(
+            HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
 
             if (tokenService.isTokenValid(token)) {
-                return meterDataService.getAllClientsWithSitesAndPoints();
+                List<ClientSitePointAssociation> clients = meterDataService.getAllClientsWithSitesAndPoints();
+                return ResponseEntity.ok().body(clients);
             } else {
-                throw new RuntimeException("Token invalide");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

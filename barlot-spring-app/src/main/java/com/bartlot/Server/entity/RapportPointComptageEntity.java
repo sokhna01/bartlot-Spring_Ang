@@ -15,8 +15,9 @@
 // @Column(name = "id", nullable = false)
 // private Integer id;
 
-// @Column(name = "valeur_du_jour_absentes")
-// private Boolean[][] valeurDuJourAbsentes;// must_review
+// @Column(name = "valeur_du_jour_absentes", columnDefinition = "jsonb")
+// private Boolean[][] valeurDuJourAbsentes;
+// // must_review
 
 // @Column(name = "nb_de_jours_avec_valeurs_absentes", columnDefinition =
 // "integer[]")

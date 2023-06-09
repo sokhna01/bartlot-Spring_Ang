@@ -10,11 +10,11 @@ import com.bartlot.Server.entity.InterventionEntity;
 
 public interface InterventionRepository extends JpaRepository<InterventionEntity, Integer> {
 
-    InterventionEntity findByStartHorodatageAndEndHorodatage(Timestamp startHorodatage, Timestamp endHorodatage);
+        InterventionEntity findByStartHorodatageAndEndHorodatage(Timestamp startHorodatage, Timestamp endHorodatage);
 
-    @Query("SELECT int FROM InterventionEntity int WHERE "
-            + "(startHorodatage>=:beginHoradatage AND endHorodatage<=:endHoradatage) ORDER BY id")
-    List<InterventionEntity> findByHorodatage(Timestamp beginHoradatage,
-            Timestamp endHoradatage);
+        @Query("SELECT int FROM InterventionEntity int WHERE "
+                        + "(startHorodatage>=:beginHoradatage AND endHorodatage<=:endHoradatage) ORDER BY id")
+        List<InterventionEntity> findByHorodatage(Timestamp beginHoradatage,
+                        Timestamp endHoradatage);
 
 }

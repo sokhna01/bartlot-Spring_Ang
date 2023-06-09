@@ -9,7 +9,7 @@
     <logger name="com.bartlot" level="DEBUG"/>
     <logger name="org.springframework" level="DEBUG"/>
 
-    <root level="ERROR">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
