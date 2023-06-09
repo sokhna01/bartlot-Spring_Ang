@@ -44,7 +44,7 @@ public class Task9Service {
 
     }
 
-    public String intervention(String idCompteur, String beginDate, String endDate) {
+    public String addIntervention(String idCompteur, String beginDate, String endDate) {
 
         String msg = "not_ok";
 

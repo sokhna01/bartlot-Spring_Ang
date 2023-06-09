@@ -70,15 +70,18 @@ public class MeterDataController {
     @Autowired
     private Task8Service task8Service;
 
+    Map<String, String> map = new HashMap<String, String>();
+
     @PostMapping("/tache9")
     public ResponseEntity<?> addIntervention(
             @RequestParam("idCompteur") String idCompteur,
             @RequestParam("beginDate") String beginDate,
             @RequestParam("endDate") String endDate) {
 
-        String resp = task9Service.intervention(idCompteur, beginDate, endDate);
+        String resp = task9Service.addIntervention(idCompteur, beginDate, endDate);
 
-        return ResponseEntity.ok(resp);
+        map.put("msg", resp);
+        return ResponseEntity.ok(map);
 
     }
 
@@ -88,8 +91,6 @@ public class MeterDataController {
             @RequestParam("beginDate") String beginDate,
             @RequestParam("endDate") String endDate,
             @RequestParam("annuler") boolean annuler) {
-
-        Map<String, String> map = new HashMap<String, String>();
 
         String resp = task9Service.updateIntervention(id, beginDate, endDate,
                 annuler);
@@ -148,8 +149,6 @@ public class MeterDataController {
 
         }
 
-        // Afficher l'objet Timestamp sans le décalage horaire
-        Map<String, String> map = new HashMap<String, String>();
         map.put("msg", msg);
         return ResponseEntity.ok(map);
     }
@@ -186,8 +185,6 @@ public class MeterDataController {
     public ResponseEntity<?> insertXlsxToBD(
             @RequestParam("filename") String filename) {
 
-        Map<String, String> map = new HashMap<String, String>();
-
         Long count = meterDataRepository.count();
 
         if (count == 0) {
@@ -213,8 +210,6 @@ public class MeterDataController {
     @PostMapping("/tache3")
     public ResponseEntity<?> updateSourceandPresence() {
 
-        Map<String, String> map = new HashMap<String, String>();
-
         task3Service.updateSource();
 
         map.put("msg", "update_ok");
@@ -225,8 +220,6 @@ public class MeterDataController {
 
     @GetMapping("/tache4")
     public ResponseEntity<?> updateQualite() {
-
-        Map<String, String> map = new HashMap<String, String>();
 
         task4Service.executeTask4();
 
