@@ -26,7 +26,7 @@ public class Task5Service {
     @Autowired
     private BruteAcquisitionService bruteAcquisitionService;
 
-    public void readXLSXFile(MultipartFile file, String idClient) {
+    public void readXLSXFile(MultipartFile file, String idClient, String idSite, String idPointDeComptage) {
         try {
             XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
             XSSFSheet sheet = wb.getSheetAt(0);
@@ -101,7 +101,9 @@ public class Task5Service {
                 Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
                 String formattedTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentTimestamp);
                 meterData.setIdClient(idClient);
-                bruteAcquisitionService.insertRow(meterData, idClient);
+                meterData.setIdSite(idSite);
+                meterData.setPointComptageId(idPointDeComptage);
+                bruteAcquisitionService.insertRow(meterData, idClient, idSite, idPointDeComptage);
 
                 meterDataExterne.setCreatedDate(Timestamp.valueOf(formattedTimestamp));
                 meterDataExterne.setIdClient(idClient);

@@ -53,15 +53,14 @@ export class Task6Component implements OnInit {
     }
   }
   
-
-
-
   getXLSXFile() {
     const idClient = localStorage.getItem('idClient');
-    const idCompany = parseInt(localStorage.getItem('company_id')!, 10);
+    const idSite = localStorage.getItem('idSite');
+    const idPointDeComptage = localStorage.getItem('idPointDeComptage');
+
    
-    if (idClient !== null && !isNaN(idCompany)) {
-      this.meterDataService.getCreatedXLSX(idClient, idCompany, this.token, this.baseUrl)
+    if (idClient !== null && idSite !== null && idPointDeComptage !== null) {
+      this.meterDataService.getCreatedXLSX(idClient, idSite, idPointDeComptage, this.token, this.baseUrl)
         .subscribe((blob: Blob) => {
           const fileReader = new FileReader();
           fileReader.onload = (e: any) => {

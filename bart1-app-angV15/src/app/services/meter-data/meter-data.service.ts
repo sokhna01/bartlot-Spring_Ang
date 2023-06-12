@@ -13,23 +13,26 @@ export class MeterDataService {
   // getSelectListData(): Observable<any> {
   //   return this.http.get<any>(this.selectListDataUrl);
   // }
-
-  getSelectListData(baseUrl: string, token: string): Observable<any> {
-    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
-    const url = baseUrl + 'selectListData';
-    return this.http.get<any>(url, { headers });
-  }
   public idClient: string = '';
   public idCompteur: string = '';
   public idSite: string = '';
   public idPointDeComptage: string = '';
   public fileName: string = '';
 
+
+  getSelectListData(baseUrl: string, token: string): Observable<any> {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+    const url = baseUrl + 'selectListData';
+    return this.http.get<any>(url, { headers });
+  }
+
+
   public file: any;
-  insertXlsxToBD(idClient: string, idCompany: any, fileName: string, token: string, baseUrl: string, file: any) {
+  insertXlsxToBD(idClient: string, idSite : string, idPointDeComptage : string ,fileName: string, token: string, baseUrl: string, file: any) {
     const formData = new FormData();
     formData.append('idClient', idClient);
-    formData.append('idCompany', idCompany);
+    formData.append('idSite', idSite);
+    formData.append('idPointDeComptage', idPointDeComptage);
     formData.append('file', file, fileName);
 
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
@@ -38,10 +41,11 @@ export class MeterDataService {
     return this.http.post<any>(url, formData, { headers, responseType: 'json' });
   }
 
-  getCreatedXLSX(idClient: string, idCompany: number, token: string, baseUrl: string) {
+  getCreatedXLSX(idClient: string, idSite: string, idPointDeComptage: string, token: string, baseUrl: string) {
     const params = new HttpParams()
       .set('idClient', idClient)
-      .set('idCompany', idCompany);
+      .set('idSite', idSite)
+      .set('idPointDeComptage', idPointDeComptage)
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
     const url = baseUrl + 'tache6';
 

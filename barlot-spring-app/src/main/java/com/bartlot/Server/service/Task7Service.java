@@ -1,15 +1,19 @@
 package com.bartlot.Server.service;
 
 import com.bartlot.Server.entity.WorkTableEntity;
+import com.bartlot.Server.model.ReturnObject;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
+import com.bartlot.Server.entity.MeterDataExterneEntity;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
+import com.bartlot.Server.repository.MeterDataExterneRepository;
 import com.bartlot.Server.repository.WorkTableRepository;
 
 @Service
@@ -21,10 +25,74 @@ public class Task7Service {
     @Autowired
     private BruteAcquisitionRepository bruteAcquisitionRepository;
 
+    @Autowired
+    private MeterDataExterneRepository meterDataExterneRepository;
+
     private static final String idCompteur = "CPT-P";
 
+    public void insertMDExtIntoWorkTable(String idClient, String idSite, String idPointDeComptage) {
+        ReturnObject resultObjectMDext = meterDataExterneRepository.findAllSourceExterneWithException(idClient);
+
+        List<MeterDataExterneEntity> meterDataExtList = (List<MeterDataExterneEntity>) resultObjectMDext.getObject();
+
+        for (MeterDataExterneEntity meterDataExt : meterDataExtList) {
+            Timestamp horodatage = meterDataExt.getHorodatage();
+
+            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
+                    idCompteur).size() == 0) {
+                System.out.println("Il n'y a rien! Mettons nos données. ");
+                WorkTableEntity workTableEntry = new WorkTableEntity();
+
+                workTableEntry.setHorodatage(meterDataExt.getHorodatage());
+                workTableEntry.setIdClient(meterDataExt.getIdClient());
+                workTableEntry.setIdSite(idSite);
+                workTableEntry.setPointComptageId(idPointDeComptage);
+
+                if ("2".equals(meterDataExt.getPresence())
+                        && ("1".equals(meterDataExt.getQualite()) ||
+                                "2".equals(meterDataExt.getQualite()))) {
+                    workTableEntry.setDataAMoins(meterDataExt.getDataAMoins());
+                    workTableEntry.setDataAPlus(meterDataExt.getDataAPlus());
+                    workTableEntry.setDataRMoins(meterDataExt.getDataRMoins());
+                    workTableEntry.setDataRPlus(meterDataExt.getDataRPlus());
+                    workTableEntry.setPresence(meterDataExt.getPresence());
+                    workTableEntry.setQualite(meterDataExt.getQualite());
+                    workTableEntry.setSource(meterDataExt.getSource());
+                    workTableEntry.setValidation("Validée");
+                    workTableEntry.setAttenteAction("Non");
+                } else {
+                    workTableEntry.setCommentaire("Analyse attendue");
+                    workTableEntry.setAttenteAction("Oui");
+                }
+                try {
+                    workTableRepository.save(workTableEntry);
+                } catch (Exception e) {
+
+                }
+            } else {
+                ReturnObject resultObjectWT = workTableRepository
+                        .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
+
+                List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
+
+                for (WorkTableEntity existingEntry : existingEntries) {
+                    if (existingEntry.getHorodatage().equals(meterDataExt.getHorodatage())
+                            && "2".equals(meterDataExt.getPresence())
+                            && ("1".equals(meterDataExt.getQualite()) ||
+                                    "2".equals(meterDataExt.getQualite()))) {
+                        existingEntry.setCommentaire("Données disponibles sur compteur principal");
+                        existingEntry.setAttenteAction("Oui");
+                    }
+                }
+            }
+
+        }
+    }
+
     public void insertMDIntoWorkTable() {
-        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository.findAllByIdCompteur();
+        ReturnObject resultObject = bruteAcquisitionRepository.findAllByIdCompteurWithException();
+
+        List<BruteAcquisitionEntity> meterDataList = (List<BruteAcquisitionEntity>) resultObject.getObject();
 
         for (BruteAcquisitionEntity meterData : meterDataList) {
             Timestamp horodatage = meterData.getHorodatage();
@@ -55,14 +123,16 @@ public class Task7Service {
                     workTableEntry.setCommentaire("Analyse attendue");
                     workTableEntry.setAttenteAction("Oui");
                 }
-                try{
-                workTableRepository.save(workTableEntry);}
-                catch(Exception e){
-                    
+                try {
+                    workTableRepository.save(workTableEntry);
+                } catch (Exception e) {
+
                 }
             } else {
-                List<WorkTableEntity> existingEntries = workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
-                        idCompteur);
+                ReturnObject resultObjectWT = workTableRepository
+                        .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
+
+                List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
 
                 for (WorkTableEntity existingEntry : existingEntries) {
                     if (existingEntry.getHorodatage().equals(meterData.getHorodatage())

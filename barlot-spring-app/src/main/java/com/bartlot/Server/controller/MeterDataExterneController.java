@@ -34,23 +34,28 @@ public class MeterDataExterneController {
 
     @PostMapping("/tache5")
     public ResponseEntity<?> insertXlsxToBD(@RequestParam("idClient") String strIdClient,
+            @RequestParam("idSite") String strIdSite, @RequestParam("idPointDeComptage") String strIdPointDeComptage,
             @RequestParam("file") MultipartFile file) {
 
         Map<String, String> map = new HashMap<String, String>();
         String idClient = strIdClient;
+        String idSite = strIdSite;
+        String idPointDeComptage = strIdPointDeComptage;
 
-        task5Service.readXLSXFile(file, idClient);
+        task5Service.readXLSXFile(file, idClient, idSite, idPointDeComptage);
 
         map.put("msg", "insert_ok");
         return ResponseEntity.ok(map);
     }
 
     @GetMapping("/tache6")
-    public ResponseEntity<byte[]> createXLSXFile(@RequestParam("idClient") String idClient, Integer idCompany)
+    public ResponseEntity<byte[]> createXLSXFile(@RequestParam("idClient") String idClient,
+            @RequestParam("idSite") String idSite,
+            @RequestParam("idPointDeComptage") String idPointDeComptage)
             throws SQLException {
         System.out.println("Id du client" + idClient);
 
-        task6Service.executeTask6(idClient);
+        task6Service.executeTask6(idClient, idSite, idPointDeComptage);
 
         // boolean insertionSuccess = false;
         // try {

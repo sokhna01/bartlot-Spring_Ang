@@ -2,6 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.MeterConfigEntity;
+import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.apache.poi.ss.usermodel.Cell;
@@ -144,11 +145,12 @@ public class Task1Service {
             File file = new File(Common.meterDataPath + fileName);
             System.out.println("Filename" + file);
             try (XSSFWorkbook wb = new XSSFWorkbook(file)) {
+                ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
                 boolean isHeader = true;
                 System.out.println("");
-                Timestamp tsp = bruteAcquisitionRepository.findLastRecentRowDateWithException();
+                Timestamp tsp = (Timestamp) tspObject.getObject();
                 String now = "";
                 if (tsp != null) {
                     String strTsp = "" + tsp;

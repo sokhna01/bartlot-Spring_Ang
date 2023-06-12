@@ -167,15 +167,8 @@ public class MeterDataController {
     }
 
     @GetMapping("/getlistmeterdata")
-<<<<<<< HEAD
-    public ResponseEntity<List<BruteAcquisitionEntity>> getListMeter() {
-        List<BruteAcquisitionEntity> meterData = meterDataService.getListMeterData();
-        return ResponseEntity.ok()
-                .body(meterData);
-=======
     public List<BruteAcquisitionEntity> getListMeter() {
         return meterDataService.getListMeterData();
->>>>>>> 2bc1e6b8ffb04029092b07da297aa581c06c5989
     }
 
     // @GetMapping("/getlistmeterdata")
@@ -225,6 +218,26 @@ public class MeterDataController {
         return ResponseEntity.ok(map);
 
     }
+    // @PostMapping("/tache3")
+    // public ResponseEntity<?> updateSourceandPresence(HttpServletRequest request)
+    // {
+    // String token = request.getHeader("Authorization");
+    // Map<String, Object> map = new HashMap<>();
+
+    // if (token != null && token.startsWith("Bearer ")) {
+    // token = token.substring(7);
+    // if (tokenService.isTokenValid(token)) {
+    // task3Service.updateSource();
+    // map.put("msg", "update_ok");
+    // return ResponseEntity.status(HttpStatus.OK).body(map);
+    // } else {
+    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalide");
+    // }
+    // } else {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Jeton manquant ou
+    // mal formaté");
+    // }
+    // }
 
     @GetMapping("/tache4")
     public ResponseEntity<?> updateQualite() {
@@ -251,6 +264,29 @@ public class MeterDataController {
 
     }
 
+    // @GetMapping("/tache4")
+    // public ResponseEntity<?> updateQualite(HttpServletRequest request) {
+    // String token = request.getHeader("Authorization");
+    // Map<String, Object> map = new HashMap<>();
+
+    // if (token != null && token.startsWith("Bearer ")) {
+    // token = token.substring(7);
+    // System.out.println("Le token est : " + token);
+    // if (tokenService.isTokenValid(token)) {
+    // task4Service.executeTask4();
+    // map.put("msg", "update_ok");
+    // System.out.println("Le token : " + token + " est valide");
+
+    // return ResponseEntity.ok(map);
+    // } else {
+    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalide");
+    // }
+    // } else {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Jeton manquant ou
+    // mal formaté");
+    // }
+    // }
+
     @GetMapping("/getlistmeterdatareporting")
     public HashMap<String, List<BruteAcquisitionEntity>> getListMeterDataByType() {
 
@@ -274,75 +310,22 @@ public class MeterDataController {
     // return list;
     // }
 
-    @GetMapping("/getid")
-    public List<Map<String, Object>> findAllClientSitePointComptage(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-            if (tokenService.isTokenValid(token)) {
-
-                return meterDataService.findAllClientSitePointComptage();
-            } else {
-                throw new RuntimeException("Token invalide");
-            }
-        } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
-        }
-    }
-
     @GetMapping("/selectListData")
-    public ResponseEntity<List<Map<String, Object>>> getSelectListData(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-
-            if (tokenService.isTokenValid(token)) {
-                List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
-                return ResponseEntity.ok().body(selectListData);
-            } else {
-                System.out.println("TOKEN IVAIDE");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-        } else {
-            System.out.println("Pas de token renvoyé");
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
+        List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+        return ResponseEntity.ok().body(selectListData);
     }
 
     @GetMapping("/clients")
-    public ResponseEntity<List<ClientSitePointAssociation>> getAllClientsWithSitesAndPoints(
-            HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-
-            if (tokenService.isTokenValid(token)) {
-                List<ClientSitePointAssociation> clients = meterDataService.getAllClientsWithSitesAndPoints();
-                return ResponseEntity.ok().body(clients);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
+        return meterDataService.getAllClientsWithSitesAndPoints();
     }
 
     @PostMapping("/tache7")
-    public ResponseEntity<?> executeTask7(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+    public ResponseEntity<?> executeTask7() {
+        task7Service.insertMDIntoWorkTable();
+        return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
 
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-            if (tokenService.isTokenValid(token)) {
-                task7Service.insertMDIntoWorkTable();
-                return ResponseEntity.ok("Données insérées dans la table de travail avec succès");
-            } else {
-                throw new RuntimeException("Token invalide");
-            }
-        } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
-        }
     }
 
     // @PostMapping("/tache9")

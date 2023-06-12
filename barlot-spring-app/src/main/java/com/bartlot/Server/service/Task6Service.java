@@ -27,7 +27,10 @@ public class Task6Service {
     @Autowired
     private Task3Service task3Service;
 
-    public void executeTask6(String idClient) throws SQLException {
+    @Autowired
+    private Task7Service task7Service;
+
+    public void executeTask6(String idClient, String idSite, String idPointDeComptage) throws SQLException {
         List<MeterDataExterneEntity> listCompteur = meterDataExterneService.getListCompteur(); // Récupérer les données
         // de la table
         // meterDataExterne
@@ -57,6 +60,9 @@ public class Task6Service {
 
             meterDataExterne.setPresence(presence);
             meterDataExterneService.insertRow(meterDataExterne, idClient);
+
+            task7Service.insertMDExtIntoWorkTable(idClient, idSite, idPointDeComptage);
+
         }
     }
 

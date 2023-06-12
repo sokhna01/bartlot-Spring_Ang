@@ -58,7 +58,6 @@ export class Task5Component implements OnInit {
   rowIndex = -1;
   hasErrors: boolean = false;
 
-  idCompany: any = localStorage.getItem('company_id');
 
   isSaveEnabled: boolean = false;
   sizeOk: boolean = false;
@@ -439,16 +438,17 @@ export class Task5Component implements OnInit {
 
     const idClient = this.meterDataForm.get('idClient')!.value;
     const idSite = this.meterDataForm.get('idSite')!.value;
-    const idPointComptage = this.meterDataForm.get('idPointComptage')!.value;
+    const idPointDeComptage = this.meterDataForm.get('idPointComptage')!.value;
 
     localStorage.setItem('idClient', idClient);
-    //  this.meterDataService.idClient = idClient;
-    //  this.meterDataService.idCompteur = idClient;
+    localStorage.setItem('idSite', idSite),
+    localStorage.setItem('idPointDeComptage', idPointDeComptage)
     this.meterDataService.idSite = idSite;
-    this.meterDataService.idPointDeComptage = idPointComptage;
+    this.meterDataService.idPointDeComptage = idPointDeComptage;
 
 
-    this.meterDataService.insertXlsxToBD(idClient, this.idCompany, fileName, this.token, this.baseUrl, file).subscribe(
+
+    this.meterDataService.insertXlsxToBD(idClient, idSite, idPointDeComptage, fileName, this.token, this.baseUrl, file).subscribe(
       (response) => {
         if (response.msg === 'insert_ok') {
           $("#successModal").modal({ backdrop: "static" });

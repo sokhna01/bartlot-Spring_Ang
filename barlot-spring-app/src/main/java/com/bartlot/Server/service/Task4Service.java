@@ -2,6 +2,7 @@ package com.bartlot.Server.service;
 
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
+import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,12 @@ public class Task4Service {
     private Task7Service task7Service;
 
     public void executeTask4() {
+        ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
+
         double borneSup = Common.puissanceNominale * 1.2;
         double borneInf = Common.puissanceNominale * 0.1;
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = bruteAcquisitionRepository.findLastRecentRowDateWithException();
+        Timestamp tsp = (Timestamp) tspObject.getObject();
 
         if (tsp != null) {
             String strTsp = "" + tsp;

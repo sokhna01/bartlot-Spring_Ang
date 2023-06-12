@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
+import com.bartlot.Server.model.ReturnObject;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
 
 import java.sql.Timestamp;
@@ -25,12 +26,13 @@ import com.bartlot.Server.config.Common;
 public class BruteAcquisitionService {
 
     @Autowired
-    private BruteAcquisitionRepository bruteAcquisitionEntity;
+    private BruteAcquisitionRepository bruteAcquisitionRepository;
 
     public List<BruteAcquisitionEntity> getListMeterData() {
+        ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = bruteAcquisitionEntity.findLastRecentRowDateWithException();
+        Timestamp tsp = (Timestamp) tspObject.getObject();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -58,13 +60,13 @@ public class BruteAcquisitionService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        return bruteAcquisitionEntity.findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
+        return bruteAcquisitionRepository.findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
     }
 
     public String insertRow(BruteAcquisitionEntity meterData) {
         String response = "notOk";
         try {
-            bruteAcquisitionEntity.save(meterData);
+            bruteAcquisitionRepository.save(meterData);
             response = "ok";
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +78,23 @@ public class BruteAcquisitionService {
         String response = "notOk";
         try {
             meterData.setIdClient(idClient);
-            bruteAcquisitionEntity.save(meterData);
+            bruteAcquisitionRepository.save(meterData);
+            response = "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public String insertRow(BruteAcquisitionEntity meterData, String idClient, String idSite,
+            String idPointDeComptage) {
+        String response = "notOk";
+        try {
+            meterData.setIdClient(idClient);
+            meterData.setIdSite(idSite);
+            meterData.setPointComptageId(idPointDeComptage);
+
+            bruteAcquisitionRepository.save(meterData);
             response = "ok";
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,8 +107,11 @@ public class BruteAcquisitionService {
         HashMap<String, List<BruteAcquisitionEntity>> map = new HashMap<String, List<BruteAcquisitionEntity>>();
         List<BruteAcquisitionEntity> listCompteurPrincipal = new ArrayList<BruteAcquisitionEntity>();
         List<BruteAcquisitionEntity> listCompteurRedondant = new ArrayList<BruteAcquisitionEntity>();
+
+        ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = bruteAcquisitionEntity.findLastRecentRowDateWithException();
+
+        Timestamp tsp = (Timestamp) tspObject.getObject();
         // System.out.println("babs "+tsp);
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -118,7 +139,7 @@ public class BruteAcquisitionService {
         Date begin_date = new Date(beginDate.getTime());
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionEntity
+        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository
                 .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
         for (BruteAcquisitionEntity meterData : meterDataList) {
@@ -144,9 +165,10 @@ public class BruteAcquisitionService {
     public HashMap<String, BruteAcquisitionEntity> getListMeterDataForTask1() {
 
         HashMap<String, BruteAcquisitionEntity> list = new HashMap<String, BruteAcquisitionEntity>();
+        ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = bruteAcquisitionEntity.findLastRecentRowDateWithException();
+        Timestamp tsp = (Timestamp) tspObject.getObject();
         if (tsp != null) {
             String strTsp = "" + tsp;
             String date = strTsp.split(" ")[0];
@@ -175,7 +197,7 @@ public class BruteAcquisitionService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionEntity
+            List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository
                     .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
 
             for (BruteAcquisitionEntity meterData : meterDataList) {
@@ -200,9 +222,9 @@ public class BruteAcquisitionService {
 
         HashMap<String, BruteAcquisitionEntity> list = new HashMap<String, BruteAcquisitionEntity>();
         // DataBase db = new DataBase();
-
+        ReturnObject tspObject = bruteAcquisitionRepository.findLastRecentRowDateWithException();
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = bruteAcquisitionEntity.findLastRecentRowDateWithException();
+        Timestamp tsp = (Timestamp) tspObject.getObject();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -234,8 +256,8 @@ public class BruteAcquisitionService {
             Date begin_date = new Date(beginDate.getTime());
             Date end_date = new Date(c.getTimeInMillis());
 
-            List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionEntity.findMeterDataBybetweenDate(begin_date,
-                    end_date);
+            List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository
+                    .findMeterDataBybetweenDate(begin_date, end_date);
 
             for (BruteAcquisitionEntity meterData : meterDataList) {
 
@@ -250,7 +272,9 @@ public class BruteAcquisitionService {
     }
 
     public List<Map<String, Object>> findAllClientSitePointComptage() {
-        List<Object[]> results = bruteAcquisitionEntity.findAllSiteClientAndPointDeComptage();
+        ReturnObject returnObject = bruteAcquisitionRepository.findAllSiteClientAndPointDeComptageWithException();
+
+        List<Object[]> results = (List<Object[]>) returnObject.getObject();
         Map<String, List<String>> siteMap = new HashMap<>();
         Map<String, List<String>> clientMap = new HashMap<>();
         Map<String, List<String>> pointComptageMap = new HashMap<>();
@@ -267,8 +291,8 @@ public class BruteAcquisitionService {
             pointComptageMap.computeIfAbsent(pointComptage, k -> new ArrayList<>()).add(pointComptage);
         }
         List<Map<String, Object>> selectListData = new ArrayList<>();
-
         Map<String, Object> siteClientPointMap = new HashMap<>();
+
         if (!clientMap.isEmpty()) {
             siteClientPointMap.put("idClients", clientMap.keySet());
         }
@@ -284,7 +308,9 @@ public class BruteAcquisitionService {
     }
 
     public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
-        List<Object[]> results = bruteAcquisitionEntity.findAllSiteClientAndPointDeComptage();
+        ReturnObject returnObject = bruteAcquisitionRepository.findAllSiteClientAndPointDeComptageWithException();
+
+        List<Object[]> results = (List<Object[]>) returnObject.getObject();
         Map<String, ClientSitePointAssociation> clientAssociationMap = new HashMap<>();
 
         for (Object[] result : results) {
@@ -308,7 +334,7 @@ public class BruteAcquisitionService {
     }
 
     public List<BruteAcquisitionEntity> getListCompteurMD() {
-        return bruteAcquisitionEntity.findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
+        return bruteAcquisitionRepository.findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
     }
 
 }

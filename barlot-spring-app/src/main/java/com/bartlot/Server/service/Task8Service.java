@@ -244,7 +244,6 @@ public class Task8Service {
                             propositionModel.setIdCompteurPr(meterData.getIdCompteur());
 
                         }
-                        
 
                     } else if (meterData.getSource().equals("Re")) {
 

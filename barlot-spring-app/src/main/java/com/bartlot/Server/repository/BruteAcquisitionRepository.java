@@ -45,7 +45,7 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
     @Query("update BruteAcquisitionEntity md set md.qualite = :qualite where md.id = :id")
     void updateQualite(String qualite, int id);
 
-    @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM BruteAcquisitionEntity md")
+    @Query("SELECT DISTINCT md.idClient, md.idSite, md.pointComptageId FROM BruteAcquisitionEntity md WHERE md.idClient IS NOT NULL AND md.idClient <> '' AND md.idSite IS NOT NULL AND md.idSite <> '' AND md.pointComptageId IS NOT NULL AND md.pointComptageId <> ''")
     List<Object[]> findAllSiteClientAndPointDeComptage();
 
     BruteAcquisitionEntity findByIdCompteur(String idCompteur);
@@ -59,34 +59,48 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
     /* *******************METHODE AVEC TRY-CATCH********************** */
     /* ************************************************************** */
 
-    default Timestamp findLastRecentRowDateWithException() {
+    default ReturnObject findLastRecentRowDateWithException() {
 
         try {
             Timestamp horodatage = findLastRecentRowDate();
-
-            return horodatage;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(horodatage);
+            returnObject.setStatus("ok");
+            return returnObject;
         } catch (Exception e) {
-            return null;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "01");
+            return returnObject;
         }
     }
 
-    default List<BruteAcquisitionEntity> findMeterDataBybetweenDateWithException(Date startDate, Date endDate) {
+    default ReturnObject findMeterDataBybetweenDateWithException(Date startDate, Date endDate) {
         try {
-            return findMeterDataBybetweenDate(startDate, endDate);
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(findMeterDataBybetweenDate(startDate, endDate));
+            returnObject.setStatus("ok");
+            return returnObject;
         } catch (Exception e) {
-            return null;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "02");
+            return returnObject;
         }
     }
 
-    default List<BruteAcquisitionEntity> findByHorodatageBetweenOrderByHorodatageAscWithException(Date startDate,
+    default ReturnObject findByHorodatageBetweenOrderByHorodatageAscWithException(Date startDate,
             Date endDate) {
         try {
-            return findByHorodatageBetweenOrderByHorodatageAsc(startDate, endDate);
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(findByHorodatageBetweenOrderByHorodatageAsc(startDate, endDate));
+            returnObject.setStatus("ok");
+            return returnObject;
         } catch (Exception e) {
-            // Gestion de l'exception
-            // Vous pouvez afficher un message d'erreur, enregistrer des journaux, ou
-            // prendre toute autre action appropriée
-            return null; // Ou lancez une nouvelle exception si nécessaire
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "03");
+            return returnObject;
         }
     }
 
@@ -95,17 +109,21 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
         try {
             updateMissingData(dataAPlus, dataAMoins, dataRPlus, dataRMoins, id);
         } catch (Exception e) {
-
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "04");
+            throw new CustomRuntimeException(returnObject);
         }
     }
 
     default void updateSourceWithException(String source, String presence, int id) {
         try {
-
             updateSource(source, presence, id);
-
         } catch (Exception e) {
-
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "05");
+            throw new CustomRuntimeException(returnObject);
         }
     }
 
@@ -113,15 +131,24 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
         try {
             updateQualite(qualite, id);
         } catch (Exception e) {
-
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "06");
+            throw new CustomRuntimeException(returnObject);
         }
     }
 
-    default List<Object[]> findAllSiteClientAndPointDeComptageWithException() {
+    default ReturnObject findAllSiteClientAndPointDeComptageWithException() {
         try {
-            return findAllSiteClientAndPointDeComptage();
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(findAllSiteClientAndPointDeComptage());
+            returnObject.setStatus("ok");
+            return returnObject;
         } catch (Exception e) {
-            return null;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "07");
+            return returnObject;
         }
     }
 
@@ -141,21 +168,44 @@ public interface BruteAcquisitionRepository extends JpaRepository<BruteAcquisiti
         }
     }
 
-    default List<BruteAcquisitionEntity> findAllByIdCompteurWithException() {
+    default ReturnObject findAllByIdCompteurWithException() {
         try {
-            return findAllByIdCompteur();
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(findAllByIdCompteur());
+            returnObject.setStatus("ok");
+            return returnObject;
         } catch (Exception e) {
-            return null;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "09");
+            return returnObject;
         }
     }
 
-    default List<BruteAcquisitionEntity> findBySourceIsNullAndPresenceIsNullAndQualiteIsNullWithException() {
+    default ReturnObject findBySourceIsNullAndPresenceIsNullAndQualiteIsNullWithException() {
         try {
-
-            return findBySourceIsNullAndPresenceIsNullAndQualiteIsNull();
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(findBySourceIsNullAndPresenceIsNullAndQualiteIsNull());
+            returnObject.setStatus("ok");
+            return returnObject;
 
         } catch (Exception e) {
-            return null;
+            ReturnObject returnObject = new ReturnObject();
+            returnObject.setObject(null);
+            returnObject.setStatus(returnCodeBase + "10");
+            return returnObject;
+        }
+    }
+
+    public class CustomRuntimeException extends RuntimeException {
+        private final ReturnObject returnObject;
+
+        public CustomRuntimeException(ReturnObject returnObject) {
+            this.returnObject = returnObject;
+        }
+
+        public ReturnObject getReturnObject() {
+            return returnObject;
         }
     }
 

@@ -64,4 +64,43 @@ public class MeterConfigEntity {
     @Column(name = "alarme_seuil_tg_phi", columnDefinition = "REAL")
     private Double alarmeSeuilTGPhi;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(String idClient) {
+        this.idClient = idClient;
+    }
+
+    public String getIdSite() {
+        return idsite;
+    }
+
+    public void setIdSite(String idSite) {
+        this.idsite = idSite;
+    }
+
+    public String getIdCompteurPrincipal() {
+        return idCompteurPrincipal;
+    }
+
+    public void setIdCompteurPrincipal(String idCompteurPrincipal) {
+        this.idCompteurPrincipal = idCompteurPrincipal;
+    }
+
+    public String getIdCompteurRedondant() {
+        return idCompteurRedondant;
+    }
+
+    public void setIdCompteurRedondant(String idCompteurRedondant) {
+        this.idCompteurRedondant = idCompteurRedondant;
+    }
 }
