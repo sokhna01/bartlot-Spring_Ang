@@ -4,7 +4,6 @@ import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ReturnObject;
 
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +37,7 @@ public class Task7Service {
         for (MeterDataExterneEntity meterDataExt : meterDataExtList) {
             Timestamp horodatage = meterDataExt.getHorodatage();
 
-            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
-                    idCompteur).size() == 0) {
+            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {
                 System.out.println("Il n'y a rien! Mettons nos données. ");
                 WorkTableEntity workTableEntry = new WorkTableEntity();
 
@@ -71,7 +69,7 @@ public class Task7Service {
                 }
             } else {
                 ReturnObject resultObjectWT = workTableRepository
-                        .existsByHorodatageAndIdCompteur(horodatage, idCompteur);
+                        .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
 
                 List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
 

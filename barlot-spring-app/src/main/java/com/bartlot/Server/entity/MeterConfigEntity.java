@@ -6,9 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "configuration_points_de_comptage")
 public class MeterConfigEntity {
@@ -90,6 +88,14 @@ public class MeterConfigEntity {
         this.idsite = idSite;
     }
 
+    public String getIdPointComptage() {
+        return idPointComptage;
+    }
+
+    public void setIdPointComptage(String idPointComptage) {
+        this.idPointComptage = idPointComptage;
+    }
+
     public String getIdCompteurPrincipal() {
         return idCompteurPrincipal;
     }
@@ -105,4 +111,13 @@ public class MeterConfigEntity {
     public void setIdCompteurRedondant(String idCompteurRedondant) {
         this.idCompteurRedondant = idCompteurRedondant;
     }
+
+    public Boolean getModifierLaConventionPointDeSigne() {
+        return modifierLaConventionPointDeSigne;
+    }
+
+    public void setModifierLaConventionPointDeSigne(Boolean modifierLaConventionPointDeSigne) {
+        this.modifierLaConventionPointDeSigne = modifierLaConventionPointDeSigne;
+    }
+
 }
