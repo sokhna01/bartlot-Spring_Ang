@@ -71,7 +71,7 @@ public class Task7Service {
                 }
             } else {
                 ReturnObject resultObjectWT = workTableRepository
-                        .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
+                        .existsByHorodatageAndIdCompteur(horodatage, idCompteur);
 
                 List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
 

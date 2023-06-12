@@ -20,9 +20,9 @@ public class MeterConfigService {
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
 
-            if (meterConfig.getIdCompteurPrincipal() == null &&
-                    meterConfig.getIdCompteurRedondant() != null) {
+            list.put(meterConfig.getIdPointComptage(), meterConfig);
 
+<<<<<<< HEAD
                 list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
 
             } else if (meterConfig.getIdCompteurPrincipal() != null &&
@@ -31,6 +31,8 @@ public class MeterConfigService {
                 list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
 
             }
+=======
+>>>>>>> 9a377d2c8d323ff5f702111d8975b75cb03b7dca
         }
         return list;
     }

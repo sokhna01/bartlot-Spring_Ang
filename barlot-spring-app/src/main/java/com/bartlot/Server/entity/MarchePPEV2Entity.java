@@ -17,13 +17,13 @@ public class MarchePPEV2Entity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "id_client", columnDefinition = "character varying")
+    @Column(name = "id_client", columnDefinition = "character varrying")
     private String idClient;
 
-    @Column(name = "id_site", columnDefinition = "character varying")
+    @Column(name = "id_site", columnDefinition = "character varrying")
     private String idSite;
 
-    @Column(name = "id_ppe", columnDefinition = "character varying")
+    @Column(name = "id_ppe", columnDefinition = "character varrying")
     private String idPpe;
 
     @Column(name = "horodatage_debut_periode", columnDefinition = "timestamp without time zone")

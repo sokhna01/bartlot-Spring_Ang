@@ -1,6 +1,7 @@
 package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.InterventionEntity;
+import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
@@ -26,9 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -298,19 +297,19 @@ public class MeterDataController {
 
     }
 
-    // @GetMapping("/getlistmeterconfig")
-    // public HashMap<String, MeterConfigEntity> getListMeterConfig() {
-    // HashMap<String, MeterConfigEntity> list = new HashMap<String,
-    // MeterConfigEntity>();
-    // List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
-    // for (MeterConfigEntity meterConfig : meterConfigs) {
-    // list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
-    // list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
-    // }
-    // return list;
-    // }
+    @GetMapping("/getlistmeterconfig")
+    public HashMap<String, MeterConfigEntity> getListMeterConfig() {
+        HashMap<String, MeterConfigEntity> list = new HashMap<String, MeterConfigEntity>();
+        List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
+        for (MeterConfigEntity meterConfig : meterConfigs) {
+            list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
+            list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
+        }
+        return list;
+    }
 
     @GetMapping("/selectListData")
+<<<<<<< HEAD
     public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
         List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
         return ResponseEntity.ok().body(selectListData);
@@ -319,6 +318,39 @@ public class MeterDataController {
     @GetMapping("/clients")
     public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
         return meterDataService.getAllClientsWithSitesAndPoints();
+=======
+    public ResponseEntity<List<Map<String, Object>>> getSelectListData(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
+                return ResponseEntity.ok().body(selectListData);
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
+    }
+
+    @GetMapping("/clients")
+    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+
+            if (tokenService.isTokenValid(token)) {
+                return meterDataService.getAllClientsWithSitesAndPoints();
+            } else {
+                throw new RuntimeException("Token invalide");
+            }
+        } else {
+            throw new RuntimeException("Jeton manquant ou mal formaté");
+        }
+>>>>>>> 9a377d2c8d323ff5f702111d8975b75cb03b7dca
     }
 
     @PostMapping("/tache7")

@@ -41,6 +41,7 @@ public class Task3Service {
                 e.printStackTrace();
             }
 
+<<<<<<< HEAD
             MeterConfigEntity config = map.get(meter.getIdCompteur());
 
             if (config.getIdCompteurPrincipal() == null &&
@@ -49,7 +50,17 @@ public class Task3Service {
                         list.get(i).getId());
             } else if (config.getIdCompteurPrincipal() != null &&
                     config.getIdCompteurRedondant() == null) {
+=======
+            MeterConfigEntity config = map.get(meter.getPointComptageId());
+
+            if (config.getIdClient().equals(meter.getIdClient()) &&
+                    config.getIdsite().equals(meter.getIdSite()) && config.getIdCompteurPrincipal().equals(meter.getIdCompteur()) ) {
+>>>>>>> 9a377d2c8d323ff5f702111d8975b75cb03b7dca
                 bruteAcquisitionRepository.updateSource("Pr", presence,
+                        list.get(i).getId());
+            } else if (config.getIdClient().equals(meter.getIdClient()) &&
+                    config.getIdsite().equals(meter.getIdSite()) && config.getIdCompteurRedondant().equals(meter.getIdCompteur())) {
+                bruteAcquisitionRepository.updateSource("Re", presence,
                         list.get(i).getId());
             }
         }
