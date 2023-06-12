@@ -20,17 +20,7 @@ public class MeterConfigService {
         List<MeterConfigEntity> meterConfigs = meterConfigRepository.findAll();
         for (MeterConfigEntity meterConfig : meterConfigs) {
 
-            if (meterConfig.getIdCompteurPrincipal() == null &&
-                    meterConfig.getIdCompteurRedondant() != null) {
-
-                list.put(meterConfig.getIdCompteurRedondant(), meterConfig);
-
-            } else if (meterConfig.getIdCompteurPrincipal() != null &&
-                    meterConfig.getIdCompteurRedondant() == null) {
-
-                list.put(meterConfig.getIdCompteurPrincipal(), meterConfig);
-
-            }
+            list.put(meterConfig.getIdPointComptage(), meterConfig);
 
         }
         return list;
