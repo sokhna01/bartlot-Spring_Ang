@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "travail")
 
-public class WorkTableEntity {
+public class TravailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

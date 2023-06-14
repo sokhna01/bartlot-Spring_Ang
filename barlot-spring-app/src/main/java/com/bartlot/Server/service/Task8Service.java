@@ -14,16 +14,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.bartlot.Server.config.Common;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.entity.WorkTableEntity;
+import com.bartlot.Server.entity.TravailEntity;
 import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
-import com.bartlot.Server.repository.WorkTableRepository;
+import com.bartlot.Server.repository.TravailRepository;
 
 @Service
 public class Task8Service {
 
     @Autowired
-    private WorkTableRepository workTableRepository;
+    private TravailRepository travailRepository;
 
     @Autowired
     private BruteAcquisitionService meterDataService;
@@ -46,7 +46,7 @@ public class Task8Service {
     public List<PropositionModel> workTableData() {
 
         LocalDate nowtsp = LocalDate.now();
-        Timestamp tsp = workTableRepository.findLastRecentRowDate();
+        Timestamp tsp = travailRepository.findLastRecentRowDate();
 
         if (tsp != null) {
             String strTsp = "" + tsp;
@@ -87,7 +87,7 @@ public class Task8Service {
          * Date sqlDateEnd = Date.valueOf(dateFormateEnd);
          */
 
-        List<WorkTableEntity> workTableList = workTableRepository
+        List<TravailEntity> workTableList = travailRepository
                 .findByHorodatageBetweenOrderByHoradotageAsc(begin_date, end_date);
 
         List<BruteAcquisitionEntity> meterdataListFull = meterDataService.getListMeterData();
@@ -131,7 +131,7 @@ public class Task8Service {
                 propositionModel.setHorodatage(meterData.getHorodatage());
                 if (meterData.getSource().equals("Pr")) {
 
-                    WorkTableEntity workTableEntity = workTableRepository
+                    TravailEntity workTableEntity = travailRepository
                             .findByHorodatage(meterData.getHorodatage());
 
                     System.out.println(workTableEntity.getCommentaire());
@@ -177,7 +177,7 @@ public class Task8Service {
 
                     if (meterData.getSource().equals("Pr")) {
 
-                        WorkTableEntity workTableEntity = workTableRepository
+                        TravailEntity workTableEntity = travailRepository
                                 .findByHorodatage(meterData.getHorodatage());
 
                         System.out.println(workTableEntity.getCommentaire());
@@ -228,7 +228,7 @@ public class Task8Service {
 
                     if (meterData.getSource().equals("Pr")) {
 
-                        WorkTableEntity workTableEntity = workTableRepository
+                        TravailEntity workTableEntity = travailRepository
                                 .findByHorodatage(meterData.getHorodatage());
 
                         System.out.println(workTableEntity.getCommentaire());
@@ -276,10 +276,10 @@ public class Task8Service {
 
     }
 
-    public List<WorkTableEntity> getListWorkTableDataAnterieur(String horodatage) {
+    public List<TravailEntity> getListWorkTableDataAnterieur(String horodatage) {
 
         Timestamp timestamp = Timestamp.valueOf(horodatage.replace("T", " ").replace("00:00", ""));
-        return workTableRepository.findByHorodatageNotNull(timestamp);
+        return travailRepository.findByHorodatageNotNull(timestamp);
 
     }
 
@@ -288,7 +288,7 @@ public class Task8Service {
             String dataAMoins, String dataRPlus, String dataRMoins, String source, String idCompteur,
             String commentaire) {
 
-        workTableRepository.update(horodatage, dataAPlus, dataAMoins, dataRPlus, dataRMoins, source, idCompteur,
+        travailRepository.update(horodatage, dataAPlus, dataAMoins, dataRPlus, dataRMoins, source, idCompteur,
                 commentaire);
 
         return "success";
@@ -424,7 +424,7 @@ public class Task8Service {
                     P2RMoins, iPeriode,
                     nPeriode - 1);
 
-            workTableRepository.update(timestamp, Double.toString(piAPlus), Double.toString(piAMoins),
+            travailRepository.update(timestamp, Double.toString(piAPlus), Double.toString(piAMoins),
                     Double.toString(piRPlus), Double.toString(piRmoins), source, idCompteur, commentaire);
 
         }

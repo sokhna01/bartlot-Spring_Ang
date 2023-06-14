@@ -7,55 +7,52 @@
     <mat-card-title>{{ 'ADD_EXTERNAL_FORM_TITLE' | translate }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="d-flex justify-content-center align-items-center">
-    
+
     <form [formGroup]="meterDataForm" (ngSubmit)="onSubmit()">
 
-      <mat-form-field class="form-group" style="width: 90%" >
+      <mat-form-field class="form-group" style="width: 90%">
         <mat-label>{{ 'CLIENT ID' | translate }}</mat-label>
 
-        <input matInput 
-        [formControl]="idClient" 
-        placeholder="{{ 'SEARCH_CLIENT' | translate }}"
-        [matAutocomplete]="autoClient"
-        required/>
+        <input matInput [formControl]="idClient" placeholder="{{ 'SEARCH_CLIENT' | translate }}"
+          [matAutocomplete]="autoClient" required />
 
         <mat-autocomplete #autoClient="matAutocomplete">
           <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
         </mat-autocomplete>
 
       </mat-form-field>
+      <!-- Afficher le message d'erreur -->
+      <div *ngIf="!selectedClientExists" style="color: red">{{ 'INVALID_CLIENT' | translate}}</div>
 
       <br>
       <mat-form-field class="form-group" style="width: 90%">
         <mat-label>{{ 'SITE ID' | translate }}</mat-label>
 
-        <input matInput 
-        [formControl]="idSite"
-        placeholder="{{ 'SEARCH_SITE' | translate }}"
-        [matAutocomplete]="autoSite"
-        required/>
+        <input matInput [formControl]="idSite" placeholder="{{ 'SEARCH_SITE' | translate }}"
+          [matAutocomplete]="autoSite" required />
 
         <mat-autocomplete #autoSite="matAutocomplete">
           <mat-option *ngFor="let site of filteredSites" [value]="site">{{ site }}</mat-option>
         </mat-autocomplete>
 
       </mat-form-field>
-      
+      <div *ngIf="!selectedSiteExists" style="color: red">{{ 'INVALID_SITE' | translate}}</div>
+
       <br>
 
       <mat-form-field class="form-group" style="width: 90%">
         <mat-label>{{ 'METERING POINT ID' | translate }}</mat-label>
 
-        <input matInput [formControl]="idPointComptage" 
-        placeholder="{{ 'SEARCH_POINT' | translate }}"
-        [matAutocomplete]="autoPoint"
-        required/>
+        <input matInput [formControl]="idPointComptage" placeholder="{{ 'SEARCH_POINT' | translate }}"
+          [matAutocomplete]="autoPoint" required />
 
         <mat-autocomplete #autoPoint="matAutocomplete">
           <mat-option *ngFor="let point of filteredPoints" [value]="point">{{ point }}</mat-option>
         </mat-autocomplete>
-        
+
       </mat-form-field>
+      <div *ngIf="!selectedSiteExists" style="color: red">{{ 'INVALID_POINT' | translate}}</div>
+
       <br>
       <div class="form-group" style="margin-left: 35%;">
         <div class="d-flex justify-content-center">
@@ -77,11 +74,10 @@
 <table id="displayTable" class="table" *ngIf="!showForm && meterData && meterData.length > 0">
   <thead>
     <tr>
-        <th *ngFor="let header of meterData[0]; let i = index"
-        [ngClass]="{'invalid-header': !isHeaderValid(i)}"
+      <th *ngFor="let header of meterData[0]; let i = index" [ngClass]="{'invalid-header': !isHeaderValid(i)}"
         (click)="onHeaderClick($event)">
         {{ header }}
-        </th>  
+      </th>
     </tr>
   </thead>
   <tbody>

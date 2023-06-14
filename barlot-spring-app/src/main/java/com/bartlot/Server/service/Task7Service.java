@@ -1,6 +1,6 @@
 package com.bartlot.Server.service;
 
-import com.bartlot.Server.entity.WorkTableEntity;
+import com.bartlot.Server.entity.TravailEntity;
 import com.bartlot.Server.model.ReturnObject;
 
 import java.sql.Timestamp;
@@ -13,13 +13,13 @@ import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.MeterDataExterneEntity;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import com.bartlot.Server.repository.MeterDataExterneRepository;
-import com.bartlot.Server.repository.WorkTableRepository;
+import com.bartlot.Server.repository.TravailRepository;
 
 @Service
 public class Task7Service {
 
     @Autowired
-    private WorkTableRepository workTableRepository;
+    private TravailRepository travailRepository;
 
     @Autowired
     private BruteAcquisitionRepository bruteAcquisitionRepository;
@@ -37,9 +37,9 @@ public class Task7Service {
         for (MeterDataExterneEntity meterDataExt : meterDataExtList) {
             Timestamp horodatage = meterDataExt.getHorodatage();
 
-            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {
+            if (travailRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {
                 System.out.println("Il n'y a rien! Mettons nos données. ");
-                WorkTableEntity workTableEntry = new WorkTableEntity();
+                TravailEntity workTableEntry = new TravailEntity();
 
                 workTableEntry.setHorodatage(meterDataExt.getHorodatage());
                 workTableEntry.setIdClient(meterDataExt.getIdClient());
@@ -63,17 +63,17 @@ public class Task7Service {
                     workTableEntry.setAttenteAction("Oui");
                 }
                 try {
-                    workTableRepository.save(workTableEntry);
+                    travailRepository.save(workTableEntry);
                 } catch (Exception e) {
 
                 }
             } else {
-                ReturnObject resultObjectWT = workTableRepository
+                ReturnObject resultObjectWT = travailRepository
                         .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
 
-                List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
+                List<TravailEntity> existingEntries = (List<TravailEntity>) resultObjectWT.getObject();
 
-                for (WorkTableEntity existingEntry : existingEntries) {
+                for (TravailEntity existingEntry : existingEntries) {
                     if (existingEntry.getHorodatage().equals(meterDataExt.getHorodatage())
                             && "2".equals(meterDataExt.getPresence())
                             && ("1".equals(meterDataExt.getQualite()) ||
@@ -95,10 +95,10 @@ public class Task7Service {
         for (BruteAcquisitionEntity meterData : meterDataList) {
             Timestamp horodatage = meterData.getHorodatage();
 
-            if (workTableRepository.existsByHorodatageAndIdCompteur(horodatage,
+            if (travailRepository.existsByHorodatageAndIdCompteur(horodatage,
                     idCompteur).size() == 0) {
                 System.out.println("Il n'y a rien! Mettons nos données. ");
-                WorkTableEntity workTableEntry = new WorkTableEntity();
+                TravailEntity workTableEntry = new TravailEntity();
 
                 workTableEntry.setHorodatage(meterData.getHorodatage());
                 workTableEntry.setIdClient(meterData.getIdClient());
@@ -122,17 +122,17 @@ public class Task7Service {
                     workTableEntry.setAttenteAction("Oui");
                 }
                 try {
-                    workTableRepository.save(workTableEntry);
+                    travailRepository.save(workTableEntry);
                 } catch (Exception e) {
 
                 }
             } else {
-                ReturnObject resultObjectWT = workTableRepository
+                ReturnObject resultObjectWT = travailRepository
                         .existsByHorodatageAndIdCompteurWithException(horodatage, idCompteur);
 
-                List<WorkTableEntity> existingEntries = (List<WorkTableEntity>) resultObjectWT.getObject();
+                List<TravailEntity> existingEntries = (List<TravailEntity>) resultObjectWT.getObject();
 
-                for (WorkTableEntity existingEntry : existingEntries) {
+                for (TravailEntity existingEntry : existingEntries) {
                     if (existingEntry.getHorodatage().equals(meterData.getHorodatage())
                             && "2".equals(meterData.getPresence())
                             && ("1".equals(meterData.getQualite()) ||

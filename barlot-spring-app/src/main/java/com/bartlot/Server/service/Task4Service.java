@@ -151,8 +151,10 @@ public class Task4Service {
         c.add(Calendar.DAY_OF_MONTH, 1);
         Date end_date = new Date(c.getTimeInMillis());
 
-        List<BruteAcquisitionEntity> meterDataList = bruteAcquisitionRepository
-                .findByHorodatageBetweenOrderByHorodatageAsc(begin_date, end_date);
+        ReturnObject returnObject = bruteAcquisitionRepository
+                .findByHorodatageBetweenOrderByHorodatageAscWithException(begin_date, end_date);
+
+        List<BruteAcquisitionEntity> meterDataList = (List<BruteAcquisitionEntity>) returnObject.getObject();
 
         for (BruteAcquisitionEntity meterData : meterDataList) {
 

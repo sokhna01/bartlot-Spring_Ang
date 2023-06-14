@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Data, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service/data_service';
@@ -62,15 +62,20 @@ export class Task5Component implements OnInit {
   isSaveEnabled: boolean = false;
   sizeOk: boolean = false;
 
-
-
   expectedHeaders = ['Horodatage', 'Data A+', 'Data A-', 'Data R+', 'Data R-'];
+
+  selectedClientExists: boolean = true;
+  selectedSiteExists: boolean = true;
+  selectedPointExists: boolean = true;
+
+
 
   constructor(
     private formBuilder: FormBuilder,
     private meterDataService: MeterDataService,
     private data: DataService,
     private router: Router,
+    private elementRef: ElementRef,
     public baseApp: BaseApp
   ) {
     if (!localStorage.getItem("token")) {
@@ -112,6 +117,11 @@ export class Task5Component implements OnInit {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(clientValue => {
+      if (clientValue) {
+        this.selectedClientExists = this.checkClientExists(clientValue);
+      } else {
+        this.selectedClientExists = true;
+      }
       this.filteredClients = this.filterClients(clientValue);
       this.filteredSites = this.filterSites(clientValue);
       this.filteredPoints = this.filterPoints(clientValue);
@@ -120,12 +130,39 @@ export class Task5Component implements OnInit {
       this.idPointComptage.setValue('');
     });
 
+    this.idSite.valueChanges
+    .pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged()
+    )
+    .subscribe((siteValue) => {
+      if (siteValue) {
+        this.selectedSiteExists = this.checkSiteExists(siteValue);
+      } else {
+        this.selectedSiteExists = true;
+      }
+    });
+
+    this.idPointComptage.valueChanges
+    .pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged()
+    )
+    .subscribe((pointValue) => {
+      if (pointValue) {
+        this.selectedPointExists = this.checkPointExists(pointValue);
+      } else {
+        this.selectedPointExists = true;
+      }
+    });
   }
 
   filterClients(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.clients.filter(client => client.toLowerCase().includes(filterValue));
+    return this.clients.filter(client => client.toLowerCase().startsWith(filterValue));
   }
 
   filterSites(clientValue: string): string[] {
@@ -397,29 +434,6 @@ export class Task5Component implements OnInit {
     }
   }
 
-  // checkTableValidity(): void {
-  //   let hasErrors = false;
-
-  //   // Vérifier les en-têtes
-  //   for (let i = 0; i < this.headers.length; i++) {
-  //     if (!this.isHeaderValid(i)) {
-  //       hasErrors = true;
-  //       break;
-  //     }
-  //   }
-
-  //   // Vérifier les cellules
-  //   for (let i = 0; i < this.rows.length; i++) {
-  //     for (let j = 0; j < this.rows[i].length; j++) {
-  //       if (!this.isCellValid(i, j)) {
-  //         hasErrors = true;
-  //         break;
-  //       }
-  //     }
-  //   }
-
-  //   this.isSaveEnabled = !hasErrors;
-  // }
 
   isTableValid(): boolean {
     const invalidHeaders = document.querySelectorAll('.invalid-header');
@@ -442,7 +456,7 @@ export class Task5Component implements OnInit {
 
     localStorage.setItem('idClient', idClient);
     localStorage.setItem('idSite', idSite),
-    localStorage.setItem('idPointDeComptage', idPointDeComptage)
+      localStorage.setItem('idPointDeComptage', idPointDeComptage)
     this.meterDataService.idSite = idSite;
     this.meterDataService.idPointDeComptage = idPointDeComptage;
 
@@ -469,53 +483,28 @@ export class Task5Component implements OnInit {
   onCancel() {
     window.location.href = '/home';
   }
+
+  checkClientExists(clientValue: string): boolean {
+    return this.clients.includes(clientValue);
+  }
+
+  checkSiteExists(siteValue: string): boolean {
+    return this.filteredSites.includes(siteValue);
+  }
+  
+  checkPointExists(pointValue: string): boolean {
+    return this.filteredPoints.includes(pointValue);
+  }
+  
+
+  @HostListener('document:click', ['$event.target'])
+  onClickOutside(targetElement: HTMLElement) {
+    const clickedInside = this.elementRef.nativeElement.contains(targetElement);
+    if (!clickedInside) {
+      this.selectedClientExists = this.checkClientExists(this.idClient.value);
+      this.selectedSiteExists = this.checkSiteExists(this.idSite.value);
+      this.selectedPointExists = this.checkPointExists(this.idPointComptage.value);
+    }
+  }
+
 }
-// onFileSelected(event: any) {
-//   const file = event.target.files.item(0);
-//   if (file) {
-//     const fileReader = new FileReader();
-//     fileReader.readAsBinaryString(file);
-//     fileReader.onload = (e: any) => {
-//       const workbook = XLSX.read(e.target.result, { type: 'binary' });
-//       const firstSheetName = workbook.SheetNames[0];
-//       const worksheet = workbook.Sheets[firstSheetName];
-//       const meterData = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true }) as Array<Array<string>>;
-
-//       // Définition des valeurs de headers, rows et errors
-//       this.headers = meterData[0] as string[];
-//       this.headers = this.headers.map(header => String(header));
-
-//       this.rows = meterData.slice(1).map((row: Array<unknown>, i: number) => {
-//         const rowData: Array<string | number | null> = row.map((cell: string | number | unknown, j: number) => {
-//           return cell as string | number | null;
-//         });
-//         return rowData;
-//       });
-
-//     }
-//   }
-// }
-
-
-  // checkValidity(): void {
-  //   const cells = document.querySelectorAll('.invalid-cell');
-  //   if (cells.length === 0) {
-  //     this.isSaveEnabled = true;
-  //   } else {
-  //     this.isSaveEnabled = false;
-  //   }
-
-  //   const isValid = Array.from(document.querySelectorAll('tbody tr'))
-  //     .slice(1)
-  //     .every(row =>
-  //       Array.from(row.querySelectorAll('td')).every(
-  //         cell => !cell.classList.contains('invalid-cell')
-  //       )
-  //     );
-
-  //   if (isValid) {
-  //     this.isSaveEnabled = true;
-  //   }
-
-  //   this.hasErrors = false;
-  // }

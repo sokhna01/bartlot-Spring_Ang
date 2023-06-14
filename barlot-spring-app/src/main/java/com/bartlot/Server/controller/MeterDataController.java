@@ -3,7 +3,7 @@ package com.bartlot.Server.controller;
 import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.MeterConfigEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
-import com.bartlot.Server.entity.WorkTableEntity;
+import com.bartlot.Server.entity.TravailEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
@@ -154,7 +154,7 @@ public class MeterDataController {
     }
 
     @PostMapping("/getlist_data_anterieur")
-    public List<WorkTableEntity> getListDataAnterieur(@RequestParam("horodatage") String horodatage) {
+    public List<TravailEntity> getListDataAnterieur(@RequestParam("horodatage") String horodatage) {
 
         return task8Service.getListWorkTableDataAnterieur(horodatage);
     }
@@ -309,7 +309,6 @@ public class MeterDataController {
     }
 
     @GetMapping("/selectListData")
-<<<<<<< HEAD
     public ResponseEntity<List<Map<String, Object>>> getSelectListData() {
         List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
         return ResponseEntity.ok().body(selectListData);
@@ -318,39 +317,6 @@ public class MeterDataController {
     @GetMapping("/clients")
     public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints() {
         return meterDataService.getAllClientsWithSitesAndPoints();
-=======
-    public ResponseEntity<List<Map<String, Object>>> getSelectListData(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-
-            if (tokenService.isTokenValid(token)) {
-                List<Map<String, Object>> selectListData = meterDataService.findAllClientSitePointComptage();
-                return ResponseEntity.ok().body(selectListData);
-            } else {
-                throw new RuntimeException("Token invalide");
-            }
-        } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
-        }
-    }
-
-    @GetMapping("/clients")
-    public List<ClientSitePointAssociation> getAllClientsWithSitesAndPoints(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-
-            if (tokenService.isTokenValid(token)) {
-                return meterDataService.getAllClientsWithSitesAndPoints();
-            } else {
-                throw new RuntimeException("Token invalide");
-            }
-        } else {
-            throw new RuntimeException("Jeton manquant ou mal formaté");
-        }
->>>>>>> 9a377d2c8d323ff5f702111d8975b75cb03b7dca
     }
 
     @PostMapping("/tache7")
