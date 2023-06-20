@@ -1,0 +1,167 @@
+<div mat-dialog-title *ngIf="!success">
+    <h1>Modification</h1>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+      <div mat-dialog-content class="content" *ngIf="success">
+        <div class="row">
+          <mat-label class="centered-label">{{message|translate}}</mat-label>
+        </div>
+      </div>
+      <mat-card-subtitle>Renseignements generaux de la table de configuration</mat-card-subtitle>
+      <div class="row" *ngIf="!success">
+          <mat-form-field appearance="outline">
+            <mat-label>id client</mat-label>
+            <input type="text"  formControlName= "id_client"  matInput placeholder="id_client">
+          </mat-form-field> 
+
+          <mat-form-field appearance="outline">
+            <mat-label>id site</mat-label>
+            <input type="text"  formControlName= "id_site"  matInput placeholder="id_site">
+          </mat-form-field> 
+
+          <mat-form-field appearance="outline">
+            <mat-label>id point de comptage</mat-label>
+            <input type="text"  formControlName= "id_point_de_comptage"  matInput placeholder="id_point_de_comptage">
+          </mat-form-field> 
+      </div>
+
+      <mat-card-subtitle>Besoins de la tâche 4 :</mat-card-subtitle>
+        <div class="row">           
+            <mat-form-field appearance="outline">
+              <mat-label>puissance nominale pn du point de comptage</mat-label>
+              <input type="text" formControlName= "puissance_nominale_pn_du_point_de_comptage" matInput placeholder="puissance_nominale_pn_du_point_de_comptage" >
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>courant nominale in primaire</mat-label>
+              <input type="text" formControlName= "courant_nominale_in_primaire" matInput placeholder="courant_nominale_in_primaire">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>tension nominale vn primaire</mat-label>
+              <input type="text" formControlName= "tension_nominale_vn_primaire" matInput placeholder="tension_nominale_vn_primaire">
+            </mat-form-field>
+        </div>  
+
+      <mat-card-subtitle>Besoins de la tâche 1 :</mat-card-subtitle>
+      <div class="row" *ngIf="!success">
+         <mat-form-field appearance="outline">
+            <mat-label>Nécessité d'inverser le signe des données mesurées</mat-label>
+            <mat-select formControlName="convention_signe">
+              <mat-option value="non">Non</mat-option>
+              <mat-option value="oui">Oui</mat-option>
+            </mat-select>
+         </mat-form-field> 
+      </div>
+  
+      <mat-card-subtitle>Besoins de la tâche 3 :</mat-card-subtitle>
+     <div class="row" *ngIf="!success">
+          <mat-form-field appearance="outline">
+            <mat-label>id compteur principal</mat-label>
+            <input type="text" formControlName= "id_compteur_principal" matInput placeholder="id_compteur_principal">
+          </mat-form-field> 
+          
+          <mat-form-field appearance="outline">
+            <mat-label>id compteur redondance</mat-label>
+            <input type="text" formControlName= "id_compteur_redondance" matInput placeholder="id_compteur_redondance">
+          </mat-form-field>
+     </div>
+    
+     <mat-card-subtitle>Besoins de la tâche 13 :</mat-card-subtitle>
+     <div class="row" *ngIf="!success">        
+            <mat-form-field appearance="outline">
+              <mat-label>betaInjection</mat-label>
+              <input type="text"  formControlName= "b_injection" matInput placeholder="b_injection" >
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>betaSoutirage</mat-label>
+              <input type="text" formControlName= "b_soutirage" matInput placeholder="b_soutirage">
+            </mat-form-field>
+     </div>
+
+     <mat-card-subtitle>Besoins de la tâche 16 :</mat-card-subtitle>
+     <div class="row">
+       <mat-form-field appearance="outline">
+         <mat-label>Date seuil a_Plus</mat-label>
+         <input type="text"  formControlName= "alarme_seul_a_plus" matInput placeholder="alarme_seul_a_plus" >
+       </mat-form-field>
+       
+       <mat-form-field appearance="outline">
+         <mat-label>Date seuil a_Moins</mat-label>
+         <input type="text" formControlName= "alarme_seul_a_moins" matInput placeholder="alarme_seul_a_moins">
+       </mat-form-field>
+     </div> 
+
+    <div class="row">
+     <mat-form-field appearance="outline">
+       <mat-label>Date seuil r_Plus</mat-label>
+       <input type="text" formControlName= "alarme_seul_r_plus" matInput placeholder="alarme_seul_r_plus" >
+     </mat-form-field>
+    </div> 
+
+   <div class="row">
+     <mat-form-field appearance="outline">
+       <mat-label>Date seuil r_Moins</mat-label>
+       <input type="text"  formControlName= "alarme_seul_r_moins" matInput placeholder="alarme_seul_r_moins" >
+     </mat-form-field>
+     
+     <mat-form-field appearance="outline">
+       <mat-label>Date seuil r_tg_mois</mat-label>
+       <input type="text" formControlName= "alarme_seul_r_tg_mois" matInput placeholder="alarme_seul_r_tg_mois">
+     </mat-form-field>
+  </div>
+
+     <!-- <mat-card-subtitle>Besoins de la tâche 16 :</mat-card-subtitle>
+     <div class="row" *ngIf="!success">
+        <mat-form-field color="accent">
+            <mat-label>Date seuil a_Plus</mat-label>
+            <input formControlName= "alarme_seul_a_plus" matInput placeholder="alarme_seul_a_plus" [matDatepicker]= "picker5">
+            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <mat-datepicker #picker5></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field color="accent">
+            <mat-label>Date seuil a_Moins</mat-label>
+            <input formControlName= "alarme_seul_a_moins" matInput placeholder="alarme_seul_a_moins" [matDatepicker]= "picker4">
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field> 
+      </div>
+
+      <div class="row" *ngIf="!success">
+        <mat-form-field color="accent">
+            <mat-label>Date seuil r_Plus</mat-label>
+            <input formControlName= "alarme_seul_r_plus" matInput placeholder="alarme_seul_r_plus" [matDatepicker]= "picker3">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>  
+      </div>
+
+      <div class="row" *ngIf="!success">
+        <mat-form-field color="accent">
+            <mat-label>Date seuil r_Moins</mat-label>
+            <input formControlName= "alarme_seul_r_moins" matInput placeholder="alarme_seul_r_moins" [matDatepicker]= "picker1">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>  
+
+        <mat-form-field color="accent">
+            <mat-label>Date seuil r_tg_mois</mat-label>
+            <input formControlName= "alarme_seul_r_tg_mois" matInput placeholder= "alarme_seul_r_tg_mois" [matDatepicker]= "picker2">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field> 
+      </div>  -->
+   </div>
+   
+   <div mat-dialog-actions class="action">
+      <button mat-raised-button type="button" *ngIf="!success"
+        [mat-dialog-close]="false">{{'CONFIRM_CANCEL'|translate}}</button>
+      <button mat-raised-button color="primary" *ngIf="!success" [disabled]="isValid"
+        type="submit">{{'SUBMIT'|translate}}</button>
+      <button mat-raised-button color="primary" *ngIf="success" (click)="dissmissPopUp()" type="submit">Ok</button>
+    </div>
+</form>

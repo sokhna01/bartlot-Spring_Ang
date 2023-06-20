@@ -14,6 +14,9 @@ import { TacheHuitComponent } from './tache-huit/tache-huit.component';
 import { TacheNeufComponent } from './tache-neuf/tache-neuf.component';
 import { TableauInterventionComponent } from './tableau-intervention/tableau-intervention.component';
 import { LandingPageInterventionComponent } from './landing-page-intervention/landing-page-intervention.component';
+
+import { TacheDouzeComponent } from './tache-douze/tache-douze.component';
+import { TableConfigurationPointsDeCompteurComponent } from './table-configuration-points-de-compteur/table-configuration-points-de-compteur.component';
 import { Task6Component } from './task6/task6.component';
 import { Task5Component } from './task5/task5.component';
 const routes: Routes = [
@@ -33,6 +36,9 @@ const routes: Routes = [
   { path: 'task6', component: Task6Component },
   { path: 'landing_page_intervention', component: LandingPageInterventionComponent },
   { path: 'intervention', component: TableauInterventionComponent },
+
+  { path: 'tache_donze', component: TacheDouzeComponent },
+  { path: 'table_configuration_points_de_compteur', component: TableConfigurationPointsDeCompteurComponent },
   { path: 'result_upload_missed_data_demo', component: ResultUploadMissedDataDemoComponent }];
 
 @NgModule({

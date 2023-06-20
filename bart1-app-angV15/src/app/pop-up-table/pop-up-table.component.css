@@ -1,0 +1,41 @@
+.card {
+    box-sizing: border-box;
+    width: 50%;
+    margin: auto;
+    box-shadow: lightgray 4px 4px 12px;
+  }
+  
+  mat-card-header {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .row {
+    display: flex;
+    gap: 10px;
+    margin: 10px auto;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  
+  }
+  
+  mat-form-field {
+    width: 100%;
+    /* margin-right: 12px; */
+   
+  }
+  
+  .action {
+    padding: 0px 25px 20px;
+  
+  }
+  
+  button {
+    box-shadow: rgb(211, 211, 211) 3px 3px 7px;
+    margin: auto;
+    min-width: 20%;
+    display: flex;
+    justify-content: center;
+  }
+  

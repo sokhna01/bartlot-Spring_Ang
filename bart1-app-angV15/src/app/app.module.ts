@@ -62,6 +62,8 @@ import { PopUpHorodatageComponent } from './pop-up-horodatage/pop-up-horodatage.
 import { PopUpSuccessComponent } from './pop-up-success/pop-up-success.component';
 import { TacheNeufComponent } from './tache-neuf/tache-neuf.component';
 
+import { TacheDouzeComponent } from './tache-douze/tache-douze.component';
+import { TableConfigurationPointsDeCompteurComponent } from './table-configuration-points-de-compteur/table-configuration-points-de-compteur.component';
 
 // datepicker
 import {
@@ -97,6 +99,8 @@ export function createTranslateLoader(http: HttpClient) {
     PopUpUpdateTacheHuitComponent,
     PopUpHorodatageComponent,
     PopUpSuccessComponent,
+    TacheDouzeComponent,
+    TableConfigurationPointsDeCompteurComponent,
     TacheNeufComponent,
     TableauInterventionComponent,
     PopUpInterventionComponent,
