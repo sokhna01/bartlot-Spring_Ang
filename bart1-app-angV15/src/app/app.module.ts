@@ -61,7 +61,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PopUpHorodatageComponent } from './pop-up-horodatage/pop-up-horodatage.component';
 import { PopUpSuccessComponent } from './pop-up-success/pop-up-success.component';
 import { TacheNeufComponent } from './tache-neuf/tache-neuf.component';
-
+import { PopUpTableComponent } from './pop-up-table/pop-up-table.component';
 import { TacheDouzeComponent } from './tache-douze/tache-douze.component';
 import { TableConfigurationPointsDeCompteurComponent } from './table-configuration-points-de-compteur/table-configuration-points-de-compteur.component';
 
@@ -95,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
     ChartDemoLineComponent,
     AddProfilComponent,
     TacheHuitComponent,
+    PopUpTableComponent,
     PopUpEditTacheHuitComponent,
     PopUpUpdateTacheHuitComponent,
     PopUpHorodatageComponent,
