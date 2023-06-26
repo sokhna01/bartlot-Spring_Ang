@@ -35,6 +35,7 @@ public class Task7Service {
         List<MeterDataExterneEntity> meterDataExtList = (List<MeterDataExterneEntity>) resultObjectMDext.getObject();
 
         for (MeterDataExterneEntity meterDataExt : meterDataExtList) {
+
             Timestamp horodatage = meterDataExt.getHorodatage();
 
             if (travailRepository.existsByHorodatageAndIdCompteur(horodatage, idCompteur).size() == 0) {

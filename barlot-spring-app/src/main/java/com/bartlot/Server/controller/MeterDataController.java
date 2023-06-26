@@ -2,22 +2,23 @@ package com.bartlot.Server.controller;
 
 import com.bartlot.Server.entity.InterventionEntity;
 import com.bartlot.Server.entity.MeterConfigEntity;
+import com.bartlot.Server.entity.RapportPointDeComptageEntity;
 import com.bartlot.Server.entity.BruteAcquisitionEntity;
 import com.bartlot.Server.entity.TravailEntity;
+import com.bartlot.Server.entity.WorkTableEntity;
 import com.bartlot.Server.model.ClientSitePointAssociation;
 import com.bartlot.Server.model.PropositionModel;
 import com.bartlot.Server.repository.MeterConfigRepository;
 import com.bartlot.Server.repository.BruteAcquisitionRepository;
 import com.bartlot.Server.service.BruteAcquisitionService;
+import com.bartlot.Server.service.RapportPointDeComptageService;
 import com.bartlot.Server.service.Task1Service;
 import com.bartlot.Server.service.Task2Service;
 import com.bartlot.Server.service.Task4Service;
 import com.bartlot.Server.service.Task7Service;
 import com.bartlot.Server.service.Task8Service;
 import com.bartlot.Server.service.Task9Service;
-import com.bartlot.Server.service.TokenService;
-import jakarta.servlet.http.HttpServletRequest;
-
+import com.bartlot.Server.service.WorkTableService;
 // import com.bartlot.Server.service.Task8Service;
 // import com.bartlot.Server.service.Task9Service;
 import com.bartlot.Server.service.Task3Service;
@@ -59,9 +60,6 @@ public class MeterDataController {
     private Task7Service task7Service;
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private MeterConfigRepository meterConfigRepository;
 
     @Autowired
@@ -69,6 +67,12 @@ public class MeterDataController {
 
     @Autowired
     private Task8Service task8Service;
+
+    @Autowired
+    private WorkTableService workTableService;
+
+    @Autowired
+    private RapportPointDeComptageService rapportPointDeComptageService;
 
     Map<String, String> map = new HashMap<String, String>();
 
@@ -165,9 +169,19 @@ public class MeterDataController {
         return ResponseEntity.ok("upload_ok");
     }
 
+    @GetMapping("/rapport_point_de_comptage")
+    public List<RapportPointDeComptageEntity> getListRapportPointDeComptage() {
+        return rapportPointDeComptageService.getListRapportPointDeComptage();
+    }
+
     @GetMapping("/getlistmeterdata")
     public List<BruteAcquisitionEntity> getListMeter() {
         return meterDataService.getListMeterData();
+    }
+
+    @GetMapping("/getlist_travail")
+    public List<WorkTableEntity> getListTravail() {
+        return workTableService.getListWorkTable();
     }
 
     // @GetMapping("/getlistmeterdata")

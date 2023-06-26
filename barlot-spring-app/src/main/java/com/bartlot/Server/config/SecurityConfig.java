@@ -33,7 +33,9 @@ public class SecurityConfig {
                         "/getlistmeterdatareporting", "/getlistmeterconfig", "/getid", "/clients", "/tache8_get_table",
                         "/tache8_update_table", "/getlist_data_anterieur", "/tache9", "/getlist_intervention",
                         "/getlistmeterdatareporting",
-                        "/update_intervention", "/search_by_date")
+                        "/update_intervention", "/search_by_date",
+                        "/rapport_point_de_comptage",
+                        "/getlist_travail")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
